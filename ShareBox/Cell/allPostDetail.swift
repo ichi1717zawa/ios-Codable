@@ -4,7 +4,7 @@
 //
 //  Created by 廖逸澤 on 2020/6/7.
 //  Copyright © 2020 廖逸澤. All rights reserved.
-// git   
+ 
 import UIKit
 
 class allPostDetail: UITableViewCell {
