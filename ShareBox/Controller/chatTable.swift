@@ -11,6 +11,7 @@ import Firebase
 import GoogleSignIn
 
 class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+        static var Share = chatTable()
         var otherGoogleName: String!
         var otherNickName: String!
         var db = Firestore.firestore()
@@ -52,6 +53,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
                 self.myNickName = data["nickName"] as? String ?? "N/A"
             }
         }
+        
         self.textField.delegate = self
         queryFirestore()
         self.tableview.transform = CGAffineTransform(rotationAngle: .pi)
@@ -81,13 +83,15 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     @IBAction func sendMessage(_ sender: Any) {
 //
-        let myNickName = getUserData.share.getUserNickName()
+//        getUserData.share.getUserNickName { (string) in
+//            print(string)
+//        }
         //*************以下送訊息以上參考
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         //        let otherNickName = self.receiveMessageNickname!
-        
-        let sendParameter = ["send":"\(myNickName):\(self.textField.text ?? "N/A")"]
-        let receiveParameter = ["receive":"\(myNickName):\(self.textField.text ?? "N/A")"]
+      
+        let sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
+        let receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
         
         self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).setData(["otherGoogleName":self.otherGoogleName ?? "N/A"
         ]) { (error) in

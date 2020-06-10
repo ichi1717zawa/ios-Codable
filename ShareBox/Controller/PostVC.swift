@@ -15,6 +15,7 @@ import GoogleSignIn
 import CloudKit
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate   {
     @IBOutlet weak var imageview: UIImageView!
+    @IBOutlet weak var PickViewControlView: UIView!
     var myNickName : String!
     var notes = [CKRecord]()
         let testdata = [CKAsset]()
@@ -24,10 +25,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     let sharepost = CoredataSharePost.share
     let shareInfo = CoredataShare.share
    
-    let Category = ["書籍文具","保養彩妝","玩具公仔","電玩遊戲","生活居家","音樂電影","手機相關","電腦相關","飲品食品","男裝配件","女裝配件","婦幼專區","明星偶像","其他"]
+    let Category = ["物品種類","書籍文具","保養彩妝","玩具公仔","電玩遊戲","生活居家","音樂電影","手機相關","電腦相關","飲品食品","男裝配件","女裝配件","婦幼專區","明星偶像","其他"]
 //    let Category = ["書籍文具":"qwe"]
-    let liveCategoryDetail = ["廚房用品","小型家電","生活雜貨","寢具用品","家具","日用品"]
-    let foodCategoryDetail = ["生鮮","蔬果","飲品","名產小吃","甜點","零食"," 乾貨"]
+    let liveCategoryDetail = ["物品種類","廚房用品","小型家電","生活雜貨","寢具用品","家具","日用品"]
+    let foodCategoryDetail = ["物品種類","生鮮","蔬果","飲品","名產小吃","甜點","零食"," 乾貨"]
     var tempCategoryDetail = [String]()
     
     var tempNumber : Int!
@@ -44,6 +45,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             return tempCategoryDetail.count
         }
     }
+
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
@@ -55,6 +57,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
         switch pickerView {
         case PostCategory:
             didselect = Category[row]
@@ -63,30 +66,57 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                 subPostCategory.alpha = 1
                 subPostCategory.delegate = self
                 subPostCategory.dataSource = self
+                caterogyTextField.text = didselect
+                 
                 print(tempCategoryDetail)
                 
-            } else if didselect == "飲品食品" {tempCategoryDetail =  foodCategoryDetail ;subPostCategory.alpha = 1;subPostCategory.delegate = self
-                ;subPostCategory.dataSource = self}
+            } else if didselect == "飲品食品" {
+                tempCategoryDetail =  foodCategoryDetail;
+                subPostCategory.alpha = 1;
+                subPostCategory.delegate = self;
+                subPostCategory.dataSource = self ;
+                caterogyTextField.text = didselect}
+                
             else {subPostCategory.alpha = 0}
                print(tempCategoryDetail)
                print(didselect)
+                caterogyTextField.text = didselect
         default:
             didselect = tempCategoryDetail[row]
             print(didselect)
+            caterogyTextField.text = didselect
         }
     }
     
+ 
     var a :Timestamp?
     @IBOutlet weak var Introduction: UITextField!
     @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var caterogyTextField: UITextField!
     @IBOutlet weak var PostCategory: UIPickerView!
     @IBOutlet weak var subPostCategory: UIPickerView!
     let locationManager = CLLocationManager()
     var didselect :String?
     
+    
+    
+    var cgx = 0
+    @IBAction func addX(_ sender: Any) {
+        cgx += 10
+//        self.PostCategory.frame.origin.x = CGFloat(cgx)
+//        self.PostCategory.frame.origin.x =  self.PickViewControlView.frame.origin.x / 3
+        self.PostCategory.frame.origin.x =  self.PickViewControlView.frame.width / 20
+        print(self.PickViewControlView.frame.width)
+//        self.PickViewControlView.frame.origin.y += 10
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+        let emptyView = UIView()
+        caterogyTextField.inputView = emptyView
 //        getLocation()
         
         shareInfo.loadData()
@@ -97,6 +127,9 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //               subPostCategory.dataSource = self
         PostCategory.dataSource = self
         PostCategory.delegate = self
+        caterogyTextField.delegate = self
+        
+        
        
 //        queryDatabase()
        
@@ -106,9 +139,16 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         textField.resignFirstResponder()
         return true
     }
-    
+    @IBAction func categoryTextFieldTouch(_ sender: Any) {
+           PostCategory.alpha = 1
+       }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        PostCategory.alpha = 0
+        subPostCategory.alpha = 0
+        print("done")
+    }
     @IBAction func done(_ sender: Any) {
-        var postUUID =  UUID().uuidString
+        let postUUID =  UUID().uuidString
 //
         guard let transImage = self.imageview.image,let thumbImage = thumbnailImage(image: transImage),let image = thumbImage.jpegData(compressionQuality: 0.1) else {return}
              let fileName = "123.jpg"
@@ -186,7 +226,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                                         
                                         let parameters : [String:Any] = [
                                             "Name":"\(self.myNickName ?? "N/A" )",
-                                        "postCategory":self.didselect  ?? self.Category[0] ,
+                                        "postCategory":self.didselect  ?? "N/A" ,
                                         "userLocation":self.locationTextField.text  ?? "N/A" ,
                                         "postIntroduction":self.Introduction.text  ?? "N/A" ,
                                         "googleName":GIDSignIn.sharedInstance()?.currentUser.profile.name ?? "N/A",
@@ -312,7 +352,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
            }
     
+   
 }
 
-    
  
