@@ -5,7 +5,7 @@
         //  Created by 廖逸澤 on 2020/5/24.
         //  Copyright © 2020 廖逸澤. All rights reserved.
         //
-        
+        this
         import Foundation
         import Firebase
         import GoogleSignIn
