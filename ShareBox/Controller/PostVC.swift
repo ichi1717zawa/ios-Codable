@@ -14,6 +14,7 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate   {
+    @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var imageview: UIImageView!
     @IBOutlet weak var PickViewControlView: UIView!
     var myNickName : String!
@@ -25,8 +26,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     let sharepost = CoredataSharePost.share
     let shareInfo = CoredataShare.share
    
-    let Category = ["物品種類","書籍文具","保養彩妝","玩具公仔","電玩遊戲","生活居家","音樂電影","手機相關","電腦相關","飲品食品","男裝配件","女裝配件","婦幼專區","明星偶像","其他"]
-//    let Category = ["書籍文具":"qwe"]
+    let Category = ["物品種類","生活居家","保養彩妝","玩具電玩","手機電腦","飲品食品","男裝配件","女裝婦幼","音樂電影","書籍文具票券"] 
     let liveCategoryDetail = ["物品種類","廚房用品","小型家電","生活雜貨","寢具用品","家具","日用品"]
     let foodCategoryDetail = ["物品種類","生鮮","蔬果","飲品","名產小吃","甜點","零食"," 乾貨"]
     var tempCategoryDetail = [String]()
@@ -57,34 +57,57 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+         
         switch pickerView {
         case PostCategory:
             didselect = Category[row]
             if didselect == "生活居家" {
+              
                 tempCategoryDetail = liveCategoryDetail
-                subPostCategory.alpha = 1
+                UIView.animate(withDuration: 0.3) {
+                    self.subPostCategory.alpha = 1
+                }
+                
                 subPostCategory.delegate = self
                 subPostCategory.dataSource = self
                 caterogyTextField.text = didselect
+                UIView.animate(withDuration: 0.3) {
+                self.PostCategory.frame.origin.x = 10
+                }
                  
                 print(tempCategoryDetail)
                 
             } else if didselect == "飲品食品" {
+               
                 tempCategoryDetail =  foodCategoryDetail;
-                subPostCategory.alpha = 1;
+                UIView.animate(withDuration: 0.3) {
+                self.subPostCategory.alpha = 1};
                 subPostCategory.delegate = self;
                 subPostCategory.dataSource = self ;
-                caterogyTextField.text = didselect}
+                caterogyTextField.text = didselect
+                UIView.animate(withDuration: 0.3) {
+                self.PostCategory.frame.origin.x = 10
+                }
+            }
                 
-            else {subPostCategory.alpha = 0}
+            else {subPostCategory.alpha = 0
+                UIView.animate(withDuration: 0.3) {
+                    self.PostCategory.center.x = super.view.center.x
+                }
+                  
+            }
+ 
                print(tempCategoryDetail)
                print(didselect)
                 caterogyTextField.text = didselect
+           
+             
         default:
             didselect = tempCategoryDetail[row]
             print(didselect)
             caterogyTextField.text = didselect
+//            self.PostCategory.frame.origin.x = 10
+//             self.PostCategory.center.x = super.view.center.x
         }
     }
     
@@ -99,26 +122,16 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     var didselect :String?
     
     
-    
-    var cgx = 0
-    @IBAction func addX(_ sender: Any) {
-        cgx += 10
-//        self.PostCategory.frame.origin.x = CGFloat(cgx)
-//        self.PostCategory.frame.origin.x =  self.PickViewControlView.frame.origin.x / 3
-        self.PostCategory.frame.origin.x =  self.PickViewControlView.frame.width / 20
-        print(self.PickViewControlView.frame.width)
-//        self.PickViewControlView.frame.origin.y += 10
-    }
+   
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+        
         let emptyView = UIView()
         caterogyTextField.inputView = emptyView
 //        getLocation()
-        
         shareInfo.loadData()
         locationTextField.delegate = self
         Introduction.delegate = self
@@ -140,11 +153,18 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         return true
     }
     @IBAction func categoryTextFieldTouch(_ sender: Any) {
-           PostCategory.alpha = 1
+        maskView.alpha = 1
+        UIView.animate(withDuration: 0.3) {
+            self.PostCategory.alpha = 1
+            self.PickViewControlView.alpha = 1
+        }
+         
        }
     func textFieldDidEndEditing(_ textField: UITextField) {
+        maskView.alpha = 0
         PostCategory.alpha = 0
         subPostCategory.alpha = 0
+        PickViewControlView.alpha = 0
         print("done")
     }
     @IBAction func done(_ sender: Any) {
@@ -352,7 +372,22 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
            }
     
-   
+      
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(paste(_:)) {
+             print("qw")
+           return true
+        }
+        else if action == #selector(cut(_:)) {
+            print("we")
+           return false
+        }
+        else if action == #selector(selectAll(_:)) {
+            print("we")
+           return false
+        }
+          return false
+    }
 }
 
  

@@ -8,8 +8,13 @@
 
 import UIKit
 import Firebase
-class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+      
+    }
+    
     @IBOutlet weak var tableview: UITableView!
+    @IBOutlet weak var SearchMap: UISearchBar!
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
@@ -34,6 +39,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        SearchMap.placeholder = "qwe"
+        SearchMap.delegate = self
         
         
       
@@ -175,6 +182,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
        
         
     }
+    
     
 }
  
