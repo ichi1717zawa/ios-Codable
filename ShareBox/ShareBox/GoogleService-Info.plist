@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>622689241410-pq9dsvvfrie7gvr87od49vsn63hibdap.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.622689241410-pq9dsvvfrie7gvr87od49vsn63hibdap</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC-get8j4OnFkLCCxypUDvZGTRlntUN_NY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>622689241410</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ShareBox.OrangeSea</string>
+	<key>PROJECT_ID</key>
+	<string>sharebox-d44b8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sharebox-d44b8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:622689241410:ios:14d2209c37433b5643a0db</string>
+	<key>DATABASE_URL</key>
+	<string>https://sharebox-d44b8.firebaseio.com</string>
+</dict>
+</plist>

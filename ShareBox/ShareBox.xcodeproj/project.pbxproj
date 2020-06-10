@@ -1,0 +1,666 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E9B5F697D4968105CB9A7D53 /* Pods_ShareBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B545F8A09050C8FB2D4D6DB9 /* Pods_ShareBox.framework */; };
+		FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */; };
+		FA19045A247966D5009B9B3C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA190459247966D4009B9B3C /* Map.swift */; };
+		FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */; };
+		FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F47248CEE02002C68D4 /* allPostDetail.swift */; };
+		FA521F4C248CF138002C68D4 /* allPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* allPostVC.swift */; };
+		FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4D248CF72C002C68D4 /* allPostModel.swift */; };
+		FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */; };
+		FA521F52248D2742002C68D4 /* myPostDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F51248D2742002C68D4 /* myPostDetailCell.swift */; };
+		FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */; };
+		FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6641BA247E4415003D121C /* AboutMeVC.swift */; };
+		FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0A246E306A00C9F31F /* AppDelegate.swift */; };
+		FA66AD0D246E306A00C9F31F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0C246E306A00C9F31F /* SceneDelegate.swift */; };
+		FA66AD0F246E306A00C9F31F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0E246E306A00C9F31F /* ViewController.swift */; };
+		FA66AD12246E306A00C9F31F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA66AD10246E306A00C9F31F /* Main.storyboard */; };
+		FA66AD15246E306A00C9F31F /* ShareBox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD13246E306A00C9F31F /* ShareBox.xcdatamodeld */; };
+		FA66AD17246E306E00C9F31F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA66AD16246E306E00C9F31F /* Assets.xcassets */; };
+		FA66AD1A246E306E00C9F31F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA66AD18246E306E00C9F31F /* LaunchScreen.storyboard */; };
+		FA6F8C522480343E0051E318 /* pointRed@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C4F2480343E0051E318 /* pointRed@3x.png */; };
+		FA6F8C532480343E0051E318 /* pointRed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C502480343E0051E318 /* pointRed@2x.png */; };
+		FA6F8C542480343E0051E318 /* pointRed.png in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C512480343E0051E318 /* pointRed.png */; };
+		FA6F8C80248403030051E318 /* AnnotationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C7F248403030051E318 /* AnnotationDetail.swift */; };
+		FA6F8C8224853A500051E318 /* FirebaseFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C8124853A500051E318 /* FirebaseFetch.swift */; };
+		FA6F8C84248568D30051E318 /* currentTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C83248568D30051E318 /* currentTime.swift */; };
+		FA6F8C8A2485808C0051E318 /* ChatNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C892485808C0051E318 /* ChatNote.swift */; };
+		FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */; };
+		FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74F47624902DA40081AEA1 /* getUserData.swift */; };
+		FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86E3B5247B5F3300284596 /* GoogleLogin.swift */; };
+		FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */; };
+		FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */; };
+		FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8E36E5248A93EF00A19695 /* CloudKit.framework */; };
+		FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */; };
+		FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDC2470285A000F5C59 /* userInfo.swift */; };
+		FA96841D2485E461002301A7 /* chatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* chatTable.swift */; };
+		FA96841F248613C9002301A7 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841E248613C9002301A7 /* ChatList.swift */; };
+		FA968421248614D8002301A7 /* ChatroomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA968420248614D7002301A7 /* ChatroomList.swift */; };
+		FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAAED459248FA219006EA3FD /* chatIcon.png */; };
+		FAB45D8C24802589005A183D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB45D8B24802589005A183D /* MapVC.swift */; };
+		FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560BD247A5E35000E8247 /* ChoseAction.swift */; };
+		FAC560E5247A700E000E8247 /* loginImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FAC560E4247A700D000E8247 /* loginImage.jpg */; };
+		FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560E6247A8FB4000E8247 /* TabbarVC.swift */; };
+		FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */; };
+		FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */; };
+		FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */; };
+		FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFF247EB49200B6A716 /* PostVC.swift */; };
+		FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB01247EBD5200B6A716 /* postInfo.swift */; };
+		FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		17F410276F5009B7DD863E52 /* Pods-ShareBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareBox.release.xcconfig"; path = "Target Support Files/Pods-ShareBox/Pods-ShareBox.release.xcconfig"; sourceTree = "<group>"; };
+		800CFF015F4ACB84042F0372 /* Pods-ShareBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareBox.debug.xcconfig"; path = "Target Support Files/Pods-ShareBox/Pods-ShareBox.debug.xcconfig"; sourceTree = "<group>"; };
+		B545F8A09050C8FB2D4D6DB9 /* Pods_ShareBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignIn.swift; sourceTree = "<group>"; };
+		FA190459247966D4009B9B3C /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Once.swift"; sourceTree = "<group>"; };
+		FA521F47248CEE02002C68D4 /* allPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetail.swift; sourceTree = "<group>"; };
+		FA521F4B248CF138002C68D4 /* allPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostVC.swift; sourceTree = "<group>"; };
+		FA521F4D248CF72C002C68D4 /* allPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostModel.swift; sourceTree = "<group>"; };
+		FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetailBycell.swift; sourceTree = "<group>"; };
+		FA521F51248D2742002C68D4 /* myPostDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailCell.swift; sourceTree = "<group>"; };
+		FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailVC.swift; sourceTree = "<group>"; };
+		FA6641BA247E4415003D121C /* AboutMeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeVC.swift; sourceTree = "<group>"; };
+		FA66AD07246E306A00C9F31F /* ShareBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA66AD0A246E306A00C9F31F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FA66AD0C246E306A00C9F31F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FA66AD0E246E306A00C9F31F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FA66AD11246E306A00C9F31F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FA66AD14246E306A00C9F31F /* ShareBox.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShareBox.xcdatamodel; sourceTree = "<group>"; };
+		FA66AD16246E306E00C9F31F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FA66AD19246E306E00C9F31F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA66AD1B246E306E00C9F31F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA6F8C4F2480343E0051E318 /* pointRed@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pointRed@3x.png"; sourceTree = "<group>"; };
+		FA6F8C502480343E0051E318 /* pointRed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pointRed@2x.png"; sourceTree = "<group>"; };
+		FA6F8C512480343E0051E318 /* pointRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pointRed.png; sourceTree = "<group>"; };
+		FA6F8C7F248403030051E318 /* AnnotationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationDetail.swift; sourceTree = "<group>"; };
+		FA6F8C8124853A500051E318 /* FirebaseFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFetch.swift; sourceTree = "<group>"; };
+		FA6F8C83248568D30051E318 /* currentTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = currentTime.swift; sourceTree = "<group>"; };
+		FA6F8C892485808C0051E318 /* ChatNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNote.swift; sourceTree = "<group>"; };
+		FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FA74F47624902DA40081AEA1 /* getUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserData.swift; sourceTree = "<group>"; };
+		FA86E3B4247B5E9400284596 /* ShareBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBox.entitlements; sourceTree = "<group>"; };
+		FA86E3B5247B5F3300284596 /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
+		FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
+		FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostVC + cloudkit.swift"; sourceTree = "<group>"; };
+		FA8E36E5248A93EF00A19695 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIreBaseStore.swift; sourceTree = "<group>"; };
+		FA961CDC2470285A000F5C59 /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
+		FA96841C2485E461002301A7 /* chatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTable.swift; sourceTree = "<group>"; };
+		FA96841E248613C9002301A7 /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
+		FA968420248614D7002301A7 /* ChatroomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomList.swift; sourceTree = "<group>"; };
+		FAAED459248FA219006EA3FD /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
+		FAB45D8B24802589005A183D /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		FAC560BD247A5E35000E8247 /* ChoseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoseAction.swift; sourceTree = "<group>"; };
+		FAC560E4247A700D000E8247 /* loginImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginImage.jpg; sourceTree = "<group>"; };
+		FAC560E6247A8FB4000E8247 /* TabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVC.swift; sourceTree = "<group>"; };
+		FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCustomCell.swift; sourceTree = "<group>"; };
+		FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLoginInit.swift; sourceTree = "<group>"; };
+		FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataShare.swift; sourceTree = "<group>"; };
+		FAEDBAFF247EB49200B6A716 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
+		FAEDBB01247EBD5200B6A716 /* postInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postInfo.swift; sourceTree = "<group>"; };
+		FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreataSharePost.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA66AD04246E306A00C9F31F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9B5F697D4968105CB9A7D53 /* Pods_ShareBox.framework in Frameworks */,
+				FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		12EAEC13166FEEF3F2B1CA73 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				800CFF015F4ACB84042F0372 /* Pods-ShareBox.debug.xcconfig */,
+				17F410276F5009B7DD863E52 /* Pods-ShareBox.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EA37626BE80B8362FFCF8FB5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA8E36E5248A93EF00A19695 /* CloudKit.framework */,
+				B545F8A09050C8FB2D4D6DB9 /* Pods_ShareBox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */,
+				FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */,
+				FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */,
+				FA521F51248D2742002C68D4 /* myPostDetailCell.swift */,
+				FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */,
+				FA521F4B248CF138002C68D4 /* allPostVC.swift */,
+				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
+				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
+				FA6641BA247E4415003D121C /* AboutMeVC.swift */,
+				FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */,
+				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
+				FAB45D8B24802589005A183D /* MapVC.swift */,
+				FA96841C2485E461002301A7 /* chatTable.swift */,
+				FA96841E248613C9002301A7 /* ChatList.swift */,
+				FA74F47624902DA40081AEA1 /* getUserData.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FA0F574D2479A8CD007CA9C6 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */,
+				FA6F8C83248568D30051E318 /* currentTime.swift */,
+				FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */,
+				FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */,
+				FA86E3B5247B5F3300284596 /* GoogleLogin.swift */,
+				FA6F8C512480343E0051E318 /* pointRed.png */,
+				FA6F8C502480343E0051E318 /* pointRed@2x.png */,
+				FA6F8C4F2480343E0051E318 /* pointRed@3x.png */,
+				FAAED459248FA219006EA3FD /* chatIcon.png */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		FA6641BC247E4700003D121C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				FA66AD13246E306A00C9F31F /* ShareBox.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		FA6641BD247E4DE5003D121C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */,
+				FA521F47248CEE02002C68D4 /* allPostDetail.swift */,
+				FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		FA66ACFE246E306A00C9F31F = {
+			isa = PBXGroup;
+			children = (
+				FAA03346248FE50F00E157A9 /* Prepare Delete */,
+				FA6641BD247E4DE5003D121C /* Cell */,
+				FA6641BC247E4700003D121C /* CoreData */,
+				FAA73C6724711C8900C09AAD /* Model */,
+				FAA73C6824711C9C00C09AAD /* View */,
+				FA0F574C2479A8BC007CA9C6 /* Controller */,
+				FA0F574D2479A8CD007CA9C6 /* Helper */,
+				FA66AD09246E306A00C9F31F /* ShareBox */,
+				FA66AD08246E306A00C9F31F /* Products */,
+				12EAEC13166FEEF3F2B1CA73 /* Pods */,
+				EA37626BE80B8362FFCF8FB5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FA66AD08246E306A00C9F31F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA66AD07246E306A00C9F31F /* ShareBox.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA66AD09246E306A00C9F31F /* ShareBox */ = {
+			isa = PBXGroup;
+			children = (
+				FA66AD0A246E306A00C9F31F /* AppDelegate.swift */,
+				FA66AD0C246E306A00C9F31F /* SceneDelegate.swift */,
+				FA66AD16246E306E00C9F31F /* Assets.xcassets */,
+				FA66AD18246E306E00C9F31F /* LaunchScreen.storyboard */,
+				FA66AD1B246E306E00C9F31F /* Info.plist */,
+				FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */,
+				FAC560E4247A700D000E8247 /* loginImage.jpg */,
+				FA86E3B4247B5E9400284596 /* ShareBox.entitlements */,
+			);
+			path = ShareBox;
+			sourceTree = "<group>";
+		};
+		FAA03346248FE50F00E157A9 /* Prepare Delete */ = {
+			isa = PBXGroup;
+			children = (
+				FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */,
+				FA66AD0E246E306A00C9F31F /* ViewController.swift */,
+				FA6F8C8124853A500051E318 /* FirebaseFetch.swift */,
+				FA190459247966D4009B9B3C /* Map.swift */,
+			);
+			path = "Prepare Delete";
+			sourceTree = "<group>";
+		};
+		FAA73C6724711C8900C09AAD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FA961CDC2470285A000F5C59 /* userInfo.swift */,
+				FA521F4D248CF72C002C68D4 /* allPostModel.swift */,
+				FAEDBB01247EBD5200B6A716 /* postInfo.swift */,
+				FA6F8C7F248403030051E318 /* AnnotationDetail.swift */,
+				FA6F8C892485808C0051E318 /* ChatNote.swift */,
+				FA968420248614D7002301A7 /* ChatroomList.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FAA73C6824711C9C00C09AAD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FA66AD10246E306A00C9F31F /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA66AD06246E306A00C9F31F /* ShareBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA66AD1E246E306E00C9F31F /* Build configuration list for PBXNativeTarget "ShareBox" */;
+			buildPhases = (
+				AD122D655FE67D7966760CCC /* [CP] Check Pods Manifest.lock */,
+				FA66AD03246E306A00C9F31F /* Sources */,
+				FA66AD04246E306A00C9F31F /* Frameworks */,
+				FA66AD05246E306A00C9F31F /* Resources */,
+				DD60D20207D585A6573E1D01 /* [CP] Embed Pods Frameworks */,
+				417FF5F2AA57D837F08FD93F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareBox;
+			productName = ShareBox;
+			productReference = FA66AD07246E306A00C9F31F /* ShareBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA66ACFF246E306A00C9F31F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = "廖逸澤";
+				TargetAttributes = {
+					FA66AD06246E306A00C9F31F = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+				};
+			};
+			buildConfigurationList = FA66AD02246E306A00C9F31F /* Build configuration list for PBXProject "ShareBox" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FA66ACFE246E306A00C9F31F;
+			productRefGroup = FA66AD08246E306A00C9F31F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA66AD06246E306A00C9F31F /* ShareBox */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA66AD05246E306A00C9F31F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA66AD1A246E306E00C9F31F /* LaunchScreen.storyboard in Resources */,
+				FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */,
+				FA6F8C532480343E0051E318 /* pointRed@2x.png in Resources */,
+				FA6F8C542480343E0051E318 /* pointRed.png in Resources */,
+				FA66AD17246E306E00C9F31F /* Assets.xcassets in Resources */,
+				FA6F8C522480343E0051E318 /* pointRed@3x.png in Resources */,
+				FA66AD12246E306A00C9F31F /* Main.storyboard in Resources */,
+				FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */,
+				FAC560E5247A700E000E8247 /* loginImage.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		417FF5F2AA57D837F08FD93F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD122D655FE67D7966760CCC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ShareBox-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD60D20207D585A6573E1D01 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShareBox/Pods-ShareBox-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA66AD03246E306A00C9F31F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */,
+				FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */,
+				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,
+				FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */,
+				FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */,
+				FA521F52248D2742002C68D4 /* myPostDetailCell.swift in Sources */,
+				FA521F4C248CF138002C68D4 /* allPostVC.swift in Sources */,
+				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
+				FA968421248614D8002301A7 /* ChatroomList.swift in Sources */,
+				FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */,
+				FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */,
+				FA6F8C80248403030051E318 /* AnnotationDetail.swift in Sources */,
+				FAB45D8C24802589005A183D /* MapVC.swift in Sources */,
+				FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */,
+				FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */,
+				FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */,
+				FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */,
+				FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */,
+				FA19045A247966D5009B9B3C /* Map.swift in Sources */,
+				FA66AD0F246E306A00C9F31F /* ViewController.swift in Sources */,
+				FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */,
+				FA66AD15246E306A00C9F31F /* ShareBox.xcdatamodeld in Sources */,
+				FA6F8C8224853A500051E318 /* FirebaseFetch.swift in Sources */,
+				FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */,
+				FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */,
+				FA6F8C8A2485808C0051E318 /* ChatNote.swift in Sources */,
+				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
+				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
+				FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */,
+				FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */,
+				FA96841D2485E461002301A7 /* chatTable.swift in Sources */,
+				FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */,
+				FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */,
+				FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */,
+				FA6F8C84248568D30051E318 /* currentTime.swift in Sources */,
+				FA66AD0D246E306A00C9F31F /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FA66AD10246E306A00C9F31F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA66AD11246E306A00C9F31F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FA66AD18246E306E00C9F31F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA66AD19246E306E00C9F31F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA66AD1C246E306E00C9F31F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FA66AD1D246E306E00C9F31F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FA66AD1F246E306E00C9F31F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 800CFF015F4ACB84042F0372 /* Pods-ShareBox.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = ShareBox/ShareBox.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S2G445Z96K;
+				INFOPLIST_FILE = ShareBox/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FA66AD20246E306E00C9F31F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17F410276F5009B7DD863E52 /* Pods-ShareBox.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = ShareBox/ShareBox.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S2G445Z96K;
+				INFOPLIST_FILE = ShareBox/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA66AD02246E306A00C9F31F /* Build configuration list for PBXProject "ShareBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA66AD1C246E306E00C9F31F /* Debug */,
+				FA66AD1D246E306E00C9F31F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA66AD1E246E306E00C9F31F /* Build configuration list for PBXNativeTarget "ShareBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA66AD1F246E306E00C9F31F /* Debug */,
+				FA66AD20246E306E00C9F31F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FA66AD13246E306A00C9F31F /* ShareBox.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FA66AD14246E306A00C9F31F /* ShareBox.xcdatamodel */,
+			);
+			currentVersion = FA66AD14246E306A00C9F31F /* ShareBox.xcdatamodel */;
+			path = ShareBox.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FA66ACFF246E306A00C9F31F /* Project object */;
+}
