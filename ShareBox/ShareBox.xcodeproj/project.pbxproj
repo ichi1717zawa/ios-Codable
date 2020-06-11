@@ -35,6 +35,7 @@
 		FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */; };
 		FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74F47624902DA40081AEA1 /* getUserData.swift */; };
 		FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86E3B5247B5F3300284596 /* GoogleLogin.swift */; };
+		FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA874FCF24922EC300E22647 /* FavoriteVC.swift */; };
 		FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */; };
 		FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */; };
 		FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8E36E5248A93EF00A19695 /* CloudKit.framework */; };
@@ -90,6 +91,7 @@
 		FA74F47624902DA40081AEA1 /* getUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserData.swift; sourceTree = "<group>"; };
 		FA86E3B4247B5E9400284596 /* ShareBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBox.entitlements; sourceTree = "<group>"; };
 		FA86E3B5247B5F3300284596 /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
+		FA874FCF24922EC300E22647 /* FavoriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteVC.swift; sourceTree = "<group>"; };
 		FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
 		FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostVC + cloudkit.swift"; sourceTree = "<group>"; };
 		FA8E36E5248A93EF00A19695 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */,
+				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
 				FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */,
 				FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */,
 				FA521F51248D2742002C68D4 /* myPostDetailCell.swift */,
@@ -153,7 +156,6 @@
 				FA521F4B248CF138002C68D4 /* allPostVC.swift */,
 				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
 				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
-				FA6641BA247E4415003D121C /* AboutMeVC.swift */,
 				FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */,
 				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
 				FAB45D8B24802589005A183D /* MapVC.swift */,
@@ -241,6 +243,7 @@
 		FAA03346248FE50F00E157A9 /* Prepare Delete */ = {
 			isa = PBXGroup;
 			children = (
+				FA6641BA247E4415003D121C /* AboutMeVC.swift */,
 				FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */,
 				FA66AD0E246E306A00C9F31F /* ViewController.swift */,
 				FA6F8C8124853A500051E318 /* FirebaseFetch.swift */,
@@ -443,6 +446,7 @@
 				FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */,
 				FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */,
 				FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */,
+				FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */,
 				FA6F8C84248568D30051E318 /* currentTime.swift in Sources */,
 				FA66AD0D246E306A00C9F31F /* SceneDelegate.swift in Sources */,
 			);

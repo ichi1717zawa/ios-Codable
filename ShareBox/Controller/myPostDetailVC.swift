@@ -20,6 +20,13 @@ class myPostDetailVC: UIViewController      {
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
     
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()

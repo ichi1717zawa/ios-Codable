@@ -2,12 +2,18 @@
 
 import UIKit
 import Firebase
+ import GoogleSignIn
 class myPostDetailCell: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    @IBOutlet weak var myInfoView: UIView!
     @IBOutlet weak var tableview: UITableView!
     let sharePost = CoredataSharePost.share
     let db = Firestore.firestore()
     var data: [PostInfomation] = []
     var tempIndex: IndexPath?
+    @IBOutlet weak var nickname: UILabel!
+    @IBOutlet weak var userPhoneNumber: UILabel!
+    @IBOutlet weak var googleGamil: UILabel!
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
@@ -28,6 +34,18 @@ class myPostDetailCell: UIViewController,UITableViewDelegate,UITableViewDataSour
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.myInfoView.layer.borderWidth = 0.5
+        self.tableview.layer.borderWidth = 0.5
+        guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+                    db.collection("user").whereField("Gmail", isEqualTo: UserEmail).getDocuments { (data, error) in
+                        guard let data = data else {return}
+                        for i in data.documents{
+                            self.nickname.text = "暱稱:\(i.data()["nickName"] ?? "N/A")"
+                            self.userPhoneNumber.text = "聯絡電話:\(i.data()["phoneNumber"] ?? "N/A")"
+                            self.googleGamil.text = "信箱:\(i.data()["Gmail"] ?? "N/A")"
+                                    
+                        }
+                    }
         sharePost.loadData()
         self.data = sharePost.data
      queryFirestoreMydata ()

@@ -19,16 +19,33 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     @IBOutlet weak var PickViewControlView: UIView!
     var myNickName : String!
     var notes = [CKRecord]()
-        let testdata = [CKAsset]()
-           let newNote = CKRecord(recordType: "Note")
-     let database = CKContainer.default().publicCloudDatabase
-    
+    let testdata = [CKAsset]()
+    let newNote = CKRecord(recordType: "Note")
+    let database = CKContainer.default().publicCloudDatabase
     let sharepost = CoredataSharePost.share
     let shareInfo = CoredataShare.share
-   
-    let Category = ["物品種類","生活居家","保養彩妝","玩具電玩","手機電腦","飲品食品","男裝配件","女裝婦幼","音樂電影","書籍文具票券"] 
-    let liveCategoryDetail = ["物品種類","廚房用品","小型家電","生活雜貨","寢具用品","家具","日用品"]
-    let foodCategoryDetail = ["物品種類","生鮮","蔬果","飲品","名產小吃","甜點","零食"," 乾貨"]
+    enum detailCategory : String {
+         case 書籍文具票券 = "書籍文具票券"
+         case 產品3C = "3c產品"
+        case 玩具電玩 = "玩具電玩"
+        case 生活居家與家電 = "生活居家與家電"
+        case 影視音娛樂 = "影視音娛樂"
+        case 飲品食品 = "飲品食品"
+        case 保養彩妝 = "保養彩妝"
+        case 男裝配件 = "男裝配件"
+        case 女裝婦幼 = "女裝婦幼"
+        
+    }
+    let Category = ["物品種類","書籍文具票券","3c產品","玩具電玩","生活居家與家電","影視音娛樂","飲品食品","保養彩妝","男裝配件","女裝婦幼"]
+     /*書籍文具票券*/let  bookandTicket = ["書籍","雜誌","文具","票券"]
+    /*3c產品*/let  electronic3C = ["電腦與周邊配件","手機與周邊配件","相機與周邊配件","平板與周邊配件","耳機喇叭麥克風"]
+    /*玩具電玩*/let  toyGame = ["電腦遊戲與周邊","主機遊戲與周邊","掌上型遊戲與周邊","公仔模型","玩偶娃娃","桌遊牌卡","其他玩具"]
+    /*生活居家與家電*/let liveCategoryDetail = ["家具","收納","寢具燈具","健身器材","廚房衛浴","居家裝飾","小型家電","中大型家電","五金修繕","單車汽機車與周邊"]
+    /*影視音娛樂*/let  musicVideo = ["樂器","影音設備","CD_DVD","偶像明星"]
+   /*飲品食品*/ let foodCategoryDetail = ["生鮮蔬果","休閒零食","各地名產","熟食小吃","米麵乾貨","蛋糕甜點","飲料_沖泡品"]
+    /*保養彩妝*/ let protecFace = ["彩妝用品","清潔保養","美髮護理","身體清潔保養","美甲用品","香水香氣","男性保養","其他小物", ]
+    /*男裝配件*/ let manTool = ["上衣類","下身類","鞋襪周邊","各式男包","飾品手錶"]
+    /*女裝婦幼*/ let WomanTool = ["上衣類","下身類","一件式","鞋襪周邊","各式女包","飾品手錶","男女童裝","哺育用品","嬰幼兒配件",]
     var tempCategoryDetail = [String]()
     
     var tempNumber : Int!
@@ -38,6 +55,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
        switch pickerView {
         case PostCategory:
             return Category.count
@@ -127,7 +145,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         
         
         let emptyView = UIView()
         caterogyTextField.inputView = emptyView
