@@ -13,8 +13,8 @@ class ChatListCustomCell: UITableViewCell {
     @IBOutlet weak var OtherName: UILabel! 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userSubtitle: UILabel!
-    @IBOutlet weak var messageTime: UILabel!
-    @IBOutlet weak var MessageHint: UIImageView!
+    @IBOutlet weak var messageTime: UILabel! 
+    @IBOutlet weak var unreadMessageCount: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

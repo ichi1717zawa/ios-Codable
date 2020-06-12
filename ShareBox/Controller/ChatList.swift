@@ -17,7 +17,9 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
     var receiveMessageNickname : String!
      var receiveMessageGoogleName : String!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.chatData.count
+        
+       
+        return self.chatData.count
     }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -32,9 +34,17 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
         cell.userSubtitle.text = self.chatData[indexPath.row].otherGoogleName
 //        cell.detailTextLabel?.text = self.chatData[indexPath.row].otherGoogleName
         cell.userImage.image = UIImage(named: "chatIcon")
+        cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
+        
 //        cell.accessoryType = .checkmark
         
 //        print(cell.detailTextLabel?.text)
+//        for i in 0...self.chatData.count{
+        var c = 0
+        let a = self.chatData[indexPath.row].unreadCount! as! Int
+        c += a
+        print(c)
+//        }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -57,15 +67,66 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     
-
+ var allMessageCount : Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         CoredataShare.share.loadData()
         queryFirestore()
-       
+       queryFirestore2()
+        
     }
- 
+    
+    
+    var unread : String?
+    func queryFirestore2( ){
+         
+        
+         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        self.db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (data, error) in
+            for otherID in data!.documents{
+               
+                self.db.collection("user").document(myGoogleName).collection("Messages").document(otherID.documentID).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
+                           if let error = error{ print("query Faild\(error)") }
+                    guard let query = query else {return}
+                            let documentChange = query.documents
+                         for change in documentChange{
+                               //處理每一筆更新
+//
+                            self.db.collection("user").document(myGoogleName).collection("Messages").document(otherID.documentID).setData(["unRead":"\(query.count)"],merge: true)
+                            change.data()
+                          
+                            }
+                       }
+            }
+        }
+   
+          
+//         self.db.collection("user").document(myGoogleName).collection("Messages").document("花滿").collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
+//               if let error = error{ print("query Faild\(error)") }
+//
+//               guard let documentChange = query?.documents else {return}
+//             for change in documentChange{
+//                   //處理每一筆更新
+//                 self.tabBarItem.badgeValue = "\(query!.count)"
+//
+// //                 self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(change.documentID).setData(["read":true], merge: true) { (error) in
+// //                    if let e = error{
+// //                        print(e)
+// //                    }
+// //                    print(query?.count)
+// //                }
+// //                     print(query?.count)
+// //                      let note = ChatNote()
+// //                      note.SendMessage = change.document.data()["send"] as? String
+// //                      note.ReceiveMessage = change.document.data()["receive"] as? String
+// //                      self.data.insert(note, at: 0)
+// //                      let indexPath = IndexPath(row: 0, section: 0)
+// //                      self.tableview.insertRows(at: [indexPath], with: .automatic)
+//
+//               }
+//           }
+       }
       func queryFirestore(){
       let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (query, error) in
@@ -81,10 +142,12 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
                     let chatlist = chatRoomList()
                     chatlist.chatRoomName = change.document.documentID
                     chatlist.otherGoogleName = change.document.data()["otherGoogleName"] as? String
+                    chatlist.unreadCount = change.document.data()["unRead"] as? String
                     self.chatData.insert(chatlist, at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
                     self.tableview.insertRows(at: [indexPath], with: .automatic)
-                    print(self.chatData.count)
+
+                  
                     
                 }
  

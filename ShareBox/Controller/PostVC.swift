@@ -13,10 +13,11 @@ import MapKit
 import Firebase
 import GoogleSignIn
 import CloudKit
-class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate   {
+class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var imageview: UIImageView!
     @IBOutlet weak var PickViewControlView: UIView!
+    @IBOutlet weak var mainCategoryTextField: UITextField!
     var myNickName : String!
     var notes = [CKRecord]()
     let testdata = [CKAsset]()
@@ -24,6 +25,11 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     let database = CKContainer.default().publicCloudDatabase
     let sharepost = CoredataSharePost.share
     let shareInfo = CoredataShare.share
+    var tempCategoryDetail = [String]()
+     var tempNumber : Int!
+     var db :Firestore!
+    
+    
     enum detailCategory : String {
          case 書籍文具票券 = "書籍文具票券"
          case 產品3C = "3c產品"
@@ -46,10 +52,65 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     /*保養彩妝*/ let protecFace = ["彩妝用品","清潔保養","美髮護理","身體清潔保養","美甲用品","香水香氣","男性保養","其他小物", ]
     /*男裝配件*/ let manTool = ["上衣類","下身類","鞋襪周邊","各式男包","飾品手錶"]
     /*女裝婦幼*/ let WomanTool = ["上衣類","下身類","一件式","鞋襪周邊","各式女包","飾品手錶","男女童裝","哺育用品","嬰幼兒配件",]
-    var tempCategoryDetail = [String]()
-    
-    var tempNumber : Int!
-    var db :Firestore!
+ 
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+             
+            switch pickerView {
+            case PostCategory:
+                didselect = Category[row]
+                if didselect == "書籍文具票券" { showSubCategoryShow(WhichSubcategoryShow: bookandTicket) }
+                else if didselect == "3c產品" { showSubCategoryShow(WhichSubcategoryShow: electronic3C) }
+                    else if didselect == "玩具電玩" {  showSubCategoryShow(WhichSubcategoryShow: toyGame) }
+                    else if didselect == "生活居家與家電" {  showSubCategoryShow(WhichSubcategoryShow: liveCategoryDetail) }
+                    else if didselect == "影視音娛樂" {  showSubCategoryShow(WhichSubcategoryShow: musicVideo) }
+                    else if didselect == "飲品食品" {  showSubCategoryShow(WhichSubcategoryShow: foodCategoryDetail) }
+                    else if didselect == "保養彩妝" {  showSubCategoryShow(WhichSubcategoryShow: protecFace) }
+                    else if didselect == "男裝配件" {  showSubCategoryShow(WhichSubcategoryShow: manTool) }
+                    else if didselect == "女裝婦幼" {  showSubCategoryShow(WhichSubcategoryShow: WomanTool) }
+              
+                    
+                    
+//                else {subPostCategory.alpha = 0
+//                    UIView.animate(withDuration: 0.3) {
+//                        self.PostCategory.center.x = super.view.center.x
+//                    }
+//
+//                }
+//     caterogyTextField.text = didselect
+//                   print(tempCategoryDetail)
+//                   print(didselect)
+////                    caterogyTextField.text = didselect
+               
+                 
+            default:
+                didselect = tempCategoryDetail[row]
+                 caterogyTextField.text = didselect
+                print(didselect)
+               
+    //            self.PostCategory.frame.origin.x = 10
+    //             self.PostCategory.center.x = super.view.center.x
+            }
+        }
+    func showSubCategoryShow(WhichSubcategoryShow:[String]){
+//        caterogyTextField.text = ""
+        tempCategoryDetail = WhichSubcategoryShow
+                        UIView.animate(withDuration: 0.3) {
+                            self.subPostCategory.alpha = 1
+                        }
+                        
+                        subPostCategory.delegate = self
+                        subPostCategory.dataSource = self
+//                        caterogyTextField.text = didselect
+//        caterogyTextField.placeholder = didselect
+        mainCategoryTextField.text = didselect
+        print(caterogyTextField.placeholder)
+                        UIView.animate(withDuration: 0.3) {
+                        self.PostCategory.frame.origin.x = 10
+                        }
+                         
+//                        print(tempCategoryDetail)
+                
+    }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
     }
@@ -74,64 +135,11 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
               }
         }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-         
-        switch pickerView {
-        case PostCategory:
-            didselect = Category[row]
-            if didselect == "生活居家" {
-              
-                tempCategoryDetail = liveCategoryDetail
-                UIView.animate(withDuration: 0.3) {
-                    self.subPostCategory.alpha = 1
-                }
-                
-                subPostCategory.delegate = self
-                subPostCategory.dataSource = self
-                caterogyTextField.text = didselect
-                UIView.animate(withDuration: 0.3) {
-                self.PostCategory.frame.origin.x = 10
-                }
-                 
-                print(tempCategoryDetail)
-                
-            } else if didselect == "飲品食品" {
-               
-                tempCategoryDetail =  foodCategoryDetail;
-                UIView.animate(withDuration: 0.3) {
-                self.subPostCategory.alpha = 1};
-                subPostCategory.delegate = self;
-                subPostCategory.dataSource = self ;
-                caterogyTextField.text = didselect
-                UIView.animate(withDuration: 0.3) {
-                self.PostCategory.frame.origin.x = 10
-                }
-            }
-                
-            else {subPostCategory.alpha = 0
-                UIView.animate(withDuration: 0.3) {
-                    self.PostCategory.center.x = super.view.center.x
-                }
-                  
-            }
- 
-               print(tempCategoryDetail)
-               print(didselect)
-                caterogyTextField.text = didselect
-           
-             
-        default:
-            didselect = tempCategoryDetail[row]
-            print(didselect)
-            caterogyTextField.text = didselect
-//            self.PostCategory.frame.origin.x = 10
-//             self.PostCategory.center.x = super.view.center.x
-        }
-    }
+    
     
  
     var a :Timestamp?
-    @IBOutlet weak var Introduction: UITextField!
+    @IBOutlet weak var Introduction: UITextView!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var caterogyTextField: UITextField!
     @IBOutlet weak var PostCategory: UIPickerView!

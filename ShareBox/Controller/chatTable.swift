@@ -57,9 +57,37 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         self.textField.delegate = self
         queryFirestore()
         self.tableview.transform = CGAffineTransform(rotationAngle: .pi)
+        queryFirestore2()
     }
     
 
+    func queryFirestore2(){
+          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
+              if let error = error{ print("query Faild\(error)") }
+           
+              guard let documentChange = query?.documents else {return}
+            for change in documentChange{
+                  //處理每一筆更新
+                self.tabBarItem.badgeValue = "\(query?.count)"
+                    
+//                 self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(change.documentID).setData(["read":true], merge: true) { (error) in
+//                    if let e = error{
+//                        print(e)
+//                    }
+//                    print(query?.count)
+//                }
+//                     print(query?.count)
+//                      let note = ChatNote()
+//                      note.SendMessage = change.document.data()["send"] as? String
+//                      note.ReceiveMessage = change.document.data()["receive"] as? String
+//                      self.data.insert(note, at: 0)
+//                      let indexPath = IndexPath(row: 0, section: 0)
+//                      self.tableview.insertRows(at: [indexPath], with: .automatic)
+                   
+              }
+          }
+      }
     
     func queryFirestore(){
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
