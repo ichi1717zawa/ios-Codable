@@ -45,7 +45,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //                }
  
                  print("身份驗證完成")
-                 
+                  
              }
                  Auth.auth().addStateDidChangeListener { (auth, user) in
                     if auth.currentUser == nil{
@@ -53,6 +53,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                         
                     }else{
                          print("登入完畢")
+                       
                     }
                      
           }
@@ -62,12 +63,10 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     @IBOutlet weak var PostResources: UIButton!
     @IBOutlet weak var ReceivePostResources: UIButton!
     @IBOutlet weak var LogoutButton: UIButton!
-   
     
        let locationManager = CLLocationManager()
     override func viewDidLoad() {
-        super.viewDidLoad()
-      
+        super.viewDidLoad() 
         
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
        

@@ -11,17 +11,21 @@ import Firebase
 import GoogleSignIn
 
 class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    static var share = ChatList()
+    
     var db = Firestore.firestore()
     @IBOutlet weak var tableview: UITableView!
     var chatData : [chatRoomList] = []
     var receiveMessageNickname : String!
      var receiveMessageGoogleName : String!
+    var allUnreadCounts   = 0
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     
+           
         
-       
         return self.chatData.count
     }
-     
+     var allcount = 0
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let view = UIView()
         view.backgroundColor = .red
@@ -35,16 +39,18 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        cell.detailTextLabel?.text = self.chatData[indexPath.row].otherGoogleName
         cell.userImage.image = UIImage(named: "chatIcon")
         cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
-        
+
+//           self.tabBarItem.badgeValue = String(self.allUnreadCounts)
 //        cell.accessoryType = .checkmark
         
 //        print(cell.detailTextLabel?.text)
 //        for i in 0...self.chatData.count{
-        var c = 0
-        let a = self.chatData[indexPath.row].unreadCount! as! Int
-        c += a
-        print(c)
+//        var c = 0
+//        let a = self.chatData[indexPath.row].unreadCount! as! Int
+//        c += a
+//        print(c)
 //        }
+       
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -75,6 +81,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
         queryFirestore()
        queryFirestore2()
         
+         
+       
     }
     
     
@@ -92,10 +100,13 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
                             let documentChange = query.documents
                          for change in documentChange{
                                //處理每一筆更新
-//
-                            self.db.collection("user").document(myGoogleName).collection("Messages").document(otherID.documentID).setData(["unRead":"\(query.count)"],merge: true)
-                            change.data()
-                          
+                            self.db.collection("user").document(myGoogleName)
+                                .collection("Messages")
+                                .document(otherID.documentID)
+                                .setData(["unRead":"\(query.count)"],merge: true)
+//                            change.data()
+                           
+                            
                             }
                        }
             }
@@ -136,6 +147,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
    
             guard let documentChange = query?.documentChanges else {return}
             for change in documentChange{
+                   let documentID = change.document.documentID
+               
                 //處理每一筆更新
                 if change.type == .added{
                     
@@ -143,18 +156,77 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource {
                     chatlist.chatRoomName = change.document.documentID
                     chatlist.otherGoogleName = change.document.data()["otherGoogleName"] as? String
                     chatlist.unreadCount = change.document.data()["unRead"] as? String
+                      
                     self.chatData.insert(chatlist, at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
                     self.tableview.insertRows(at: [indexPath], with: .automatic)
-
-                  
-                    
+                    self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
+//
+                    self.tabBarItem.badgeValue = String(self.allUnreadCounts)
+                   
                 }
- 
+                  else if change.type == .modified{ //修改
+                    self.ocount = 0
+//                    self.allUnreadCounts = 0
+                                        if let otherGoogleName = self.chatData.filter({ (otherGoogleName) -> Bool in
+                                            otherGoogleName.otherGoogleName == documentID
+                                        }).first{
+                                            otherGoogleName.unreadCount = change.document.data()["unRead"] as! String
+//                                            note.imageName = change.document.data()["imageName"] as? String
+//                                            if let index = self.data.index(of: perPost){
+//                                                let indexPath = IndexPath(row: index, section: 0)
+//                                                self.tableview.reloadRows(at: [indexPath], with: .fade)
+                                            self.tableview.reloadData()
+//                                            print(self.allUnreadCounts)
+                                           
+                                            self.updateTabbarItembadge()
+//                                            print("qwe")
+//
+//                                             self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
+//                                            self.tabBarItem.badgeValue = String(self.allUnreadCounts)
+                //                            }
+                                             print(self.allUnreadCounts)
+                                        }
+
+                                    }
+                
                    }
+            
+            
+//             print(Int(self.chatData[0].unreadCount!)! + Int(self.chatData[1].unreadCount!)! )
+//            print( a += Int(self.chatData.first!.unreadCount!)!   )
+             
+            
                }
         }
+    var ocount = 0
+    func updateTabbarItembadge (){
+var tempInt = 0
+        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        
+             db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (query, error) in
+                 if let error = error{
+                     print("query Faild\(error)")
+                 }
+        
+                 guard let documentChange = query?.documentChanges else {return}
+                for i in query!.documents{
+//                    self.ocount += Int(truncating: NSNumber(nonretainedObject: i.data()["unRead"]  ))
+                    var readString = i.data()["unRead"] as! String
+                    var IntString = Int(readString)!
+                    tempInt += IntString
+                    print(self.ocount)
+                    }
+                self.ocount = tempInt
+                self.db.collection("user").document(myGoogleName).setData(["unread":"\(self.ocount)"],merge: true)
+                self.tabBarItem.badgeValue = String(self.ocount)
+        }
+        
+        
+    
     }
-  
+
+}
+
 
  

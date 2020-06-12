@@ -14,7 +14,7 @@ import GoogleSignIn
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate      {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
      
      
   
@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate      {
     
   
     
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         // Perform any operations when the user disconnects from app here.
         // ...
     }
@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate      {
         print(NSHomeDirectory())
         FirebaseApp.configure() 
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+ 
         return true
         
     }

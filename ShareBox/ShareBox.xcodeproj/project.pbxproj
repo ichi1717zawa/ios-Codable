@@ -45,6 +45,7 @@
 		FA96841F248613C9002301A7 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841E248613C9002301A7 /* ChatList.swift */; };
 		FA968421248614D8002301A7 /* ChatroomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA968420248614D7002301A7 /* ChatroomList.swift */; };
 		FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAAED459248FA219006EA3FD /* chatIcon.png */; };
+		FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAEEA062493742B004F5B97 /* getChatListUnread.swift */; };
 		FAB45D8C24802589005A183D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB45D8B24802589005A183D /* MapVC.swift */; };
 		FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560BD247A5E35000E8247 /* ChoseAction.swift */; };
 		FAC560E5247A700E000E8247 /* loginImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FAC560E4247A700D000E8247 /* loginImage.jpg */; };
@@ -101,6 +102,7 @@
 		FA96841E248613C9002301A7 /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		FA968420248614D7002301A7 /* ChatroomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomList.swift; sourceTree = "<group>"; };
 		FAAED459248FA219006EA3FD /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
+		FAAEEA062493742B004F5B97 /* getChatListUnread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getChatListUnread.swift; sourceTree = "<group>"; };
 		FAB45D8B24802589005A183D /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		FAC560BD247A5E35000E8247 /* ChoseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoseAction.swift; sourceTree = "<group>"; };
 		FAC560E4247A700D000E8247 /* loginImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginImage.jpg; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */,
 				FA86E3B5247B5F3300284596 /* GoogleLogin.swift */,
 				FA6F8C512480343E0051E318 /* pointRed.png */,
+				FAAEEA062493742B004F5B97 /* getChatListUnread.swift */,
 				FA6F8C502480343E0051E318 /* pointRed@2x.png */,
 				FA6F8C4F2480343E0051E318 /* pointRed@3x.png */,
 				FAAED459248FA219006EA3FD /* chatIcon.png */,
@@ -429,6 +432,7 @@
 				FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */,
 				FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */,
 				FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */,
+				FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */,
 				FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */,
 				FA19045A247966D5009B9B3C /* Map.swift in Sources */,
 				FA66AD0F246E306A00C9F31F /* ViewController.swift in Sources */,
