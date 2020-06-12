@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
       
@@ -25,12 +26,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         var data = self.data[indexPath.row]
-        allPostcell.Title.text = data.Title
-        allPostcell.subTitle.text = data.subTitle
-        allPostcell.likeImage.image = data.likeImage
+        allPostcell.Title.text = data.productName
+        allPostcell.subTitle.text = data.userShortLocation
+//        allPostcell.likeImage.image = data.likeImage
         allPostcell.categoryImage.image = data.categoryImage
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
+        
+        
+        
        
         return allPostcell
         
@@ -73,7 +77,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                      self.updateCount(documentID: documentID)
                     if change.type == .added{
                        
-                   let postdetail = allPostModel(categoryImage: UIImage(named: "pointRed")!,
+                   let postdetail = allPostModel(categoryImage: UIImage(named: "test")!,
                     likeImage: UIImage(named: "pointRed")!,
                     buildTime: change.document.data()["postTime"] as? String ?? "N/A",
                     subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -82,7 +86,10 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     postNickName: change.document.data()["Name"]as? String ?? "N/A",
                     postUUID: change.document.data()["postUUID"] as? String ?? "N/A" ,
                     postTime: change.document.data()["postTime"] as? String ?? "N/A",
-                    viewsCount: change.document.data()["viewsCount"] as? Int ?? 0  )
+                    viewsCount: change.document.data()["viewsCount"] as? Int ?? 0,
+                    productName:change.document.data()["productName"] as? String ?? "N/A",
+                    userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
+                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A")
                         
 //                                    let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //                                                                      Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -153,8 +160,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let postUUID = self.data[indexPath.row].postUUID
         print(postUUID)
-     
-        db.collection("userPost").document("\(postUUID)").collection("views").document("\(CoredataShare.share.data.first!.nickname)").setData(["viww": "view"])
+      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        db.collection("userPost").document("\(postUUID)").collection("views").document(myGoogleName).setData(["viww": "view"])
         CountViews()
          
     }
@@ -183,6 +190,29 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
     }
     
+    @IBAction func likeButton(_ sender: UIButton) {
+         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        print(myGoogleName)
+//        if segue.identifier == "allPostDetailBycell"{
+//                            let detailVcByCell = segue.destination as! allPostDetailBycell
+        let pointInTable: CGPoint = sender.convert(CGPoint.zero, to: self.tableview)
+        guard let  indexPath = self.tableview.indexPathForRow(at: pointInTable)  else {return}
+//        let postUUID = self.data[indexPath.row].postUUID
+//        db.collection("user").document(myGoogleName).collection("FavoriteList").document("\(self.data[indexPath.row].postUUID)").setData(["ee":123])
+       
+//        db.collection("userPost").document("\(self.data[indexPath.row].postUUID)").setData(["favoriteCounts": +1],merge: true)
+          db.collection("userPost").document(self.data[indexPath.row].postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
+        print(self.data[indexPath.row].productName)
+        favotireCounts(uuid: self.data[indexPath.row].postUUID)
+                          
+    }
+    func favotireCounts (uuid:String){
+     
+         
+         db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
+             self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
+         }
+     }
     
 }
  

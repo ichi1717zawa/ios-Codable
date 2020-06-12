@@ -39,7 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
         print(NSHomeDirectory())
         FirebaseApp.configure() 
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
- 
+//        ChatList.share.queryFirestore()
+//        ChatList.share.queryFirestore2()
+       
+       
         return true
         
     }

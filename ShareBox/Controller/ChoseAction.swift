@@ -45,7 +45,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //                }
  
                  print("身份驗證完成")
-                  
+//                    ChatList.share.loginCall()
              }
                  Auth.auth().addStateDidChangeListener { (auth, user) in
                     if auth.currentUser == nil{
@@ -69,8 +69,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         super.viewDidLoad() 
         
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
-       
-         
+     
 //        print(Auth.auth().currentUser?.email)
 //        print(GIDSignIn.sharedInstance()?.currentUser.profile.name)
 //         getGoogleGmailDoIdentify()

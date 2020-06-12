@@ -14,10 +14,12 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
+    
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var imageview: UIImageView!
     @IBOutlet weak var PickViewControlView: UIView!
     @IBOutlet weak var mainCategoryTextField: UITextField!
+    @IBOutlet weak var productName: UITextField!
     var myNickName : String!
     var notes = [CKRecord]()
     let testdata = [CKAsset]()
@@ -67,7 +69,15 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                     else if didselect == "保養彩妝" {  showSubCategoryShow(WhichSubcategoryShow: protecFace) }
                     else if didselect == "男裝配件" {  showSubCategoryShow(WhichSubcategoryShow: manTool) }
                     else if didselect == "女裝婦幼" {  showSubCategoryShow(WhichSubcategoryShow: WomanTool) }
-              
+                    
+                else if didselect == "物品種類" {
+                    UIView.animate(withDuration: 0.3) {
+                    self.subPostCategory.alpha = 0;
+                   self.PostCategory.center.x = super.view.center.x
+                        self.mainCategoryTextField.text = ""
+                     }
+                    }
+                caterogyTextField.text = ""
                     
                     
 //                else {subPostCategory.alpha = 0
@@ -105,7 +115,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         mainCategoryTextField.text = didselect
         print(caterogyTextField.placeholder)
                         UIView.animate(withDuration: 0.3) {
-                        self.PostCategory.frame.origin.x = 10
+                        self.PostCategory.frame.origin.x = 0
                         }
                          
 //                        print(tempCategoryDetail)
@@ -153,7 +163,6 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         
         
         let emptyView = UIView()
         caterogyTextField.inputView = emptyView
@@ -161,9 +170,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         shareInfo.loadData()
         locationTextField.delegate = self
         Introduction.delegate = self
+        productName.delegate = self
         db = Firestore.firestore()
-//        subPostCategory.delegate = self
-//               subPostCategory.dataSource = self
         PostCategory.dataSource = self
         PostCategory.delegate = self
         caterogyTextField.delegate = self
@@ -173,6 +181,34 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        queryDatabase()
        
     }
+    @IBAction func tap(_ sender: Any) {
+             chosePhoto()
+    }
+    
+    func chosePhoto( ) {
+              
+              
+        let alerController = UIAlertController(title: "從相簿選擇照片或使用相機拍攝", message:nil, preferredStyle: .actionSheet)
+             
+        let photoLibrary = UIAlertAction(title: "相簿", style: .default) { (action) in
+            let imagePicker = UIImagePickerController()//內建老師會再說
+                         imagePicker.sourceType = .photoLibrary //從相簿中選照片
+                             imagePicker.delegate = self
+                 //            self.present(imagePicker,animated: true,completion: nil) //跳出選照片Controller
+                             self.present(imagePicker, animated: true)
+            
+        }
+        let camera = UIAlertAction(title: "相機", style: .default) { (action) in
+            
+            
+        }
+        let cancelaction = UIAlertAction(title: "取消", style: .cancel) { (cancel) in }
+        alerController.addAction(camera)
+              alerController.addAction(photoLibrary)
+        alerController.addAction(cancelaction)
+              present(alerController,animated: true)
+
+          }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -193,17 +229,23 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         PickViewControlView.alpha = 0
         print("done")
     }
+    
+    
+    //MARK: ->done送出
     @IBAction func done(_ sender: Any) {
+        adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
+            
+        
         let postUUID =  UUID().uuidString
 //
-        guard let transImage = self.imageview.image,let thumbImage = thumbnailImage(image: transImage),let image = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let image = thumbImage.jpegData(compressionQuality: 0.1) else {return}
              let fileName = "123.jpg"
             let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
         try? image.write(to: filePath!,options: [.atomic])
         let myphoto = CKAsset(fileURL: filePath!)
-         newNote.setValue(myphoto, forKey: "myphoto")
-        newNote.setValue(postUUID, forKey: "content")
-        database.save(newNote) { (record, error) in
+            self.newNote.setValue(myphoto, forKey: "myphoto")
+        self.newNote.setValue(postUUID, forKey: "content")
+            self.database.save(self.newNote) { (record, error) in
                if let error = error{
                    print(error)
                }
@@ -255,74 +297,61 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                 self.sharepost.saveData()
            }
         }
+            
 //        sharepost.data.append(postinformation)
 //        print(annotatiobox?.latitude)
-        DispatchQueue.main.async {
-          
-            guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-            //                let authResultEmail = "qweqwe"
-                            
-                            
-                            self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
-                                guard let data = data else {return}
-                                    for i in data.documents{
-                                        
-                                        
-                                        self.myNickName = (i.data()["nickName"] as! String)
-                                        
-                                        let parameters : [String:Any] = [
-                                            "Name":"\(self.myNickName ?? "N/A" )",
-                                        "postCategory":self.didselect  ?? "N/A" ,
-                                        "userLocation":self.locationTextField.text  ?? "N/A" ,
-                                        "postIntroduction":self.Introduction.text  ?? "N/A" ,
-                                        "googleName":GIDSignIn.sharedInstance()?.currentUser.profile.name ?? "N/A",
-                                        "postUUID":  postUUID ,
-                                        "postTime":currentTime.share.time(),
-                                        "viewsCount":0]
-                                        self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
-                                        if let e = error{
-                                            print("Error=\(e)")
-                                            }
-                                        }
-                                        self.sharepost.saveData()
-                                                  DispatchQueue.main.async {
-                                                      self.navigationController?.popViewController(animated: true)
-                                                  }
-                                    }
+            DispatchQueue.main.async {
+                
+                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+                //                let authResultEmail = "qweqwe"
+                
+                
+                self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
+                    guard let data = data else {return}
+                    for i in data.documents{
+                        
+                        
+                        self.myNickName = (i.data()["nickName"] as! String)
+                        
+                        let parameters : [String:Any] = [
+                            "Name":"\(self.myNickName ?? "N/A" )",
+                            "postCategory":self.didselect  ?? "N/A" ,
+                            "userLocation":self.locationTextField.text  ?? "N/A" ,
+                            "postIntroduction":self.Introduction.text  ?? "N/A" ,
+                            "googleName":GIDSignIn.sharedInstance()?.currentUser.profile.name ?? "N/A",
+                            "postUUID":  postUUID ,
+                            "postTime":currentTime.share.time(),
+                            "timeStamp": Timestamp(date: Date()),
+                            "viewsCount":0,
+                            "productName":self.productName.text ?? "N/A",
+                            "favoriteCounts":0,
+                            "userShortLocation":adressdata]
+                        
+                        self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
+                            if let e = error{
+                                print("Error=\(e)")
+                            }
+                        }
+                        self.sharepost.saveData()
+                        DispatchQueue.main.async {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                }
+                
+                
             }
-                                
-//        let parameters : [String:Any] = [
-//            "Name":"\(self.myNickName )",
-//            "postCategory":self.didselect  ?? self.Category[0] ,
-//            "userLocation":self.locationTextField.text  ?? "N/A" ,
-//            "postIntroduction":self.Introduction.text  ?? "N/A" ,
-//            "googleName":GIDSignIn.sharedInstance()?.currentUser.profile.name ?? "N/A",
-//            "postUUID":  postUUID ,
-//            "postTime":currentTime.share.time(),
-//            "viewsCount":0]
             
-           
-//        "recordId":record?.recordID ?? "N/A"
-//            self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
-//            if let e = error{
-//                print("Error=\(e)")
-//                }
-//            }
-            
+            }
         }
-//            self.sharepost.saveData()
-//            DispatchQueue.main.async {
-//                self.navigationController?.popViewController(animated: true)
-//            }
-        
     }
-  }
 
     
  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         getLocation()
+       
     }
     
      func getLocation(){
@@ -348,7 +377,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                          return
                      }
                     guard let placemark = placemarks?.first else {return}
-                    let description = "\(placemark.country ?? "")"+"\(placemark.subAdministrativeArea ?? "")"+"\(placemark.locality ?? "")"
+                    let description = /*"\(placemark.country ?? "")"+*/"\(placemark.subAdministrativeArea ?? "")"+"\(placemark.locality ?? "")"
                     self.locationTextField.text = description
                     print(description)
                  }
@@ -414,6 +443,63 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         }
           return false
     }
+    
+    
+    func adressToCoreLocation(adress:String,complite: @escaping (String) -> Void )  {
+            let gecord = CLGeocoder()   //可以轉地址經緯度
+                
+        gecord.geocodeAddressString(adress) { (placemarks, error) in
+                    if let error = error {
+                        print("geocodeAddressSting:\(error)")
+                        return
+                            
+                    }
+                    guard let placemark = placemarks?.first,
+                        
+                        let coordinate = placemark.location?.coordinate else{
+                            assertionFailure("Invalid placemark")
+                            
+                            return
+                    }
+            
+//            let locationManager = CLLocationManager()
+                          guard CLLocationManager.locationServicesEnabled() else{ return }//show some hint to user
+
+                          let geocoder = CLGeocoder()
+                           geocoder.reverseGeocodeLocation(placemark.location!) { (placemarks, error) in
+                               if let error = error {
+                                   print("geocodeAddressSting:\(error)")
+                                   return
+                               }
+                              guard let placemark = placemarks?.first else {return}
+                              let description = /*"\(placemark.country ?? "")"+*/"\(placemark.subAdministrativeArea ?? "")"+"\(placemark.locality ?? "")"
+//                              self.locationTextField.text = description
+                              print(description)
+                            complite(description)
+                           }
+                    print("Lat, Lon \(coordinate.latitude ), \(coordinate.longitude )")
+//            self.LocationToadress(CLLocation:placemark.location!,placemarks: placemarks!)
+           
+                }
+        
+    }
+//    func LocationToadress(CLLocation:CLLocation,placemarks:[CLPlacemark]){
+//               let locationManager = CLLocationManager()
+//                 guard CLLocationManager.locationServicesEnabled() else{ return }//show some hint to user
+//
+//                 let geocoder = CLGeocoder()
+//                  geocoder.reverseGeocodeLocation(CLLocation) { (placemarks, error) in
+//                      if let error = error {
+//                          print("geocodeAddressSting:\(error)")
+//                          return
+//                      }
+//                     guard let placemark = placemarks?.first else {return}
+//                     let description = /*"\(placemark.country ?? "")"+*/"\(placemark.subAdministrativeArea ?? "")"+"\(placemark.locality ?? "")"
+//                     self.locationTextField.text = description
+//                     print(description)
+//                  }
+//         }
+    
 }
 
  

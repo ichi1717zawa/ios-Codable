@@ -13,10 +13,11 @@ class allPostDetailBycell: UIViewController      {
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var niceNameLabel: UILabel!
-    @IBOutlet weak var userLocationLabel: UILabel!
-    @IBOutlet weak var discriptionLabel: UILabel!
+    @IBOutlet weak var productName: UITextField!
+    @IBOutlet weak var categoryLabel: UITextField!
+    @IBOutlet weak var niceNameLabel: UITextField!
+    @IBOutlet weak var userLocationLabel: UITextField!
+    @IBOutlet weak var discriptionLabel: UITextView!
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
@@ -63,8 +64,9 @@ class allPostDetailBycell: UIViewController      {
 //        discriptionLabel.text = self.data[self.tempIndex.row].subTitle
         categoryLabel.text = self.data.Title
         niceNameLabel.text = self.data.postNickName
-        userLocationLabel.text = self.data.postNickName
+        userLocationLabel.text = self.data.userLocation
         discriptionLabel.text = self.data.subTitle
+        productName.text = self.data.productName
 //        self.receiverAnnotationData = receiveAnnotation
     }
      

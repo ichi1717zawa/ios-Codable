@@ -9,8 +9,10 @@
 import Foundation
 
 
-class chatRoomList {
-    
+class chatRoomList :Equatable {
+    static func ==(lhs: chatRoomList, rhs: chatRoomList) -> Bool {
+        return lhs === rhs
+    }
     
     
     var chatRoomName :String?

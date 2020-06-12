@@ -14,7 +14,7 @@ class currentTime  {
     func time() -> String{
     let now = Date()
     let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "YYYY年MM月dd日HH時mm分ss秒"
+    dateformatter.dateFormat = "MM/dd"
     let currentTime = dateformatter.string(from: now)
     
     return currentTime

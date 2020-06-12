@@ -14,6 +14,7 @@ class allPostDetail: UITableViewCell {
     @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var viewsCount: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
     
     
     

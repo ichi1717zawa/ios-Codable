@@ -15,16 +15,19 @@ class allPostModel : Equatable{
        }
     var categoryImage :UIImage
     var likeImage:UIImage
-    var  buildTime:String
+    var buildTime:String
     var subTitle:String
-    var  Title:String
+    var Title:String
     var postGoolgeName:String
     var postNickName:String
     var postUUID:String
     var postTime:String
     var viewsCount:Int
+    var productName:String
+    var userLocation:String
+    var userShortLocation : String
     
-    init(categoryImage:UIImage,likeImage:UIImage,buildTime:String,subTitle:String,Title:String,postGoogleName:String,postNickName:String,postUUID:String,postTime:String,viewsCount:Int) {
+    init(categoryImage:UIImage,likeImage:UIImage,buildTime:String,subTitle:String,Title:String,postGoogleName:String,postNickName:String,postUUID:String,postTime:String,viewsCount:Int,productName:String,userLocation:String,userShortLocation:String) {
         
         self.categoryImage = categoryImage
         self.likeImage = likeImage
@@ -36,5 +39,8 @@ class allPostModel : Equatable{
         self.postUUID = postUUID
         self.postTime = postTime
         self.viewsCount = viewsCount
+        self.productName = productName
+        self.userLocation = userLocation
+        self.userShortLocation = userShortLocation
     }
 }
