@@ -53,7 +53,6 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                 if change.type == .added{
                     let chatlist = chatRoomList()
                     chatlist.chatRoomName = change.document.documentID
-                    print(documentID)
                     chatlist.otherGoogleName = change.document.data()["otherGoogleName"] as? String
                     chatlist.unreadCount = change.document.data()["unRead"] as? String
                     self.chatData.insert(chatlist, at: 0)
@@ -68,7 +67,6 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     }).first{
                         otherGoogleName.unreadCount = change.document.data()["unRead"] as! String
                         self.updateTabbarItembadge()
-                        print(self.allUnreadCounts)
                     }
                     
                 }
@@ -111,7 +109,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                 var readString = i.data()["unRead"] as! String
                 var IntString = Int(readString)!
                 tempInt += IntString
-                print(self.ocount)
+                 
             }
             self.ocount = tempInt
             self.db.collection("user").document(myGoogleName).setData(["unread":"\(self.ocount)"],merge: true)

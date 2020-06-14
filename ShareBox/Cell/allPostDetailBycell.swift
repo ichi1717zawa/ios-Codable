@@ -18,12 +18,14 @@ class allPostDetailBycell: UIViewController      {
     @IBOutlet weak var niceNameLabel: UITextField!
     @IBOutlet weak var userLocationLabel: UITextField!
     @IBOutlet weak var discriptionLabel: UITextView!
+    @IBOutlet weak var favoriteButton: UIButton!
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        queryData()
         print(self.data.viewsCount)
         activityIndicator.startAnimating()
  
@@ -132,5 +134,43 @@ class allPostDetailBycell: UIViewController      {
 //
 //    }
     
+    @IBAction func favoriteButtonClick(_ sender: UIButton) {
+         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        if self.favoriteButton.currentTitle == "inDatabase"{
+            self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
+            self.db.collection("userPost").document(self.data.postUUID).collection("favoriteCounts").document(myGoogleName).delete()
+            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.data.postUUID).delete()
+            
+        }else{
+            self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
+            self.db.collection("userPost").document(self.data.postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
+            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.data.postUUID).setData(["Myfavorite": "Null"])
+        }
+        //        if segue.identifier == "allPostDetailBycell"{
+        //                            let detailVcByCell = segue.destination as! allPostDetailBycell
+//                let pointInTable: CGPoint = sender.convert(CGPoint.zero, to: self.tableview)
+//                guard let  indexPath = self.tableview.indexPathForRow(at: pointInTable)  else {return}
+ 
+        
+                 
+//                favotireCounts(uuid: self.data[indexPath.row].postUUID)
+    }
     
+    
+    func queryData(){
+         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        self.db.collection("user").document(myGoogleName).collection("favoriteList").addSnapshotListener { (query, error) in
+            guard let query = query else {return}
+            for i in query.documents{
+                print(i.documentID)
+                if i.documentID == self.data.postUUID {
+                    self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
+                    self.favoriteButton.setTitle("inDatabase", for: .normal)
+                }
+                else{
+                    print("nonono")
+                }
+            }
+        }
+    }
 }

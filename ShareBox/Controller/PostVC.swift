@@ -325,7 +325,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "viewsCount":0,
                             "productName":self.productName.text ?? "N/A",
                             "favoriteCounts":0,
-                            "userShortLocation":adressdata]
+                            "userShortLocation":adressdata,
+                            "mainCategory":self.mainCategoryTextField.text ?? "N/A"]
                         
                         //save to allpost
                         self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
@@ -387,7 +388,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                     guard let placemark = placemarks?.first else {return}
                     let description = /*"\(placemark.country ?? "")"+*/"\(placemark.subAdministrativeArea ?? "")"+"\(placemark.locality ?? "")"
                     self.locationTextField.text = description
-                    print(description)
+                     
                  }
         }
     @IBAction func camera(_ sender: Any) {

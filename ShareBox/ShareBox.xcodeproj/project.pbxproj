@@ -39,6 +39,7 @@
 		FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */; };
 		FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */; };
 		FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8E36E5248A93EF00A19695 /* CloudKit.framework */; };
+		FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */; };
 		FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */; };
 		FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDC2470285A000F5C59 /* userInfo.swift */; };
 		FA96841D2485E461002301A7 /* chatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* chatTable.swift */; };
@@ -96,6 +97,7 @@
 		FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
 		FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostVC + cloudkit.swift"; sourceTree = "<group>"; };
 		FA8E36E5248A93EF00A19695 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryButtionInit.swift; sourceTree = "<group>"; };
 		FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIreBaseStore.swift; sourceTree = "<group>"; };
 		FA961CDC2470285A000F5C59 /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
 		FA96841C2485E461002301A7 /* chatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTable.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				FA6F8C502480343E0051E318 /* pointRed@2x.png */,
 				FA6F8C4F2480343E0051E318 /* pointRed@3x.png */,
 				FAAED459248FA219006EA3FD /* chatIcon.png */,
+				FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 			files = (
 				FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */,
 				FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */,
+				FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */,
 				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,
 				FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */,
 				FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */,

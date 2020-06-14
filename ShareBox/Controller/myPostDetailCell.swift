@@ -64,7 +64,7 @@ import Firebase
 
             self.db.collection("userPost").whereField("Name", isEqualTo: "花滿").addSnapshotListener { (data, error) in
                 guard let data = data?.documentChanges else {return}
-    //                    print(query.data()!["postTime"])
+    
                 for query in data {
                      let documentID = query.document.documentID
                     if query.type == .added{
@@ -81,7 +81,8 @@ import Firebase
                                                 viewsCount: query.document.data()["viewsCount"] as? Int ?? 0,
                                                 productName:query.document.data()["productName"] as? String ?? "N/A",
                                                 userLocation: query.document.data()["userLocation"] as? String ?? "N/A",
-                                                userShortLocation:query.document.data()["userShortLocation"] as? String ?? "N/A")
+                                                userShortLocation:query.document.data()["userShortLocation"] as? String ?? "N/A",
+                                                favoriteCount: query.document.data()["favoriteCounts"] as? Int ?? 0)
 
                         
                         

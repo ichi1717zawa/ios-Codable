@@ -9,27 +9,23 @@
 import UIKit
 import Firebase
 import GoogleSignIn
-class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating {
+class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
     func updateSearchResults(for searchController: UISearchController) {
       
     }
     
     @IBOutlet weak var hidenTopItem: UIView!
-    @IBOutlet weak var tableview: UITableView!
-    @IBOutlet weak var SearchMap: UISearchBar!
+    @IBOutlet weak var tableview: UITableView! 
+    @IBOutlet weak var serchMap: UITextField!
+    @IBOutlet weak var selectCategoryLabel: UILabel!
+    
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
-    @IBAction func swipe(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .down{
-            print("e")
-        }
-        
-      
-    }
+ 
    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,13 +37,19 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         allPostcell.categoryImage.image = data.categoryImage
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
+        allPostcell.favoriteCount.text = String(data.favoriteCount)
         
          
         return allPostcell
         
     }
     
-  
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           textField.resignFirstResponder()
+           return true
+       }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,20 +57,33 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       
         
        queryFirestore()
+        queryfavoriteCounts()
     }
    
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
-                                         for i in data!.documents{
-                                             print(i.documentID)
-             self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
-                                            self.tableview.reloadData()
-                                         }
-            
-            
-                                         }
+            for i in data!.documents{
+                self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
+              
+                self.tableview.reloadData()
+                
+            }
+        }
     }
+    
+    func updateFavoriteCount (documentID:Any){
+          self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+              for i in data!.documents{
+                  self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
+                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
+                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
+                }
+                  self.tableview.reloadData()
+              }
+          }
+      }
+    
   func queryFirestore(){
             db.collection("userPost").addSnapshotListener { (query, error) in
                 if let error = error{
@@ -80,6 +95,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     //處理每一筆更新
                     let documentID = change.document.documentID
                      self.updateCount(documentID: documentID)
+                    self.updateFavoriteCount(documentID: documentID)
                     if change.type == .added{
                        
                    let postdetail = allPostModel(categoryImage: UIImage(named: "testqq")!,
@@ -94,7 +110,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     viewsCount: change.document.data()["viewsCount"] as? Int ?? 0,
                     productName:change.document.data()["productName"] as? String ?? "N/A",
                     userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
-                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A")
+                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
+                    favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
+                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A")
                         
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -117,6 +135,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             perPost.postUUID == documentID
                         }).first{
                             perPost.viewsCount = change.document.data()["viewsCount"] as! Int
+                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
 //                            note.imageName = change.document.data()["imageName"] as? String
 //                            if let index = self.data.index(of: perPost){
 //                                let indexPath = IndexPath(row: index, section: 0)
@@ -131,6 +150,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                         if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
                         }).first{
+                            
+//                            self.updateFavoriteCount(documentID: perPost.postUUID)
+                            
                             
                             //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                             //                            note.imageName = change.document.data()["imageName"] as? String
@@ -153,18 +175,97 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     //
     }
 
-
+      func queryfavoriteCounts(){
+                db.collection("userPost").addSnapshotListener { (query, error) in
+                    if let error = error{
+                        print("query Faild\(error)")
+                    }
+                   
+                    guard let query = query else {return}
+                    for i in query.documents{
+                        let doucumentID = i.documentID
+                        self.db.collection("userPost").document(doucumentID).collection("favoriteCounts").addSnapshotListener { (data, error) in
+                            guard let data = data else {return}
+                           
+                            for ii in data.documentChanges{
+                                let documentID = ii.document.documentID
+                                if ii.type == .removed{
+                                    if let perPost = self.data.filter({ (perPost) -> Bool in
+                                                                perPost.postUUID == documentID
+                                                            }).first{
+                                    //                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
+                                                                self.updateFavoriteCount(documentID: perPost.postUUID)
+                                                                //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
+                                                                //                            note.imageName = change.document.data()["imageName"] as? String
+                                                                if let index = self.data.index(of: perPost){
+                                                                    let indexPath = IndexPath(row: index, section: 0)
+                                    //                                self.mapKitView.annotations[indexPath.row]
+                                    //                                self.data[indexPath.row]
+                                    //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
+//                                                                    self.data.remove(at: indexPath.row)
+                                                                    self.tableview.reloadData()
+                                                                    //
+                                                                    
+                                                                }
+                                                            }
+                                }
+                                
+                            }
+                    }
+                    
+//                        else if change.type == .modified{ //修改
+//                            if let perPost = self.data.filter({ (perPost) -> Bool in
+//                                perPost.postUUID == documentID
+//                            }).first{
+//                                perPost.viewsCount = change.document.data()["viewsCount"] as! Int
+//                                perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
+//    //                            note.imageName = change.document.data()["imageName"] as? String
+//    //                            if let index = self.data.index(of: perPost){
+//    //                                let indexPath = IndexPath(row: index, section: 0)
+//    //                                self.tableview.reloadRows(at: [indexPath], with: .fade)
+//                                self.tableview.reloadData()
+//    //                            }
+//                            }
+//
+//                        }
+//                        else if change.type == .removed{ //刪除
+//
+//                            if let perPost = self.data.filter({ (perPost) -> Bool in
+//                                perPost.postUUID == documentID
+//                            }).first{
+//    //                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
+//                                self.updateFavoriteCount(documentID: perPost.postUUID)
+//                                //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
+//                                //                            note.imageName = change.document.data()["imageName"] as? String
+//                                if let index = self.data.index(of: perPost){
+//                                    let indexPath = IndexPath(row: index, section: 0)
+//    //                                self.mapKitView.annotations[indexPath.row]
+//    //                                self.data[indexPath.row]
+//    //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
+//                                    self.data.remove(at: indexPath.row)
+//                                    self.tableview.reloadData()
+//                                    //
+//
+//                                }
+//                            }
+//                        }
+          }
+                    
+        }
+        
+        //
+        }
     func CountViews (){
     
         
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
-            print(allviewrs?.count)
+            
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let postUUID = self.data[indexPath.row].postUUID
-        print(postUUID)
+        
       let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("userPost").document("\(postUUID)").collection("views").document(myGoogleName).setData(["viww": "view"])
         CountViews()
@@ -195,22 +296,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
     }
     
-    @IBAction func likeButton(_ sender: UIButton) {
-         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        print(myGoogleName)
-//        if segue.identifier == "allPostDetailBycell"{
-//                            let detailVcByCell = segue.destination as! allPostDetailBycell
-        let pointInTable: CGPoint = sender.convert(CGPoint.zero, to: self.tableview)
-        guard let  indexPath = self.tableview.indexPathForRow(at: pointInTable)  else {return}
-//        let postUUID = self.data[indexPath.row].postUUID
-//        db.collection("user").document(myGoogleName).collection("FavoriteList").document("\(self.data[indexPath.row].postUUID)").setData(["ee":123])
-       
-//        db.collection("userPost").document("\(self.data[indexPath.row].postUUID)").setData(["favoriteCounts": +1],merge: true)
-          db.collection("userPost").document(self.data[indexPath.row].postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
-        print(self.data[indexPath.row].productName)
-        favotireCounts(uuid: self.data[indexPath.row].postUUID)
-                          
-    }
+  
     func favotireCounts (uuid:String){
      
          
@@ -245,9 +331,63 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //           return true
 //       }
   
+    @IBAction func searchButton(_ sender: UIButton) {
+        
+       }
     
- 
- 
+    
+    @IBOutlet weak var btn1: UIButton!
+    @IBOutlet weak var btn2: UIButton!
+    @IBOutlet weak var btn3: UIButton!
+    @IBOutlet weak var btn4: UIButton!
+    @IBOutlet weak var btn5: UIButton!
+    @IBOutlet weak var btn6: UIButton!
+    @IBOutlet weak var btn7: UIButton!
+    @IBOutlet weak var btn8: UIButton!
+    @IBOutlet weak var btn9: UIButton!
+    @IBOutlet weak var btn10: UIButton!
+    
+    
+    @IBAction func btn1(_ sender: Any) {
+        initButton()
+        btn1.setImage(UIImage(named: "heart.fill"), for: .normal)
+//        btn1.backgroundColor = .gray
+        btn1.alpha = 0.6
+        selectCategoryLabel.text = "btn1"
+        
+    }
+    @IBAction func btn2(_ sender: Any) {
+        initButton()
+               selectCategoryLabel.text = "btn2"
+    }
+    @IBAction func btn3(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn4(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn5(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn6(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn7(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn8(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn9(_ sender: Any) {
+        initButton()
+    }
+    @IBAction func btn10(_ sender: Any) {
+        initButton()
+    }
+    
+    func initButton(){
+         Buttoninit(btn1: btn1, btn2: btn2, btn3: btn3, btn4: btn4, btn5: btn5, btn6: btn6, btn7: btn7, btn8: btn8, btn9: btn9, btn10: btn10)
+    }
     
     
 }

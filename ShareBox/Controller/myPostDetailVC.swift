@@ -30,10 +30,8 @@ class myPostDetailVC: UIViewController  {
         super.viewDidLoad()
         
         activityIndicator.startAnimating()
- 
-       
         let filter: String! = self.data.postUUID
-        print(filter!)
+        
         let e :[String:Any] = ["viewcCount":12]
         db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
              

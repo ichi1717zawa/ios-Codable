@@ -32,7 +32,7 @@ class PostDetailVC: UIViewController      {
 //        self.postimage.image = UIImage(named: "photo.fill")
         let receiveAnnotation = annotation as! AnnotationDetail
         let filter: String! = receiveAnnotation.postUUID
-        print(filter!)
+         
         let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
         let query = CKQuery(recordType: "Note", predicate: predicate)
         
