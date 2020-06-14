@@ -301,7 +301,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        sharepost.data.append(postinformation)
 //        print(annotatiobox?.latitude)
             DispatchQueue.main.async {
-                
+                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
                 guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
                 //                let authResultEmail = "qweqwe"
                 
@@ -318,7 +318,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "postCategory":self.didselect  ?? "N/A" ,
                             "userLocation":self.locationTextField.text  ?? "N/A" ,
                             "postIntroduction":self.Introduction.text  ?? "N/A" ,
-                            "googleName":GIDSignIn.sharedInstance()?.currentUser.profile.name ?? "N/A",
+                            "googleName":myGoogleName ,
                             "postUUID":  postUUID ,
                             "postTime":currentTime.share.time(),
                             "timeStamp": Timestamp(date: Date()),
@@ -327,11 +327,19 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "favoriteCounts":0,
                             "userShortLocation":adressdata]
                         
+                        //save to allpost
                         self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
                             if let e = error{
                                 print("Error=\(e)")
                             }
                         }
+                        //save to mypost
+                        self.db.collection("user").document(myGoogleName).collection("myPost").document(postUUID).setData(["we":1]) { (error) in
+                            if let e = error{
+                                print("Error=\(e)")
+                            }
+                        }
+                        
                         self.sharepost.saveData()
                         DispatchQueue.main.async {
                             self.navigationController?.popViewController(animated: true)

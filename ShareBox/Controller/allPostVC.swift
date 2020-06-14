@@ -14,6 +14,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       
     }
     
+    @IBOutlet weak var hidenTopItem: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var SearchMap: UISearchBar!
     let db = Firestore.firestore()
@@ -22,6 +23,14 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
+    @IBAction func swipe(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .down{
+            print("e")
+        }
+        
+      
+    }
+   
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
@@ -33,25 +42,21 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         
-        
-        
-       
+         
         return allPostcell
         
     }
     
-
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        SearchMap.placeholder = "qwe"
-        SearchMap.delegate = self
         
-        
+      
       
         
        queryFirestore()
     }
-    
+   
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
@@ -77,7 +82,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                      self.updateCount(documentID: documentID)
                     if change.type == .added{
                        
-                   let postdetail = allPostModel(categoryImage: UIImage(named: "test")!,
+                   let postdetail = allPostModel(categoryImage: UIImage(named: "testqq")!,
                     likeImage: UIImage(named: "pointRed")!,
                     buildTime: change.document.data()["postTime"] as? String ?? "N/A",
                     subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -91,17 +96,17 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
                     userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A")
                         
-//                                    let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
-//                                                                      Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
-//                                                                      coordinate: annotationCoordinate,
-//                                                                      postIntroduction: change.document.data()["postIntroduction"] as? String ?? "N/A",
-//                                                                      nickName: change.document.data()["Name"] as? String ?? "N/A",
-//                                                                      postCategory: change.document.data()["postCategory"] as? String ?? "N/A",
-//                                                                      userLocation:change.document.data()["userLocation"] as? String ?? "N/A",
-//                                                                      googleName: change.document.data()["googleName"] as? String ?? "N/A",
-//                                                                      postUUID: change.document.data()["postUUID"] as? String ?? "N/A")
-//                                    self.mapKitView.addAnnotation(annotation)
-              
+//let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
+//Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
+//coordinate: annotationCoordinate,
+//postIntroduction: change.document.data()["postIntroduction"] as? String ?? "N/A",
+//nickName: change.document.data()["Name"] as? String ?? "N/A",
+//postCategory: change.document.data()["postCategory"] as? String ?? "N/A",
+//userLocation:change.document.data()["userLocation"] as? String ?? "N/A",
+//googleName: change.document.data()["googleName"] as? String ?? "N/A",
+//postUUID: change.document.data()["postUUID"] as? String ?? "N/A")
+// self.mapKitView.addAnnotation(annotation)
+
                         self.data.append(postdetail)
                         
                         self.tableview.reloadData()
@@ -213,6 +218,37 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
              self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
          }
      }
+    
+     
+
+//
+        
+    
+//    @IBAction func swiftSwipeAction(_ sender: UISwipeGestureRecognizer) {
+//        UIView.animate(withDuration: 0.6) {
+//         self.hidenTopItem.alpha = 1
+//          }
+//        self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
+//         print("down")
+//    }
+ 
+//    @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
+//        print("UP")
+////        UIView.animate(withDuration: 0.3) {
+////        self.hidenTopItem.alpha = 1
+////            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+////         }
+//
+//
+//    }
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//           return true
+//       }
+  
+    
+ 
+ 
+    
     
 }
  
