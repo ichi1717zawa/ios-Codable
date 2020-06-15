@@ -55,10 +55,11 @@ class PostDetailVC: UIViewController      {
         }
  
         CoredataShare.share.loadData()
-        categoryLabel.text = receiveAnnotation.postCategory ?? "qwe"
-        niceNameLabel.text = receiveAnnotation.nickName ?? "qwe"
-        userLocationLabel.text = receiveAnnotation.userLocation ?? "qwe"
-        discriptionLabel.text = receiveAnnotation.postIntroduction ?? "eqwe"
+//        categoryLabel.text = receiveAnnotation.postCategory ?? "qwe"
+        categoryLabel.text = receiveAnnotation.title
+//        niceNameLabel.text = receiveAnnotation.nickName ?? "qwe"
+//        userLocationLabel.text = receiveAnnotation.userLocation ?? "qwe"
+//        discriptionLabel.text = receiveAnnotation.postIntroduction ?? "eqwe"
         self.receiverAnnotationData = receiveAnnotation
     }
      
@@ -75,8 +76,8 @@ class PostDetailVC: UIViewController      {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
           if segue.identifier == "personalMessageWithMap"{
               let personalMessage = segue.destination as! chatTable
-            personalMessage.otherGoogleName = self.receiverAnnotationData?.googleName ?? "N/A"
-            personalMessage.otherNickName = self.receiverAnnotationData?.nickName ?? "N/A"
+//            personalMessage.otherGoogleName = self.receiverAnnotationData?.googleName ?? "N/A"
+//            personalMessage.otherNickName = self.receiverAnnotationData?.nickName ?? "N/A"
           }
       }
     

@@ -23,6 +23,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     @IBOutlet weak var mapKitView: MKMapView!
     let locationManager = CLLocationManager()
     var annotation : MKAnnotation?
+    var postUUID : String?
     
     //MARK: -> viewDidLoad
     override func viewDidLoad() {
@@ -66,10 +67,15 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "postDetail"{
-            let detailVC = segue.destination as! PostDetailVC
-            detailVC.image = self.didImage
+            let detailVC = segue.destination as! allPostDetailBycell
+            detailVC.postUUID = self.postUUID
             detailVC.annotation = self.annotation
         }
+//        if segue.identifier == "postDetail"{
+//            let detailVC = segue.destination as! PostDetailVC
+//            detailVC.image = self.didImage
+//            detailVC.annotation = self.annotation
+//        }
     }
     
     //MARK: -> didSelect
@@ -77,6 +83,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         
         //        mapView.removeAnnotation(view.annotation as! MKAnnotation)
         let annotation = view.annotation as! AnnotationDetail
+        self.postUUID = annotation.postUUID
         self.annotation = annotation
         
         
@@ -175,18 +182,21 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         annotationCoordinate.latitude += 0.0001
                         print(annotationCoordinate.latitude)
                         annotationCoordinate.longitude += 0.0001
-                        
-                        let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
-                                                          Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
-                                                          coordinate: annotationCoordinate,
-                                                          postIntroduction: change.document.data()["postIntroduction"] as? String ?? "N/A",
-                                                          nickName: change.document.data()["Name"] as? String ?? "N/A",
-                                                          postCategory: change.document.data()["postCategory"] as? String ?? "N/A",
-                                                          userLocation:change.document.data()["userLocation"] as? String ?? "N/A",
-                                                          googleName: change.document.data()["googleName"] as? String ?? "N/A",
-                                                          postUUID: change.document.data()["postUUID"] as? String ?? "N/A",
-                                                          postTime: change.document.data()["postTime"] as? String ?? "N/A",
-                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
+//                        let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
+//                                                          Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
+//                                                          coordinate: annotationCoordinate,
+//                                                          postIntroduction: change.document.data()["postIntroduction"] as? String ?? "N/A",
+//                                                          nickName: change.document.data()["Name"] as? String ?? "N/A",
+//                                                          postCategory: change.document.data()["postCategory"] as? String ?? "N/A",
+//                                                          userLocation:change.document.data()["userLocation"] as? String ?? "N/A",
+//                                                          googleName: change.document.data()["googleName"] as? String ?? "N/A",
+//                                                          postUUID: change.document.data()["postUUID"] as? String ?? "N/A",
+//                                                          postTime: change.document.data()["postTime"] as? String ?? "N/A",
+//                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
+                        let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
+                                                                                coordinate: annotationCoordinate,
+                                                                                postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
+                                                                                )
                         self.mapKitView.delegate = self
                         self.mapKitView.addAnnotation(annotation)
                         self.data.append(annotation)

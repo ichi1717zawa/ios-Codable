@@ -8,7 +8,7 @@
 import UIKit
 
 class allPostDetail: UITableViewCell {
-    @IBOutlet weak var categoryImage: UIImageView!
+    @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var buildTime: UILabel!
     @IBOutlet weak var subTitle: UILabel!

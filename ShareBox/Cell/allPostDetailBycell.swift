@@ -10,6 +10,7 @@ class allPostDetailBycell: UIViewController      {
     var db = Firestore.firestore()
     var annotation : MKAnnotation?
     var tempIndex : IndexPath!
+    var postUUID : String?
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
@@ -22,71 +23,92 @@ class allPostDetailBycell: UIViewController      {
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
-    
+    var  postGoolgeName :String?
+      
+    var postNickName:String?
     override func viewDidLoad() {
         super.viewDidLoad()
         queryData()
-        print(self.data.viewsCount)
         activityIndicator.startAnimating()
  
        
-        let filter: String! = self.data.postUUID
+        let filter: String! =  self.postUUID ?? self.data.postUUID
         print(filter!)
-        let e :[String:Any] = ["viewcCount":12]
-        db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
-             
-         
-        }
-        
-        let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
-        let query = CKQuery(recordType: "Note", predicate: predicate)
+//        let e :[String:Any] = ["viewcCount":12]
+//        db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
 //
-        database.perform(query, inZoneWith: nil) { (records, _) in
-            guard var records = records else {return}
-            for record in records{
+//
+//        }
+        
+      
+        
+        
+        self.db.collection("userPost").whereField("postUUID", isEqualTo: self.postUUID ?? self.data.postUUID  ).getDocuments { (data, error) in
+            if let e = error{
+                print(e)
+            }
+            guard let data = data else {return}
+            for i in data.documents{
+            let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
+                   let query = CKQuery(recordType: "Note", predicate: predicate)
+            self.database.perform(query, inZoneWith: nil) { (records, _) in
+                       guard let records = records else {return}
+                       for record in records{ 
+                           let asset = record["myphoto"] as! CKAsset
+                        let imageData = NSData(contentsOf: asset.fileURL!) 
+                           let image = UIImage(data: imageData! as Data)
 
-                let asset = record["myphoto"] as! CKAsset
-                let imageData = NSData(contentsOf: asset.fileURL!)
-                let image = UIImage(data: imageData! as Data)
-
-                DispatchQueue.main.async {
-                    self.postimage.image = image
-                    self.maskView.alpha = 0
-                    self.activityIndicator.stopAnimating()
-                    self.activityIndicator.alpha = 0
-                    self.clearCache()
-                }
+                           DispatchQueue.main.async {
+                               self.postimage.image = image
+                               self.maskView.alpha = 0
+                               self.activityIndicator.stopAnimating()
+                               self.activityIndicator.alpha = 0
+                               self.clearCache()
+                           }
+                       }
+                   }
+                self.categoryLabel.text = i.data()["postCategory"] as? String
+                self.niceNameLabel.text = i.data()["Name"] as? String
+                self.userLocationLabel.text = i.data()["userLocation"] as? String
+                self.discriptionLabel.text = i.data()["postIntroduction"] as? String
+                self.productName.text = i.data()["productName"] as? String
+                self.postGoolgeName = i.data()["googleName"] as? String
+                self.postNickName = i.data()["Name"] as? String
             }
         }
+//
+       
  
 //        CoredataShare.share.loadData()
 //        categoryLabel.text = self.data[self.tempIndex.row].Title
 //        niceNameLabel.text = self.data[self.tempIndex.row].postNickName
 //        userLocationLabel.text = self.data[self.tempIndex.row].postUUID
 //        discriptionLabel.text = self.data[self.tempIndex.row].subTitle
-        categoryLabel.text = self.data.Title
-        niceNameLabel.text = self.data.postNickName
-        userLocationLabel.text = self.data.userLocation
-        discriptionLabel.text = self.data.subTitle
-        productName.text = self.data.productName
+        
+//        categoryLabel.text = self.data.Title
+//        niceNameLabel.text = self.data.postNickName
+//        userLocationLabel.text = self.data.userLocation
+//        discriptionLabel.text = self.data.subTitle
+//        productName.text = self.data.productName
+        
 //        self.receiverAnnotationData = receiveAnnotation
     }
      
 
     
     @IBAction func sendMessage(_ sender: Any) {
-        var myNickName :String!
+//        var myNickName :String!
          print("click sendMessageButton")
 
         
 //        performSegue(withIdentifier: "personalMessageWithMap", sender: nil)
     }
-    
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
           if segue.identifier == "personalMessageWithCell"{
               let personalMessage = segue.destination as! chatTable
-            personalMessage.otherGoogleName = self.data.postGoolgeName ?? "N/A"
-            personalMessage.otherNickName = self.data.postNickName ?? "N/A"
+            personalMessage.otherGoogleName = self.postGoolgeName ?? self.data.postGoolgeName
+            personalMessage.otherNickName =  self.postNickName ??  self.data.postNickName
           }
       }
     
@@ -111,7 +133,7 @@ class allPostDetailBycell: UIViewController      {
                    }
     func clearCache(){
 
-          let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit")
+        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit")
             let fileManager = FileManager.default
             do {
                 // Get the directory contents urls (including subfolders urls)
@@ -138,13 +160,13 @@ class allPostDetailBycell: UIViewController      {
          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         if self.favoriteButton.currentTitle == "inDatabase"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
-            self.db.collection("userPost").document(self.data.postUUID).collection("favoriteCounts").document(myGoogleName).delete()
-            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.data.postUUID).delete()
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myGoogleName).delete()
+            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
             
         }else{
             self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
-            self.db.collection("userPost").document(self.data.postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
-            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.data.postUUID).setData(["Myfavorite": "Null"])
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
+            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
         }
         //        if segue.identifier == "allPostDetailBycell"{
         //                            let detailVcByCell = segue.destination as! allPostDetailBycell
@@ -163,7 +185,7 @@ class allPostDetailBycell: UIViewController      {
             guard let query = query else {return}
             for i in query.documents{
                 print(i.documentID)
-                if i.documentID == self.data.postUUID {
+                if i.documentID == self.postUUID ?? self.data.postUUID {
                     self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
                     self.favoriteButton.setTitle("inDatabase", for: .normal)
                 }

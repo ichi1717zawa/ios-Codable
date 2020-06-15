@@ -16,6 +16,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     let db = Firestore.firestore()
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    @IBOutlet weak var testimage: UIImageView!
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error{print("登入錯誤\(error)"); return  }
         guard let authentication = user.authentication else { return }
@@ -67,6 +68,12 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
        let locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad() 
+        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("50943AB7-D39D-44C3-9308-956ED6B50390.01c0978ce2db7a8997756143f682dbe2133a957ee1")
+        print(cacheURL)
+        
+        let imageData = NSData(contentsOf: cacheURL)
+        
+         
         
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
      

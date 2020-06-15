@@ -58,11 +58,11 @@ import Firebase
  
         func queryFirestore(){
             guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
+              
 
 
 
-
-            self.db.collection("userPost").whereField("Name", isEqualTo: "花滿").addSnapshotListener { (data, error) in
+            self.db.collection("userPost").whereField("googleName", isEqualTo: myGoogleName).addSnapshotListener { (data, error) in
                 guard let data = data?.documentChanges else {return}
     
                 for query in data {
@@ -82,7 +82,8 @@ import Firebase
                                                 productName:query.document.data()["productName"] as? String ?? "N/A",
                                                 userLocation: query.document.data()["userLocation"] as? String ?? "N/A",
                                                 userShortLocation:query.document.data()["userShortLocation"] as? String ?? "N/A",
-                                                favoriteCount: query.document.data()["favoriteCounts"] as? Int ?? 0)
+                                                favoriteCount: query.document.data()["favoriteCounts"] as? Int ?? 0,
+                                                mainCategory: query.document.data()["mainCategory"] as? String ?? "N/A")
 
                         
                         

@@ -9,7 +9,7 @@
 import Foundation
 
 
-class currentTime  {
+class currentTime    {
     static var share = currentTime()
     func time() -> String{
     let now = Date()

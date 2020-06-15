@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import CloudKit
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
     func updateSearchResults(for searchController: UISearchController) {
       
@@ -18,7 +19,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var tableview: UITableView! 
     @IBOutlet weak var serchMap: UITextField!
     @IBOutlet weak var selectCategoryLabel: UILabel!
-    
+    let database = CKContainer.default().publicCloudDatabase
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
@@ -26,7 +27,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         return data.count
     }
  
-   
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
@@ -34,7 +35,23 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
 //        allPostcell.likeImage.image = data.likeImage
-        allPostcell.categoryImage.image = data.categoryImage
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(data.postUUID)")
+        if FileManager.default.fileExists(atPath: url.path){
+             let image = UIImage(contentsOfFile: url.path)
+            allPostcell.postImage.image = image
+        }else{
+            DispatchQueue.global().async {
+                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
+                           DispatchQueue.main.async {
+                               allPostcell.postImage.image = image
+
+                           }
+
+                       }
+                   }
+        }
+
+           
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
@@ -43,7 +60,23 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         return allPostcell
         
     }
-    
+    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
+                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
+              let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
+                             let query = CKQuery(recordType: "Note", predicate: predicate)
+            
+                      self.database.perform(query, inZoneWith: nil) { (records, _) in
+                                 guard let records = records else {return}
+                                 for record in records{
+                                     let asset = record["myphoto"] as! CKAsset
+                                    let imageData = NSData(contentsOf: asset.fileURL!)
+                                    imageData?.write(to: url, atomically: true)
+                                     let image = UIImage(data: imageData! as Data)
+                                  complite(image!)
+                                    
+                              }
+                  }
+          }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
            textField.resignFirstResponder()
            return true

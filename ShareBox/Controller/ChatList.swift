@@ -33,7 +33,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         queryFirestore()
-        updatePersonalUnreadCounts()
+//        updatePersonalUnreadCounts()
     }
     
     
@@ -57,7 +57,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     chatlist.unreadCount = change.document.data()["unRead"] as? String
                     self.chatData.insert(chatlist, at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
-                    self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
+//                    self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
                     self.tabBarItem.badgeValue = String(self.allUnreadCounts)
                 }
                 else if change.type == .modified{ //修改

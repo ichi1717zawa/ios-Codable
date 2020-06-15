@@ -107,7 +107,18 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             }
         }
     }
-    
+
+     func currentTime () -> String   {
+         
+        
+         let now = Date()
+         let dateformatter = DateFormatter()
+         dateformatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
+         let currentTime = dateformatter.string(from: now)
+         
+         return currentTime
+         
+     }
     
     @IBAction func sendMessage(_ sender: Any) {
 //
@@ -116,18 +127,19 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        }
         //*************以下送訊息以上參考
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        //        let otherNickName = self.receiveMessageNickname!
-      
+//        print(myGoogleName)
+//        //        let otherNickName = self.receiveMessageNickname!
+//
         let sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
         let receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
-        
+//
         self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).setData(["otherGoogleName":self.otherGoogleName ?? "N/A"
         ]) { (error) in
-            self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(currentTime.share.time()).setData(sendParameter)
+            self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(self.currentTime ()).setData(sendParameter)
         }
-        
+
         self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).setData(["otherGoogleName":myGoogleName]) { (error) in
-            self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).collection("Message").document(currentTime.share.time()).setData(receiveParameter)
+            self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
         }
         self.textField.text = ""
     }
