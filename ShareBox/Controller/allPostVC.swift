@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import CloudKit
+import FirebaseStorage
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
     func updateSearchResults(for searchController: UISearchController) {
       
@@ -31,24 +32,45 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
-        var data = self.data[indexPath.row]
+        let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
 //        allPostcell.likeImage.image = data.likeImage
-        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(data.postUUID)")
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
+        
         if FileManager.default.fileExists(atPath: url.path){
-             let image = UIImage(contentsOfFile: url.path)
+//            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
+//            let deCompressData = try? NSData(contentsOf: url).decompressed(using: .lzma)
+            let image = UIImage(contentsOfFile: url.path)
+            
+//            let Newimage = UIImage(data: image as! Data)
             allPostcell.postImage.image = image
+            
         }else{
+            let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+            let imageRef = ref.child("images/\(data.postUUID)")
+            imageRef.write(toFile: url) { (url, error) in
+                if let e = error{
+                    print("下載圖檔有錯誤\(e)")
+                }else{
+                    print("下載成功")
+                    
+                    let image = UIImage(contentsOfFile: url!.path)
+                    //                                        let newImageData = decompressData as Data
+                    allPostcell.postImage.image = image
+                }
+                
+            }
+            
             DispatchQueue.global().async {
-                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
-                           DispatchQueue.main.async {
-                               allPostcell.postImage.image = image
-
-                           }
-
-                       }
-                   }
+//                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
+//                           DispatchQueue.main.async {
+//                               allPostcell.postImage.image = image
+//
+//                        }
+//                }
+                 
+            }
         }
 
            
@@ -60,19 +82,26 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         return allPostcell
         
     }
+    
     func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
                   let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
               let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
                              let query = CKQuery(recordType: "Note", predicate: predicate)
-            
+
                       self.database.perform(query, inZoneWith: nil) { (records, _) in
                                  guard let records = records else {return}
                                  for record in records{
                                      let asset = record["myphoto"] as! CKAsset
-                                    let imageData = NSData(contentsOf: asset.fileURL!)
-                                    imageData?.write(to: url, atomically: true)
-                                     let image = UIImage(data: imageData! as Data)
-                                  complite(image!)
+//                                    let imageData = NSData(contentsOf: asset.fileURL!)
+                                    let compressedData =  NSData(contentsOf: asset.fileURL!)
+                                    try? compressedData?.write(to: url, options: .atomicWrite)
+//                                    imageData?.write(to: url, atomically: true)
+//                                     let image = UIImage(data: imageData! as Data)
+//                                    let image = UIImage(data: compressedData as! Data)
+//                                    complite(image!)
+                                    DispatchQueue.main.async {
+                                        self.tableview.reloadData()
+                                    }
                                     
                               }
                   }

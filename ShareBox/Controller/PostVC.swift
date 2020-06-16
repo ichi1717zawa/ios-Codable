@@ -13,6 +13,7 @@ import MapKit
 import Firebase
 import GoogleSignIn
 import CloudKit
+import FirebaseStorage
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
     
     @IBOutlet weak var maskView: UIView!
@@ -231,28 +232,51 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
     
     
+    
+    func pushDataToGoogle (data:Data,uuid:String){
+         let data = data
+                       
+                      
+          let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+        let imageRef = ref.child("images/\(uuid)")
+        let task = imageRef.putData(data as Data,metadata: nil){(metadata,error)in
+              if let error = error{
+                  print("uplad image fail\(error)")
+              }
+          }
+          task.resume()
+                      
+                  
+    }
     //MARK: ->done送出
     @IBAction func done(_ sender: Any) {
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
             
         
         let postUUID =  UUID().uuidString
-//
-            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let image = thumbImage.jpegData(compressionQuality: 0.1) else {return}
-             let fileName = "123.jpg"
-            let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
-        try? image.write(to: filePath!,options: [.atomic])
-        let myphoto = CKAsset(fileURL: filePath!)
-            self.newNote.setValue(myphoto, forKey: "myphoto")
-        self.newNote.setValue(postUUID, forKey: "content")
-            self.database.save(self.newNote) { (record, error) in
-               if let error = error{
-                   print(error)
-               }
-               guard   record  != nil else { return }
-               
-               print("saved record")
+            let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
+            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+            try? imageData.write(to: filePath2!, options: .atomicWrite)
+//             let fileName = "tempImage.jpg"
+//            let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
             
+//        try? image.write(to: filePath2!,options: [.atomic])
+            
+            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
+            self.pushDataToGoogle(data: imageData, uuid: postUUID)
+            
+//            try? compressData?.write(to: filePath2!, options: .atomicWrite)
+//        let myphoto = CKAsset(fileURL: filePath!)
+//            let compressedData = CKAsset(fileURL: filePath2!)
+//            self.newNote.setValue(compressedData, forKey: "myphoto")
+//        self.newNote.setValue(postUUID, forKey: "content")
+//            self.database.save(self.newNote) { (record, error) in
+//               if let error = error{
+//                   print(error)
+//               }
+//               guard   record  != nil else { return }
+//               print("saved record")
+                
 //        var annotatiobox : CLLocationCoordinate2D?
 //            let request = NSFetchRequest<PostInfomation>(entityName: "Post")
 //
@@ -353,7 +377,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
             }
         }
-    }
+//    }
 
     
  
@@ -409,7 +433,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
        func thumbnailImage(image:UIImage)->UIImage?{
 
-            let thumbnailSize = CGSize(width: self.imageview.frame.size.width,height: self.imageview.frame.size.height); //設定縮圖大小
+            let thumbnailSize = CGSize(width: self.imageview.frame.size.width   ,
+                                       height: self.imageview.frame.size.height   ); //設定縮圖大小
                    let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
                    //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
                    UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
