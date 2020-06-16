@@ -5,6 +5,7 @@ import MapKit
 import Firebase
 import GoogleSignIn
 import CloudKit
+ import FirebaseStorage
  protocol myPostDetailDeleate: class {
     func Update(data:allPostModel)
  }
@@ -32,33 +33,67 @@ class myPostDetailVC: UIViewController  {
         activityIndicator.startAnimating()
         let filter: String! = self.data.postUUID
         
-        let e :[String:Any] = ["viewcCount":12]
-        db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
-             
-         
-        }
-        
-        let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
-        let query = CKQuery(recordType: "Note", predicate: predicate)
+//        let e :[String:Any] = ["viewcCount":12]
+//        db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
 //
-        database.perform(query, inZoneWith: nil) { (records, _) in
-            guard var records = records else {return}
-            for record in records{
-
-                let asset = record["myphoto"] as! CKAsset
-                let imageData = NSData(contentsOf: asset.fileURL!)
-                let image = UIImage(data: imageData! as Data)
-
-                DispatchQueue.main.async {
-                    self.postimage.image = image
-                    self.maskView.alpha = 0
-                    self.activityIndicator.stopAnimating()
-                    self.activityIndicator.alpha = 0
-                    self.clearCache()
-                }
-            }
-        }
- 
+//
+//        }
+        
+//        let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
+//        let query = CKQuery(recordType: "Note", predicate: predicate)
+////
+//        database.perform(query, inZoneWith: nil) { (records, _) in
+//            guard var records = records else {return}
+//            for record in records{
+//
+//                let asset = record["myphoto"] as! CKAsset
+//                let imageData = NSData(contentsOf: asset.fileURL!)
+//                let image = UIImage(data: imageData! as Data)
+//
+//                DispatchQueue.main.async {
+//                    self.postimage.image = image
+//                    self.maskView.alpha = 0
+//                    self.activityIndicator.stopAnimating()
+//                    self.activityIndicator.alpha = 0
+//                    self.clearCache()
+//                }
+//            }
+//        }
+   let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
+        if FileManager.default.fileExists(atPath: url.path){
+               //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
+               //            let deCompressData = try? NSData(contentsOf: url).decompressed(using: .lzma)
+                           let image = UIImage(contentsOfFile: url.path)
+                           
+               //            let Newimage = UIImage(data: image as! Data)
+                           postimage.image = image
+                           
+                       }else{
+                           let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+                           let imageRef = ref.child("images/\(data.postUUID)")
+                           imageRef.write(toFile: url) { (url, error) in
+                               if let e = error{
+                                   print("下載圖檔有錯誤\(e)")
+                               }else{
+                                   print("下載成功")
+                                   
+                                   let image = UIImage(contentsOfFile: url!.path)
+                                   //                                        let newImageData = decompressData as Data
+                                self.postimage.image = image
+                               }
+                               
+                           }
+                           
+                           DispatchQueue.global().async {
+               //                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
+               //                           DispatchQueue.main.async {
+               //                               allPostcell.postImage.image = image
+               //
+               //                        }
+               //                }
+                                
+                           }
+                       }
 //        CoredataShare.share.loadData()
 //        categoryLabel.text = self.data[self.tempIndex.row].Title
 //        niceNameLabel.text = self.data[self.tempIndex.row].postNickName

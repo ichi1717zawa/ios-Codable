@@ -16,6 +16,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       
     }
     
+    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var hidenTopItem: UIView!
     @IBOutlet weak var tableview: UITableView! 
     @IBOutlet weak var serchMap: UITextField!
@@ -24,9 +25,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
+    
  
 
     
@@ -83,29 +88,29 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
     }
     
-    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
-                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
-              let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
-                             let query = CKQuery(recordType: "Note", predicate: predicate)
-
-                      self.database.perform(query, inZoneWith: nil) { (records, _) in
-                                 guard let records = records else {return}
-                                 for record in records{
-                                     let asset = record["myphoto"] as! CKAsset
-//                                    let imageData = NSData(contentsOf: asset.fileURL!)
-                                    let compressedData =  NSData(contentsOf: asset.fileURL!)
-                                    try? compressedData?.write(to: url, options: .atomicWrite)
-//                                    imageData?.write(to: url, atomically: true)
-//                                     let image = UIImage(data: imageData! as Data)
-//                                    let image = UIImage(data: compressedData as! Data)
-//                                    complite(image!)
-                                    DispatchQueue.main.async {
-                                        self.tableview.reloadData()
-                                    }
-                                    
-                              }
-                  }
-          }
+//    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
+//                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
+//              let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
+//                             let query = CKQuery(recordType: "Note", predicate: predicate)
+//
+//                      self.database.perform(query, inZoneWith: nil) { (records, _) in
+//                                 guard let records = records else {return}
+//                                 for record in records{
+//                                     let asset = record["myphoto"] as! CKAsset
+////                                    let imageData = NSData(contentsOf: asset.fileURL!)
+//                                    let compressedData =  NSData(contentsOf: asset.fileURL!)
+//                                    try? compressedData?.write(to: url, options: .atomicWrite)
+////                                    imageData?.write(to: url, atomically: true)
+////                                     let image = UIImage(data: imageData! as Data)
+////                                    let image = UIImage(data: compressedData as! Data)
+////                                    complite(image!)
+//                                    DispatchQueue.main.async {
+//                                        self.tableview.reloadData()
+//                                    }
+//
+//                              }
+//                  }
+//          }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
            textField.resignFirstResponder()
            return true
@@ -116,7 +121,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         super.viewDidLoad()
         
       
-      
+       
         
        queryFirestore()
         queryfavoriteCounts()
@@ -344,6 +349,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     }
                    
                   }
+                 if segue.identifier == "tappMapByAllpostButton"{
+                     let  MapData = segue.destination as! MapVC
+                    MapData.mainCategory =  selectCategoryLabel.text
+                    MapData.Adress = serchMap.text
+                    
+                }
+                
               }
     @IBAction func oderByViews(_ sender: Any) {
         self.data.removeAll()
@@ -392,11 +404,33 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 //           return true
 //       }
-  
+   
     @IBAction func searchButton(_ sender: UIButton) {
-        
+         
+        if self.serchMap.text?.isEmpty == false && selectCategoryLabel.text?.isEmpty == false {
+           performSegue(withIdentifier: "tappMapByAllpostButton", sender: nil)
+            
+        } else if self.serchMap.text?.isEmpty == true && selectCategoryLabel.text?.isEmpty == false  {
+            AlertMessage = "地址尚未填寫"
+             saveTextfield(ShowAlertMessage: AlertMessage)
+        }
+        else if self.serchMap.text?.isEmpty == false && selectCategoryLabel.text?.isEmpty == true{
+            AlertMessage = "種類尚未選擇"
+            saveTextfield(ShowAlertMessage: AlertMessage)
+        }else{
+            AlertMessage = "請填寫地址並選擇種類"
+              saveTextfield(ShowAlertMessage: AlertMessage)
+            } 
+         
        }
     
+    func saveTextfield(ShowAlertMessage show:String ) {
+            let alerController = UIAlertController(title: nil, message: show, preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "確定", style: .default, handler: nil)
+             alerController.addAction(OKAction)
+             present(alerController,animated: true)
+          }
+    var AlertMessage:String!
     
     @IBOutlet weak var btn1: UIButton!
     @IBOutlet weak var btn2: UIButton!
@@ -409,42 +443,91 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var btn9: UIButton!
     @IBOutlet weak var btn10: UIButton!
     
+  // ["物品種類","書籍文具票券","3c產品","玩具電玩","生活居家與家電","影視音娛樂","飲品食品","保養彩妝","男裝配件","女裝婦幼"]
     
+//"ALL"
+//"書籍文具票券"
+//"3c產品"
+//"玩具電玩"
+//"生活居家與家電"
+//"影視音娛樂"
+//"飲品食品"
+//"保養彩妝"
+//"男裝配件"
+//"女裝婦幼"
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(true)
+//           categoryViewControl.center.x = super.view.center.x
+//           searchButton.alpha = 0
+//           initButton()
+       }
+    
+    @IBOutlet weak var eee: UIStackView!
+    @IBOutlet weak var weqwe: UIStackView!
+    @IBAction func tap(_ sender: Any) {
+       
+    }
+ 
+    func pressCategoryButton(button:UIButton){
+//        UIView.animate(withDuration: 0.3) {
+//            self.initButton()
+//                 self.categoryViewControl.frame.origin.x = super.view.frame.origin.x
+//                 self.searchButton.alpha = 1
+//                 button.alpha = 0.6
+//             }
+    }
+    @IBOutlet weak var df: UIButton!
     @IBAction func btn1(_ sender: Any) {
-        initButton()
-        btn1.setImage(UIImage(named: "heart.fill"), for: .normal)
-//        btn1.backgroundColor = .gray
-        btn1.alpha = 0.6
-        selectCategoryLabel.text = "btn1"
+       
+        weqwe.frame.origin.x = super.view.frame.origin.x
+        selectCategoryLabel.text = "ALL" 
+       pressCategoryButton(button:btn1)
         
     }
     @IBAction func btn2(_ sender: Any) {
-        initButton()
-               selectCategoryLabel.text = "btn2"
+//        initButton()
+        selectCategoryLabel.text = "書籍文具票券"
+      pressCategoryButton(button:btn2)
     }
     @IBAction func btn3(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "3c產品"
+        pressCategoryButton(button: btn3)
     }
     @IBAction func btn4(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "玩具電玩"
+        pressCategoryButton(button: btn4)
     }
     @IBAction func btn5(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "生活居家與家電"
+        pressCategoryButton(button: btn5)
     }
     @IBAction func btn6(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "影視音娛樂"
+        pressCategoryButton(button: btn6)
     }
     @IBAction func btn7(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text =  "飲品食品"
+        pressCategoryButton(button: btn7)
     }
     @IBAction func btn8(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "保養彩妝"
+        pressCategoryButton(button: btn8)
     }
     @IBAction func btn9(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "男裝配件"
+         pressCategoryButton(button: btn9)
     }
     @IBAction func btn10(_ sender: Any) {
-        initButton()
+//        initButton()
+        selectCategoryLabel.text = "女裝婦幼"
+         pressCategoryButton(button: btn10)
     }
     
     func initButton(){

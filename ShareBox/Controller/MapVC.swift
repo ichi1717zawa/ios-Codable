@@ -24,6 +24,10 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     let locationManager = CLLocationManager()
     var annotation : MKAnnotation?
     var postUUID : String?
+    var mainCategory: String?
+    var Adress:String!
+    
+    
     
     //MARK: -> viewDidLoad
     override func viewDidLoad() {
@@ -32,7 +36,13 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         
         
         CoredataSharePost.share.loadData()
+        
+        if mainCategory == "ALL" {
+            queryALLFirestore()
+        }else{
         queryFirestore()
+        }
+        transAdressAndMoveThere(Adress: Adress)
         //        mapKitView.delegate = self
         mapKitView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: "\(AnnotationDetail.self)")
         //        addAnnotation()
@@ -40,6 +50,19 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     }
     
     
+       func transAdressAndMoveThere(Adress:String){
+               let geoLocation = CLGeocoder()
+               geoLocation.geocodeAddressString(Adress
+               ) { (placemarks, error) in
+                   if let error = error{
+                       print(error)
+                   }
+                   
+                   guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+                   var gotoAdress  = cordinate
+                   self.moveRegion(coodinate: gotoAdress)
+           }
+           }
     
     //MARK: -> viewFor
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -154,7 +177,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     
     
     func queryFirestore(){
-        db.collection("userPost").addSnapshotListener { (query, error) in
+        db.collection("userPost").whereField("mainCategory",isEqualTo: mainCategory!).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
             }
@@ -177,10 +200,9 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         }
                         
                         guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
-                        print(cordinate.latitude)
+                         
                         var annotationCoordinate  = cordinate
                         annotationCoordinate.latitude += 0.0001
-                        print(annotationCoordinate.latitude)
                         annotationCoordinate.longitude += 0.0001
 //                        let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
 //                                                          Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -200,36 +222,32 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         self.mapKitView.delegate = self
                         self.mapKitView.addAnnotation(annotation)
                         self.data.append(annotation)
+                       
                         
                         //                                   self.moveRegion(coodinate: cordinate)
                     }
-                    
                 }
-                    
                 else if change.type == .removed{ //刪除
                     if let perAnnotation = self.data.filter({ (perAnnotation) -> Bool in
                         perAnnotation.postUUID == documentID
                     }).first{
-                        
                         //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                         //                            note.imageName = change.document.data()["imageName"] as? String
                         if let index = self.data.index(of: perAnnotation){
                             let indexPath = IndexPath(row: index, section: 0)
                             self.mapKitView.removeAnnotation(self.data[indexPath.row])
                             //                                self.mapKitView.reloadInputViews()
-                            
                             //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
-                            //
+                            
                         }
-                        //
+                       
                     }
-                    //
+                    
                 }
                 
             }
         }
-        
-        
+       
         //              }
         
         
@@ -297,5 +315,143 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         //MARK: -> 尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴
     }
     
-    
+      func queryALLFirestore(){
+            db.collection("userPost").addSnapshotListener { (query, error) in
+                if let error = error{
+                    print("query Faild\(error)")
+                }
+                
+                
+                
+                
+                guard let documentChange = query?.documentChanges else {return}
+                for change in documentChange{
+                    let documentID = change.document.documentID
+                    //處理每一筆更新
+                    if change.type == .added{
+                        
+                        let userLocation =  change.document.data()["userLocation"] as? String ?? "花蓮縣新城鄉北埔村光復路157號"
+                        let geoLocation = CLGeocoder()
+                        geoLocation.geocodeAddressString(userLocation
+                        ) { (placemarks, error) in
+                            if let error = error{
+                                print(error)
+                            }
+                            
+                            guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+                            print(cordinate.latitude)
+                            var annotationCoordinate  = cordinate
+                            annotationCoordinate.latitude += 0.0001
+                            print(annotationCoordinate.latitude)
+                            annotationCoordinate.longitude += 0.0001
+    //                        let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
+    //                                                          Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
+    //                                                          coordinate: annotationCoordinate,
+    //                                                          postIntroduction: change.document.data()["postIntroduction"] as? String ?? "N/A",
+    //                                                          nickName: change.document.data()["Name"] as? String ?? "N/A",
+    //                                                          postCategory: change.document.data()["postCategory"] as? String ?? "N/A",
+    //                                                          userLocation:change.document.data()["userLocation"] as? String ?? "N/A",
+    //                                                          googleName: change.document.data()["googleName"] as? String ?? "N/A",
+    //                                                          postUUID: change.document.data()["postUUID"] as? String ?? "N/A",
+    //                                                          postTime: change.document.data()["postTime"] as? String ?? "N/A",
+    //                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
+                            let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
+                                                                                    coordinate: annotationCoordinate,
+                                                                                    postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
+                                                                                    )
+                            self.mapKitView.delegate = self
+                            self.mapKitView.addAnnotation(annotation)
+                            self.data.append(annotation)
+                            
+                            //                                   self.moveRegion(coodinate: cordinate)
+                        }
+                    }
+                    else if change.type == .removed{ //刪除
+                        if let perAnnotation = self.data.filter({ (perAnnotation) -> Bool in
+                            perAnnotation.postUUID == documentID
+                        }).first{
+                            //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
+                            //                            note.imageName = change.document.data()["imageName"] as? String
+                            if let index = self.data.index(of: perAnnotation){
+                                let indexPath = IndexPath(row: index, section: 0)
+                                self.mapKitView.removeAnnotation(self.data[indexPath.row])
+                                //                                self.mapKitView.reloadInputViews()
+                                //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
+                                
+                            }
+                           
+                        }
+                        
+                    }
+                    
+                }
+            }
+            
+            
+            //              }
+            
+            
+            //監聽資料庫若有異動 通知app修改資料
+            //        func queryFirestoreqq(){
+            //            db.collection("userPost").addSnapshotListener { (query, error) in
+            //                if let error = error{
+            //                    print("query Faild\(error)")
+            //                }
+            //
+            //                guard let documentChange = query?.documentChanges else {return}
+            //                for change in documentChange{
+            //                    //處理每一筆更新
+            //                    let noteID = change.document.documentID //這裡的documentID 是noteID
+            //                    if change.type == .added{
+            //
+            //    //                    if let existNote = self.data.filter { (note) -> Bool in
+            //    //                        note.noteID == noteID
+            //    //                    }.first{
+            //    //                        return
+            //    //                    }  無法過濾，因為新增到雲端時 資料庫的狀態是空的無法判斷
+            //                        //新增
+            //                        let PostInformation = PostInfomation(context: CoredataSharePost.share.myContextPost)
+            //                        PostInformation.postCategory = change.document.data()["postCategory"] as? String ?? "玩具"
+            //                        PostInformation.nickname = change.document.data()["nickName"] as? String ?? ""
+            //                        PostInformation.postID = noteID
+            ////                        self.data.insert(note, at: 0)
+            ////                        let indexPath = IndexPath(row: 0, section: 0)
+            ////                        self.tableView.insertRows(at: [indexPath], with: .automatic)
+            //                    }
+            //                }
+            //            }
+            //    }
+            //
+            //                    else if change.type == .modified{ //修改
+            //                        if let note = self.data.filter({ (note) -> Bool in
+            //                             note.noteID == noteID
+            //                            }).first{
+            //                                note.text = change.document.data()["text"] as? String
+            //                                note.imageName = change.document.data()["imageName"] as? String
+            //                            if let index = self.data.index(of: note){
+            //                                let indexPath = IndexPath(row: index, section: 0)
+            //                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            //                                }
+            //                            }
+            //
+            //                    }
+            //                    else if change.type == .removed{//刪除
+            //                        if let note = self.data.filter({ (note) -> Bool in
+            //                            note.noteID == noteID
+            //                        }).first{
+            //                            if let index = self.data.index(of: note){
+            //                                self.data.remove(at: index)//從data中移除
+            //                                //通知tableView刪除該筆
+            //                                let indexPath = IndexPath(row: index, section: 0)
+            //                                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //
+            //
+            //        }
+            //MARK: -> 尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴
+        }
 }

@@ -3,15 +3,18 @@
  import UIKit
  import Firebase
  import GoogleSignIn
+ import FirebaseStorage
  class myPostDetailCell: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
     func updateSearchResults(for searchController: UISearchController) {
     }
-    
+        @IBOutlet weak var myInfoView: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var selectCategoryLabel: UILabel!
     let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name
     
- 
+    @IBOutlet weak var nickname: UILabel!
+     @IBOutlet weak var userPhoneNumber: UILabel!
+     @IBOutlet weak var googleGamil: UILabel!
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
@@ -26,12 +29,45 @@
         var data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
-//        //        allPostcell.likeImage.image = data.likeImage
         allPostcell.postImage.image = data.categoryImage
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
-         
+           let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
+           if FileManager.default.fileExists(atPath: url.path){
+        //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
+        //            let deCompressData = try? NSData(contentsOf: url).decompressed(using: .lzma)
+                    let image = UIImage(contentsOfFile: url.path)
+                    
+        //            let Newimage = UIImage(data: image as! Data)
+                    allPostcell.postImage.image = image
+                    
+                }else{
+                    let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+                    let imageRef = ref.child("images/\(data.postUUID)")
+                    imageRef.write(toFile: url) { (url, error) in
+                        if let e = error{
+                            print("下載圖檔有錯誤\(e)")
+                        }else{
+                            print("下載成功")
+                            
+                            let image = UIImage(contentsOfFile: url!.path)
+                            //                                        let newImageData = decompressData as Data
+                            allPostcell.postImage.image = image
+                        }
+                        
+                    }
+                    
+                    DispatchQueue.global().async {
+        //                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
+        //                           DispatchQueue.main.async {
+        //                               allPostcell.postImage.image = image
+        //
+        //                        }
+        //                }
+                         
+                    }
+                }
         
         
         return allPostcell
@@ -46,7 +82,17 @@
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+
+  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+              db.collection("user").whereField("Gmail", isEqualTo: UserEmail).getDocuments { (data, error) in
+                  guard let data = data else {return}
+                  for i in data.documents{
+                      self.nickname.text = "暱稱:\(i.data()["nickName"] ?? "N/A")"
+                      self.userPhoneNumber.text = "聯絡電話:\(i.data()["phoneNumber"] ?? "N/A")"
+                      self.googleGamil.text = "信箱:\(i.data()["Gmail"] ?? "N/A")"
+
+                  }
+              }
         queryFirestore()
         queryfavoriteCounts()
     }
@@ -214,14 +260,18 @@
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "favoriteSegue"{
-            let detailVcByCell = segue.destination as! allPostDetailBycell
-            if let indexPath = self.tableview.indexPathForSelectedRow{
-                let data = self.data[indexPath.row]
-                detailVcByCell.data = data
-            }
-        }
-    }
+    //
+                      if segue.identifier == "myPostDetail"{
+                          let myPostDetail = segue.destination as! myPostDetailVC
+                        if let indexPath = self.tableview.indexPathForSelectedRow{
+    
+                            let data = self.data[indexPath.row]
+//                            myPostDetail.delegate = self
+                            myPostDetail.data = data
+                        }
+    
+                      }
+                  }
  
     
     
@@ -239,8 +289,8 @@
  }
  
 
-//
-//
+////
+////
 //import UIKit
 //import Firebase
 // import GoogleSignIn
@@ -486,4 +536,4 @@
 //     }
 //
 //        }
-//
+
