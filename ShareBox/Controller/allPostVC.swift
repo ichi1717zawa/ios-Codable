@@ -357,18 +357,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 }
                 
               }
-    @IBAction func oderByViews(_ sender: Any) {
-        self.data.removeAll()
-        tableview.reloadData()
-        
-        
-    }
-    
-    @IBAction func oderByTimeStamp(_ sender: Any) {
-        queryFirestore()
-       
-        
-    }
+   
     
   
     func favotireCounts (uuid:String){

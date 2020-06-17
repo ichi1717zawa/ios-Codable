@@ -257,6 +257,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
             guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
             try? imageData.write(to: filePath2!, options: .atomicWrite)
+            
 //             let fileName = "tempImage.jpg"
 //            let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
             
@@ -350,7 +351,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "productName":self.productName.text ?? "N/A",
                             "favoriteCounts":0,
                             "userShortLocation":adressdata,
-                            "mainCategory":self.mainCategoryTextField.text ?? "N/A"]
+                            "mainCategory":self.mainCategoryTextField.text ?? "N/A",
+                            "gmail":authResultEmail]
                         
                         //save to allpost
                         self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in

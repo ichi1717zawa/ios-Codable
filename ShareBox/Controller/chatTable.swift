@@ -47,7 +47,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(self.tableview.frame.origin.y)
         self.db.collection("user").document( GIDSignIn.sharedInstance()!.currentUser!.profile.name!).getDocument { (data, error) in
             if let data = data {
                 self.myNickName = data["nickName"] as? String ?? "N/A"
@@ -145,56 +145,58 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     }
     
     
-//    @objc private func handle(keyboardShowNotification notification: Notification) -> CGFloat  {
-//          // 1
-//          print("Keyboard show notification")
-//          // 2
-//          if let userInfo = notification.userInfo,
-//          // 3
-//              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-//              print(keyboardRectangle.height)
-//              return keyboardRectangle.height
-//          }
-//          return 0.0
-//
-//      }
-//
-//          func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//              NotificationCenter.default.addObserver(self, selector: #selector(textFiledChangeRect(notificaton:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-//
-//
-//          }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
+    @objc private func handle(keyboardShowNotification notification: Notification) -> CGFloat  {
+          // 1
+          print("Keyboard show notification")
+          // 2
+          if let userInfo = notification.userInfo,
+          // 3
+              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+              print(keyboardRectangle.height)
+              return keyboardRectangle.height
+          }
+          return 0.0
+
+      }
+ 
+          func textFieldDidBeginEditing(_ textField: UITextField) {
+              NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+          }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
 //        self.tableview.topAnchor.constraint(equalTo: self.textField.topAnchor, constant: 0).isActive = true
-//        NotificationCenter.default.addObserver(self, selector: #selector(textFiledChangeRect(notificaton:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-//    }
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+    }
+    
 //
-//    @objc func textFiledChangeRect ( notificaton : Notification ){
-//        if let userInfo = notificaton.userInfo,
-//        let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-//        print(keyboardRectangle.height)
-//               print(self.view.frame.size.height)
-////        let a = CGRect(x: 0.0, y: -keyboardRectangle.height ,
-////                       width: self.view.frame.size.width,
-////                       height:self.view.frame.size.height)
+    @objc func keyBoardWillShow ( notificaton : Notification ){
+        if let userInfo = notificaton.userInfo,
+        let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            print(keyboardRectangle.height)
+            print(tableview.frame.origin.y)
+            let keyBoardHeigh = Int(keyboardRectangle.height)
+            
+            self.tableview.frame.origin.y -= CGFloat(keyBoardHeigh)
+            print(self.tableview.frame.origin.y)
+//        print(self.view.frame.size.height)
+//        let a = CGRect(x: 0.0, y: -keyboardRectangle.height ,
+//                       width: self.view.frame.size.width,
+//                       height:self.view.frame.size.height)
 //            self.textField.bottomAnchor.constraint(equalTo: self.tableview.topAnchor, constant: 0).isActive = true
-//
+//            self.tableview.frame.origin.y = keyboardRectangle.minY
 //            let a = CGRect(x: keyboardRectangle.height, y: keyboardRectangle.height,
 //                                 width: self.view.frame.size.width,
 //                                 height:self.view.frame.size.height)
-//
-//        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-//            self.textField.topAnchor.constraint(equalTo: self.tableview.bottomAnchor, constant: 350).isActive = true
-//
-//        }) { (true) in}
-//
-//        }
-//    }
+
+  
+
+        }
+    }
 
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
                textField.resignFirstResponder()
+         
                return true
            }
 

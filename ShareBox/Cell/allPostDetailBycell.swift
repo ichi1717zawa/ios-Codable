@@ -12,6 +12,8 @@ class allPostDetailBycell: UIViewController      {
     var annotation : MKAnnotation?
     var tempIndex : IndexPath!
     var postUUID : String?
+    var postGmail :String?
+    @IBOutlet weak var sendMessageOutlet: UIButton!
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
@@ -28,6 +30,7 @@ class allPostDetailBycell: UIViewController      {
     var postNickName:String?
     override func viewDidLoad() {
         super.viewDidLoad()
+         let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
         queryData()
         activityIndicator.startAnimating()
         let filter: String! =  self.postUUID ?? self.data.postUUID
@@ -46,13 +49,13 @@ class allPostDetailBycell: UIViewController      {
 //                let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent("\(self.postUUID).jpg" ?? "\(self.data.postUUID).jpg")
             let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
                 if FileManager.default.fileExists(atPath: filePath2.path){
-                    print("yes")
+                     
 //                    let compressedData = try? NSData(contentsOfFile: url.path)?.decompressed(using: .lzma)
 //                    let myImage = UIImage(data: compressedData as! Data )
                     let image = UIImage(contentsOfFile: filePath2.path)
                     self.postimage.image = image
                 }else{
-                    print("no")
+                   
 //                    let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
 //                           let query = CKQuery(recordType: "Note", predicate: predicate)
 //                    self.database.perform(query, inZoneWith: nil) { (records, _) in
@@ -99,7 +102,12 @@ class allPostDetailBycell: UIViewController      {
                 self.productName.text = data.data()["productName"] as? String
                 self.postGoolgeName = data.data()["googleName"] as? String
                 self.postNickName = data.data()["Name"] as? String
-                
+                self.postGmail = data.data()["gmail"] as? String
+                print(data.data()["gmail"] as? String)
+                if data.data()["gmail"] as? String == myGmail{
+                    print("same gmail")
+                    self.favoriteButton.alpha = 0
+                    self.sendMessageOutlet.alpha = 0 }
             }
         }
 //
@@ -118,10 +126,20 @@ class allPostDetailBycell: UIViewController      {
 //        productName.text = self.data.productName
         
 //        self.receiverAnnotationData = receiveAnnotation
+        
+              if self.postGmail == myGmail{
+                  
+               
+                 
+              }
     }
      
 
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+      
+        
+    }
     @IBAction func sendMessage(_ sender: Any) {
 //        var myNickName :String!
          print("click sendMessageButton")
@@ -218,5 +236,6 @@ class allPostDetailBycell: UIViewController      {
             }
         }
     }
+    
     
 }
