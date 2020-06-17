@@ -457,29 +457,29 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //"女裝婦幼"
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
-//           categoryViewControl.center.x = super.view.center.x
-//           searchButton.alpha = 0
-//           initButton()
+           categoryControllButtenView.center.x = super.view.center.x
+           searchButton.alpha = 0
+           initButton()
        }
     
-    @IBOutlet weak var eee: UIStackView!
-    @IBOutlet weak var weqwe: UIStackView!
+
     @IBAction func tap(_ sender: Any) {
        
     }
  
     func pressCategoryButton(button:UIButton){
-//        UIView.animate(withDuration: 0.3) {
-//            self.initButton()
-//                 self.categoryViewControl.frame.origin.x = super.view.frame.origin.x
-//                 self.searchButton.alpha = 1
-//                 button.alpha = 0.6
-//             }
+        UIView.animate(withDuration: 0.3) {
+            self.initButton()
+                 self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x
+                 self.searchButton.alpha = 1
+                 button.alpha = 0.6
+             }
     }
-    @IBOutlet weak var df: UIButton!
+ 
+    @IBOutlet weak var categoryControllButtenView: UIStackView!
     @IBAction func btn1(_ sender: Any) {
        
-        weqwe.frame.origin.x = super.view.frame.origin.x
+//       self.jio.frame.origin.x = super.view.frame.origin.x
         selectCategoryLabel.text = "ALL" 
        pressCategoryButton(button:btn1)
         
