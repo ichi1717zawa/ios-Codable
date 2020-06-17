@@ -24,7 +24,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         @IBOutlet weak var textFieldTopAnchor: NSLayoutConstraint!
         @IBOutlet weak var textFieldBottomAnchor: NSLayoutConstraint!
         @IBOutlet weak var tableview: UITableView!
-    
+        var tempOriginY : CGFloat!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,6 +47,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       tempOriginY = self.textField.frame.origin.y
+        
+        
         print(self.tableview.frame.origin.y)
         self.db.collection("user").document( GIDSignIn.sharedInstance()!.currentUser!.profile.name!).getDocument { (data, error) in
             if let data = data {
@@ -119,7 +123,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          return currentTime
          
      }
-    
+     
     @IBAction func sendMessage(_ sender: Any) {
 //
 //        getUserData.share.getUserNickName { (string) in
@@ -145,60 +149,94 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     }
     
     
-    @objc private func handle(keyboardShowNotification notification: Notification) -> CGFloat  {
-          // 1
-          print("Keyboard show notification")
-          // 2
-          if let userInfo = notification.userInfo,
-          // 3
-              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-              print(keyboardRectangle.height)
-              return keyboardRectangle.height
-          }
-          return 0.0
-
-      }
+//    @objc private func handle(keyboardShowNotification notification: Notification) -> CGFloat  {
+//          // 1
+//          print("Keyboard show notification")
+//          // 2
+//          if let userInfo = notification.userInfo,
+//          // 3
+//              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+//              print(keyboardRectangle.height)
+//              return keyboardRectangle.height
+//          }
+//          return 0.0
+//
+//      }
  
           func textFieldDidBeginEditing(_ textField: UITextField) {
-              NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//             self.tableview.frame.origin.y - 500
+//             NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardWillShowNotification, object: nil)
           }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
 //        self.tableview.topAnchor.constraint(equalTo: self.textField.topAnchor, constant: 0).isActive = true
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notificaton:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
 //
-    @objc func keyBoardWillShow ( notificaton : Notification ){
-        if let userInfo = notificaton.userInfo,
-        let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            print(keyboardRectangle.height)
-            print(tableview.frame.origin.y)
-            let keyBoardHeigh = Int(keyboardRectangle.height)
-            
-            self.tableview.frame.origin.y -= CGFloat(keyBoardHeigh)
-            print(self.tableview.frame.origin.y)
-//        print(self.view.frame.size.height)
-//        let a = CGRect(x: 0.0, y: -keyboardRectangle.height ,
-//                       width: self.view.frame.size.width,
-//                       height:self.view.frame.size.height)
-//            self.textField.bottomAnchor.constraint(equalTo: self.tableview.topAnchor, constant: 0).isActive = true
-//            self.tableview.frame.origin.y = keyboardRectangle.minY
-//            let a = CGRect(x: keyboardRectangle.height, y: keyboardRectangle.height,
-//                                 width: self.view.frame.size.width,
-//                                 height:self.view.frame.size.height)
 
-  
-
-        }
-    }
 
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
                textField.resignFirstResponder()
-         
                return true
            }
 
+    
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+
+          NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         NotificationCenter.default.removeObserver(self)
+     }
+    
+    @objc func keyboardWillHide(notification : Notification)  {
+         let info = notification.userInfo!
+         //回復原本的位置,注意這裏的duration 要設的跟66行一樣，可以自行調整
+        
+//             self.view.frame = self.originalFrame!
+//            self.textField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0 ).isActive = true
+             self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+//            self.tableview.frame.origin.y = super.view.frame.origin.y
+              print("qwe")
+        
+     }
+    
+    @IBOutlet weak var qwe1: NSLayoutConstraint!
+    @IBOutlet weak var qwe2: NSLayoutConstraint!
+    @IBOutlet weak var qwe3: NSLayoutConstraint!
+//    @IBOutlet weak var qwe4: NSLayoutConstraint!
+//    @IBOutlet weak var qwe5: NSLayoutConstraint!
+//    @IBOutlet weak var qwe6: NSLayoutConstraint!
+//    @IBOutlet weak var qwe7: NSLayoutConstraint!
+    @IBOutlet weak var sendMessageControll: UIStackView!
+    @IBOutlet weak var sendButton: UIButton!
+    @objc func keyBoardWillShow ( notification : Notification ){
+        
+        if let userInfo = notification.userInfo,
+        let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+
+           
+            print(self.tableview.contentSize.height)
+//
+            
+//            textField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -keyboardRectangle.height ).isActive = true
+            
+//
+//            self.textField.frame.origin.y = keyboardRectangle.minY - 30
+            self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34 )
+           
+        }
+ 
+    }
     
 }

@@ -457,18 +457,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="16b-yg-bfo">
-                                <rect key="frame" x="20" y="108" width="335" height="577"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="urm-jg-VhB" style="IBUITableViewCellStyleDefault" id="2KC-np-dCm">
-                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="urm-jg-VhB" style="IBUITableViewCellStyleDefault" id="2KC-np-dCm">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2KC-np-dCm" id="zh2-CC-WcZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="335" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="urm-jg-VhB">
-                                                    <rect key="frame" x="15" y="0.0" width="305" height="44"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -484,10 +484,11 @@
                                     <outlet property="delegate" destination="w5Z-3d-MeT" id="9eV-Ss-jcF"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xli-6T-Bfx">
-                                <rect key="frame" x="293" y="695" width="62" height="30"/>
-                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="發送訊息">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xli-6T-Bfx">
+                                <rect key="frame" x="258" y="697" width="101" height="32"/>
+                                <color key="backgroundColor" red="1" green="0.78276366222872829" blue="0.38361489579988928" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" image="arrower">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -495,23 +496,29 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z5k-Gk-EQC">
-                                <rect key="frame" x="20" y="693" width="272" height="34"/>
+                                <rect key="frame" x="16" y="697" width="234" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6oo-ek-QMI"/>
+                                    <constraint firstAttribute="width" constant="234" id="sI9-cE-Fh4"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="16b-yg-bfo" firstAttribute="trailing" secondItem="Dwc-j0-uSW" secondAttribute="trailing" constant="-20" id="1iv-FV-iaL"/>
-                            <constraint firstItem="Dwc-j0-uSW" firstAttribute="bottom" secondItem="16b-yg-bfo" secondAttribute="bottom" constant="44" id="7l6-S3-w5t"/>
-                            <constraint firstItem="xli-6T-Bfx" firstAttribute="centerY" secondItem="Z5k-Gk-EQC" secondAttribute="centerY" id="7nk-7v-iHV"/>
-                            <constraint firstItem="16b-yg-bfo" firstAttribute="top" secondItem="Dwc-j0-uSW" secondAttribute="top" constant="20" id="Dr3-Th-7Xk"/>
-                            <constraint firstItem="16b-yg-bfo" firstAttribute="leading" secondItem="Dwc-j0-uSW" secondAttribute="leading" constant="20" id="Q2l-ia-74t"/>
-                            <constraint firstItem="xli-6T-Bfx" firstAttribute="leading" secondItem="Z5k-Gk-EQC" secondAttribute="trailing" constant="1" id="aqj-od-TL6"/>
-                            <constraint firstItem="Z5k-Gk-EQC" firstAttribute="leading" secondItem="Dwc-j0-uSW" secondAttribute="leading" constant="20" id="cGr-fS-l0A"/>
-                            <constraint firstItem="Z5k-Gk-EQC" firstAttribute="bottom" secondItem="Dwc-j0-uSW" secondAttribute="bottom" constant="-2" id="pqb-Po-ghO"/>
-                            <constraint firstItem="Z5k-Gk-EQC" firstAttribute="trailing" secondItem="Dwc-j0-uSW" secondAttribute="trailing" constant="-83" id="xQv-ry-PfV"/>
+                            <constraint firstItem="Z5k-Gk-EQC" firstAttribute="top" secondItem="16b-yg-bfo" secondAttribute="bottom" constant="-2" id="4xo-wD-6eq"/>
+                            <constraint firstItem="xli-6T-Bfx" firstAttribute="trailing" secondItem="XFz-Cw-HoR" secondAttribute="trailingMargin" id="LAr-Ik-Kce"/>
+                            <constraint firstItem="xli-6T-Bfx" firstAttribute="bottom" secondItem="Dwc-j0-uSW" secondAttribute="bottom" id="RGd-Ik-EBT"/>
+                            <constraint firstItem="Z5k-Gk-EQC" firstAttribute="leading" secondItem="Dwc-j0-uSW" secondAttribute="leading" constant="16" id="Xfv-oW-nI8"/>
+                            <constraint firstItem="16b-yg-bfo" firstAttribute="trailing" secondItem="Dwc-j0-uSW" secondAttribute="trailing" id="bs5-QI-TS9"/>
+                            <constraint firstItem="Dwc-j0-uSW" firstAttribute="trailing" secondItem="Z5k-Gk-EQC" secondAttribute="trailing" constant="125" id="ezN-UW-ADh"/>
+                            <constraint firstItem="16b-yg-bfo" firstAttribute="leading" secondItem="Dwc-j0-uSW" secondAttribute="leading" id="fFA-TW-YGy"/>
+                            <constraint firstItem="xli-6T-Bfx" firstAttribute="leading" secondItem="Z5k-Gk-EQC" secondAttribute="trailing" constant="8" id="gDd-LM-Wov"/>
+                            <constraint firstItem="Dwc-j0-uSW" firstAttribute="bottom" secondItem="Z5k-Gk-EQC" secondAttribute="bottom" constant="2" id="mbL-sl-Mhf"/>
+                            <constraint firstItem="xli-6T-Bfx" firstAttribute="top" secondItem="Z5k-Gk-EQC" secondAttribute="top" id="uMM-sR-eyw"/>
+                            <constraint firstItem="16b-yg-bfo" firstAttribute="top" secondItem="Dwc-j0-uSW" secondAttribute="top" id="xAq-rb-g0j"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Dwc-j0-uSW"/>
                     </view>
@@ -519,10 +526,12 @@
                         <nil key="title"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="qwe1" destination="ezN-UW-ADh" id="wst-4B-5Eh"/>
+                        <outlet property="qwe2" destination="mbL-sl-Mhf" id="to0-Vt-ZWT"/>
+                        <outlet property="qwe3" destination="Xfv-oW-nI8" id="yfc-7k-3nH"/>
+                        <outlet property="sendButton" destination="xli-6T-Bfx" id="yGy-fz-Dts"/>
                         <outlet property="tableview" destination="16b-yg-bfo" id="f5C-kI-qaB"/>
                         <outlet property="textField" destination="Z5k-Gk-EQC" id="RZz-le-ygt"/>
-                        <outlet property="textFieldBottomAnchor" destination="pqb-Po-ghO" id="4Sf-B0-uub"/>
-                        <outlet property="textFieldTopAnchor" destination="7l6-S3-w5t" id="X1V-Fu-Ua5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2YR-CK-eRo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -814,7 +823,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0jd-fh-gEI">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0jd-fh-gEI">
                                                     <rect key="frame" x="15" y="14" width="80" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="ghk-8Z-GZ9"/>
@@ -2125,7 +2134,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="gz7-lA-ee2"/>
-        <segue reference="iEJ-SS-BEw"/>
+        <segue reference="nh7-bs-K0I"/>
         <segue reference="kDU-7y-1zA"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -2139,6 +2148,7 @@
         <image name="Cirecle7" width="30" height="30"/>
         <image name="Cirecle8" width="30" height="30"/>
         <image name="Cirecle9" width="30" height="30"/>
+        <image name="arrower" width="17" height="17"/>
         <image name="avataaars" width="528" height="560"/>
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="heart" catalog="system" width="128" height="109"/>
