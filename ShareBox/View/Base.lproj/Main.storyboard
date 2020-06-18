@@ -139,16 +139,23 @@
                                     <action selector="PostResourcesAction:" destination="89q-gP-yPU" eventType="touchUpInside" id="Xqd-qd-Yic"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avataaars" translatesAutoresizingMaskIntoConstraints="NO" id="iw1-9v-9gw">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="ix4-CS-lDs" firstAttribute="top" secondItem="D48-ga-TlX" secondAttribute="top" constant="394" id="0lH-es-NMk"/>
+                            <constraint firstItem="iw1-9v-9gw" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" id="0mZ-08-UwD"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" id="7bh-es-LC0"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="trailing" secondItem="D48-ga-TlX" secondAttribute="trailing" id="Dar-Fd-Mgv"/>
+                            <constraint firstItem="iw1-9v-9gw" firstAttribute="top" secondItem="D48-ga-TlX" secondAttribute="top" id="Dfr-Fj-2vP"/>
                             <constraint firstItem="ix4-CS-lDs" firstAttribute="top" secondItem="PDu-ep-20m" secondAttribute="top" id="Dkf-MU-3Et"/>
                             <constraint firstItem="PDu-ep-20m" firstAttribute="leading" secondItem="ix4-CS-lDs" secondAttribute="trailing" constant="59" id="Ecl-Mj-Bpq"/>
+                            <constraint firstAttribute="bottom" secondItem="iw1-9v-9gw" secondAttribute="bottom" id="EgW-JD-Ix3"/>
                             <constraint firstItem="D48-ga-TlX" firstAttribute="trailing" secondItem="PDu-ep-20m" secondAttribute="trailing" constant="131" id="NqK-OO-WVa"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="top" secondItem="D48-ga-TlX" secondAttribute="top" id="SiW-WI-F6i"/>
+                            <constraint firstItem="iw1-9v-9gw" firstAttribute="trailing" secondItem="D48-ga-TlX" secondAttribute="trailing" id="e9o-bD-fS3"/>
                             <constraint firstAttribute="bottom" secondItem="kLX-Ib-T8o" secondAttribute="bottom" id="s34-2r-la7"/>
                             <constraint firstItem="ix4-CS-lDs" firstAttribute="bottom" secondItem="PDu-ep-20m" secondAttribute="bottom" id="uPc-q9-2Eb"/>
                             <constraint firstItem="ix4-CS-lDs" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" constant="87" id="yii-Ix-J36"/>
@@ -158,6 +165,7 @@
                     <navigationItem key="navigationItem" id="PwH-BI-1Sd"/>
                     <connections>
                         <outlet property="LogoutButton" destination="SGe-fz-x0D" id="x1A-Uc-aUO"/>
+                        <outlet property="MaskImageView" destination="iw1-9v-9gw" id="UjB-dP-i3o"/>
                         <outlet property="PostResources" destination="PDu-ep-20m" id="R3w-CS-UrV"/>
                         <outlet property="ReceivePostResources" destination="ix4-CS-lDs" id="Zgn-Lg-svA"/>
                         <segue destination="5tV-0C-juY" kind="show" identifier="tabSegue" id="9cO-Zh-Str"/>
@@ -166,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Np-oj-xSb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337.68115942029" y="-664.28571428571422"/>
+            <point key="canvasLocation" x="2336.8000000000002" y="-664.28571428571433"/>
         </scene>
         <!--First Login Init-->
         <scene sceneID="r1o-nO-JaN">
@@ -683,7 +691,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4ED-uD-OQV">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="6V3-to-3CO" id="V3e-JT-5hw"/>
@@ -717,7 +725,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vau-V1-8EF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3002.898550724638" y="324.77678571428572"/>
+            <point key="canvasLocation" x="3002.4000000000001" y="324.38423645320199"/>
         </scene>
         <!--ChatList-->
         <scene sceneID="TJ8-6y-4Wc">
@@ -959,7 +967,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.8895902553045405" green="0.89271711509398688" blue="0.90209769446232602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="Pyf-wU-kOq" id="Awu-GB-qUc"/>
                                         </connections>

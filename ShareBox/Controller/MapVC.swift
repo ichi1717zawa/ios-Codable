@@ -26,6 +26,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     var postUUID : String?
     var mainCategory: String?
     var Adress:String!
+    var categoryImageName:String!
     
     
     
@@ -39,12 +40,14 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         
         if mainCategory == "ALL" {
             queryALLFirestore()
+            categoryImageName = "Cirecle1"
         }else{
         queryFirestore()
         }
         transAdressAndMoveThere(Adress: Adress)
         //        mapKitView.delegate = self
         mapKitView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: "\(AnnotationDetail.self)")
+        
         //        addAnnotation()
         
     }
@@ -72,10 +75,11 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "\(AnnotationDetail.self)", for: annotation)
         annotationView.canShowCallout = true
         let infoButton = UIButton(type: .detailDisclosure)
+        
         infoButton.addTarget(self, action: #selector(buttonPressd(sender:)), for: .touchUpInside)
         annotationView.rightCalloutAccessoryView = infoButton
-        //        if annotation.title == "玩具"{
-        annotationView.image = (UIImage(named: "pointRed"))
+        //        if annotation.title == "玩具"{ 
+        annotationView.image = (UIImage(named: "\(annotation.mainCategory ?? "")"))
         //        }
         return annotationView
         
@@ -217,7 +221,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
 //                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
                         let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
                                                                                 coordinate: annotationCoordinate,
-                                                                                postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
+                                                                                postUUID: change.document.data()["postUUID"] as? String ?? "N/A", mainCategory: change.document.data()["mainCategory"] as? String ?? "N/A"
                                                                                 )
                         self.mapKitView.delegate = self
                         self.mapKitView.addAnnotation(annotation)
@@ -357,7 +361,8 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     //                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
                         let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
                         coordinate: annotationCoordinate,
-                        postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
+                        postUUID: change.document.data()["postUUID"] as? String ?? "N/A",
+                        mainCategory: change.document.data()["mainCategory"] as? String ?? "N/A"
                         )
                             self.mapKitView.delegate = self
                             self.mapKitView.addAnnotation(annotation)

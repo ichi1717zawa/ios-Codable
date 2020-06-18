@@ -18,16 +18,18 @@ class AnnotationDetail :  NSObject,MKAnnotation{
 //    var postIntroduction:String?
 //    var nickName: String?
 //    var postCategory : String?
+  var mainCategory : String?
 //    var userLocation : String?
 //    var googleName:String?
     var postUUID:String?
 //    var postTime:String?
 //    var viewsCount:Int
     
-    init(title:String,coordinate:CLLocationCoordinate2D,postUUID:String) {
+    init(title:String,coordinate:CLLocationCoordinate2D,postUUID:String,mainCategory:String) {
         self.title = title
         self.coordinate = coordinate
         self.postUUID = postUUID
+        self.mainCategory = mainCategory
 
     }
     

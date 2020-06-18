@@ -13,6 +13,11 @@ import CoreData
 import CoreLocation
 
 class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate  {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        MaskImageView.alpha = 0
+    }
+    @IBOutlet weak var MaskImageView: UIImageView!
     let db = Firestore.firestore()
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -29,7 +34,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 
                 self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
                     if   data?.isEmpty == true {
-                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
+//                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
+                        self.FirstSignUp()
                         print("Not In database")
                     }else{
                          
@@ -67,11 +73,12 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
        let locationManager = CLLocationManager()
     override func viewDidLoad() {
-        super.viewDidLoad() 
-        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("50943AB7-D39D-44C3-9308-956ED6B50390.01c0978ce2db7a8997756143f682dbe2133a957ee1")
-        print(cacheURL)
+        super.viewDidLoad()
         
-        let imageData = NSData(contentsOf: cacheURL)
+//        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("50943AB7-D39D-44C3-9308-956ED6B50390.01c0978ce2db7a8997756143f682dbe2133a957ee1")
+//        print(cacheURL)
+//
+//        let imageData = NSData(contentsOf: cacheURL)
         
          
         
@@ -81,7 +88,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //        print(GIDSignIn.sharedInstance()?.currentUser.profile.name)
 //         getGoogleGmailDoIdentify()
         
-        let db = Firestore.firestore()
+//        let db = Firestore.firestore()
 //        guard let filter = GIDSignIn.sharedInstance()!.currentUser.profile.email else {return}
 //        print(filter)
           
@@ -130,6 +137,37 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         
     }
     
+    func FirstSignUp(){
+        let alletAction = UIAlertController(title: "感謝您使用 我OK送給您", message: "第一次使用請填寫以下資訊,謝謝", preferredStyle: .alert)
+        alletAction.addTextField { (UITextField) in}
+        alletAction.addTextField { (UITextField) in}
+        alletAction.addTextField { (UITextField) in}
+        let nickNameTextField = alletAction.textFields![0] as UITextField
+        nickNameTextField.placeholder = "暱稱(必填)"
+        let phoneNumberTextField = alletAction.textFields![1] as UITextField
+        phoneNumberTextField.placeholder = "手機號碼(必填)"
+        let emailTextField = alletAction.textFields![2] as UITextField
+        emailTextField.placeholder = "信箱(必填)"
+        let okAction = UIAlertAction(title: "ok", style: .default) { (ok) in
+           self.db.collection("user").document("\(GIDSignIn.sharedInstance()!.currentUser!.profile.name!)").setData(
+            ["nickName":alletAction.textFields![0].text ?? "N/A",
+             "phoneNumber":alletAction.textFields![1].text ?? "N/A",
+             "byuserKeyGmail":alletAction.textFields![2].text ?? "N/A",
+             "Gmail":Auth.auth().currentUser?.email ?? "NoEmail"
+            ]
+           ) { (error) in  }
+            self.signUpDone()
+        }
+        alletAction.addAction(okAction)
+        present(alletAction,animated: true)
+        
+    }
+    func signUpDone(){
+        let doneSignUpAction = UIAlertController(title: "註冊完成", message:  nil , preferredStyle: .alert)
+        let doneSignupAction = UIAlertAction(title: "Go!", style: .default, handler: nil)
+        doneSignUpAction.addAction(doneSignupAction)
+        present(doneSignUpAction,animated: true)
+    }
     
   
    

@@ -163,7 +163,9 @@ class myPostDetailVC: UIViewController  {
         let postUUID = self.data.postUUID
         
         
-        db.collection("userPost").document(postUUID).delete()
+        db.collection("userPost").document(postUUID).delete { (error) in
+            print(error)
+        }
         db.collection("user").document(self.data.postGoolgeName).collection("myPost").document(postUUID).delete()
         self.delegate?.Update(data: data)
         self.navigationController?.popViewController(animated: true)

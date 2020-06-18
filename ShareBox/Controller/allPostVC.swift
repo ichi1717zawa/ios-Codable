@@ -385,36 +385,24 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         print("UP")
         UIView.animate(withDuration: 0.3) {
  self.hidenTopItem.alpha = 0
-//                            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
-                            self.tableview.frame.origin.y = super.view.frame.origin.y
+                            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+            self.tableview.frame.origin.y = super.view.frame.origin.y
         }
-//            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+//        self.tableview.topAnchor.constraint(equalTo: super.view.topAnchor,constant: 0).isActive = true
 //            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
 //            print(self.tableview.frame.height)
-//    }
+    
     }
      @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
              print("Down")
-//        if let tableviewAnchor =  tableViewTopAncorLine{
-//            tableviewAnchor.isActive = false
-//             self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
-//        }
-        tableview.frame.size.height -= 450
-        print(tableViewTopAncorLine.constant - 50 )
-        tableViewTopAncorLine.constant -= 100
-//        tableview.setContentOffset(CGPoint(x: 0, y: 1000), animated: true)
-        
-                        UIView.animate(withDuration: 0.3) {
-                        self.hidenTopItem.alpha = 1
-                           
-                         }
-        
-//        self.tableview.frame.size.height = 800
-        
-//        self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
-//
-//
+          UIView.animate(withDuration: 0.3) {
+            self.hidenTopItem.alpha = 1
+        self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
+ }
+      
     }
+    
+    
     @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
     @IBOutlet weak var bottonLine: UIView!
     

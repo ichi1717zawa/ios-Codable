@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
  
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-       
+         
         print(NSHomeDirectory())
         FirebaseApp.configure() 
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
