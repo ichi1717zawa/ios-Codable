@@ -11,7 +11,7 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 import FirebaseStorage
-class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
+class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate,UIGestureRecognizerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
       
     }
@@ -25,7 +25,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
-    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,7 +120,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         super.viewDidLoad()
         
       
-       
+        print(tableview.frame.height)
         
        queryFirestore()
         queryfavoriteCounts()
@@ -361,12 +360,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
   
     func favotireCounts (uuid:String){
-     
-         
          db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
              self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
          }
      }
+    
+    
+    
     
      
 
@@ -381,18 +381,46 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //         print("down")
 //    }
  
-//    @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
-//        print("UP")
-////        UIView.animate(withDuration: 0.3) {
-////        self.hidenTopItem.alpha = 1
-////            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
-////         }
-//
-//
+    @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
+        print("UP")
+        UIView.animate(withDuration: 0.3) {
+ self.hidenTopItem.alpha = 0
+//                            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+                            self.tableview.frame.origin.y = super.view.frame.origin.y
+        }
+//            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+//            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
+//            print(self.tableview.frame.height)
 //    }
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//           return true
-//       }
+    }
+     @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
+             print("Down")
+//        if let tableviewAnchor =  tableViewTopAncorLine{
+//            tableviewAnchor.isActive = false
+//             self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
+//        }
+        tableview.frame.size.height -= 450
+        print(tableViewTopAncorLine.constant - 50 )
+        tableViewTopAncorLine.constant -= 100
+//        tableview.setContentOffset(CGPoint(x: 0, y: 1000), animated: true)
+        
+                        UIView.animate(withDuration: 0.3) {
+                        self.hidenTopItem.alpha = 1
+                           
+                         }
+        
+//        self.tableview.frame.size.height = 800
+        
+//        self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
+//
+//
+    }
+    @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
+    @IBOutlet weak var bottonLine: UIView!
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+           return true
+       }
    
     @IBAction func searchButton(_ sender: UIButton) {
          

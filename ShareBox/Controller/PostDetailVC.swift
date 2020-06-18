@@ -101,7 +101,6 @@ class PostDetailVC: UIViewController      {
 
                    }
     func clearCache(){
-        
           let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit")
             let fileManager = FileManager.default
             do {
@@ -114,7 +113,6 @@ class PostDetailVC: UIViewController      {
                     catch let error as NSError {
                         debugPrint("Ooops! Something went wrong: \(error)")
                     }
-
                 }
             } catch let error as NSError {
                 print(error.localizedDescription)

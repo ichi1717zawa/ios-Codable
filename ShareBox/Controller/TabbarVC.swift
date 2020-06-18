@@ -19,7 +19,7 @@ class TabbarVC: UITabBarController {
         super.viewDidLoad()
 
         
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
         
         
     }

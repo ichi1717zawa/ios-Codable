@@ -30,6 +30,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     let shareInfo = CoredataShare.share
     var tempCategoryDetail = [String]()
      var tempNumber : Int!
+    
      var db :Firestore!
     
     
@@ -160,11 +161,16 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     
    
-    
+    var viewHeight :CGFloat!
+    var navagationBarHegiht:CGFloat!
+    var tabarItemHeight:CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        viewHeight = self.view.frame.height
+        navagationBarHegiht = self.navigationController?.navigationBar.frame.height
+     
+        self.myToolBar.alpha = 0
         let emptyView = UIView()
         caterogyTextField.inputView = emptyView
 //        getLocation()
@@ -182,8 +188,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        queryDatabase()
        
     }
+   
     @IBAction func tap(_ sender: Any) {
              chosePhoto()
+        
     }
     
     func chosePhoto( ) {
@@ -386,6 +394,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         getLocation()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+           tabarItemHeight = self.tabBarController?.tabBar.frame.height
        
     }
     
@@ -535,6 +547,62 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //                     print(description)
 //                  }
 //         }
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(true)
+//         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+//
+//           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+     }
+     
+     override func viewWillDisappear(_ animated: Bool) {
+          super.viewWillDisappear(animated)
+          NotificationCenter.default.removeObserver(self)
+      }
+     
+     @objc func keyboardWillHide(notification : Notification)  {
+      self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+      }
+
+
+    @objc func keyBoardWillShow ( notification : Notification ){
+        self.myToolBar.alpha = 1
+         if let userInfo = notification.userInfo,
+             let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
+        
+            self.view.transform = CGAffineTransform(translationX: 0, y:
+                -(keyboardRectangle.height - tabarItemHeight - productName.frame.size.height  )
+//                self.viewHeight -
+//                keyboardRectangle.height -
+//                locationTextField.frame.maxY -
+//                productName.frame.maxY +
+//                 navagationBarHegiht
+            )
+            
+            print( self.tabBarController?.tabBar.frame.height)
+            self.tabBarController?.tabBar.frame.height
+//            print(  self.view.frame.height)
+//            print(keyboardRectangle.height)
+//            print(  self.productName.frame.minY)
+//            print(  self.productName.frame.maxY)
+//            print(self.navigationController?.navigationBar.frame.height)
+            print(tabarItemHeight)
+         }
+        
+       
+    }
+    
+    
+    
+    @IBOutlet weak var myToolBar: UIToolbar!
+    
+    @IBAction func dismissKeyboard(_ sender: Any) {
+        self.view.endEditing(true)
+    }
+ 
+    @IBAction func removeTextViewEdit(_ sender: UIBarButtonItem) {
+        self.Introduction.text = ""
+    }
+    
     
 }
 

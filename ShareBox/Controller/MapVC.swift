@@ -355,10 +355,10 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     //                                                          postUUID: change.document.data()["postUUID"] as? String ?? "N/A",
     //                                                          postTime: change.document.data()["postTime"] as? String ?? "N/A",
     //                                                          viewsCount: change.document.data()["viewsCount"] as? Int ?? 0)
-                            let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
-                                                                                    coordinate: annotationCoordinate,
-                                                                                    postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
-                                                                                    )
+                        let annotation = AnnotationDetail(title: change.document.data()["productName"] as? String ?? "N/A",
+                        coordinate: annotationCoordinate,
+                        postUUID: change.document.data()["postUUID"] as? String ?? "N/A"
+                        )
                             self.mapKitView.delegate = self
                             self.mapKitView.addAnnotation(annotation)
                             self.data.append(annotation)

@@ -200,42 +200,22 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
     
     @objc func keyboardWillHide(notification : Notification)  {
-         let info = notification.userInfo!
-         //回復原本的位置,注意這裏的duration 要設的跟66行一樣，可以自行調整
-        
-//             self.view.frame = self.originalFrame!
-//            self.textField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0 ).isActive = true
-             self.view.transform = CGAffineTransform(translationX: 0, y: 0)
-//            self.tableview.frame.origin.y = super.view.frame.origin.y
-              print("qwe")
-        
+     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
      }
-    
-    @IBOutlet weak var qwe1: NSLayoutConstraint!
-    @IBOutlet weak var qwe2: NSLayoutConstraint!
-    @IBOutlet weak var qwe3: NSLayoutConstraint!
-//    @IBOutlet weak var qwe4: NSLayoutConstraint!
-//    @IBOutlet weak var qwe5: NSLayoutConstraint!
-//    @IBOutlet weak var qwe6: NSLayoutConstraint!
-//    @IBOutlet weak var qwe7: NSLayoutConstraint!
-    @IBOutlet weak var sendMessageControll: UIStackView!
+
+
     @IBOutlet weak var sendButton: UIButton!
     @objc func keyBoardWillShow ( notification : Notification ){
         
         if let userInfo = notification.userInfo,
-        let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-
-           
+            let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
             print(self.tableview.contentSize.height)
-//
-            
-//            textField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -keyboardRectangle.height ).isActive = true
-            
-//
-//            self.textField.frame.origin.y = keyboardRectangle.minY - 30
             self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34 )
-           
         }
+           
+            
+           
+       
  
     }
     
