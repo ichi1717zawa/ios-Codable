@@ -123,8 +123,21 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          return currentTime
          
      }
+    
+    
+    func currentTimeUncludeYear () -> String   {
+         
+        
+         let now = Date()
+         let dateformatter = DateFormatter()
+         dateformatter.dateFormat = "MM/dd HH:mm"
+         let currentTime = dateformatter.string(from: now)
+         return currentTime
+         
+     }
      
     @IBAction func sendMessage(_ sender: Any) {
+        let currentTime :String! = self.currentTimeUncludeYear()
 //
 //        getUserData.share.getUserNickName { (string) in
 //            print(string)
@@ -134,8 +147,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        print(myGoogleName)
 //        //        let otherNickName = self.receiveMessageNickname!
 //
-        let sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
-        let receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")"]
+        let sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime]
+        let receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime]
 //
         self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).setData(["otherGoogleName":self.otherGoogleName ?? "N/A"
         ]) { (error) in

@@ -30,17 +30,20 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
         CoredataShare.share.loadData()
        viewInChatListUpdate()
     }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         queryFirestore()
-//        updatePersonalUnreadCounts()
+        updatePersonalUnreadCounts()
     }
     
     
    
     func queryFirestore(){
+        
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        
         db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -65,7 +68,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     if let otherGoogleName = self.chatData.filter({ (otherGoogleName) -> Bool in
                         otherGoogleName.otherGoogleName == documentID
                     }).first{
-                        otherGoogleName.unreadCount = change.document.data()["unRead"] as! String
+                        otherGoogleName.unreadCount = change.document.data()["unRead"] as? String
                         self.updateTabbarItembadge()
                     }
                     
@@ -106,8 +109,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             
             guard let documentChange = query?.documentChanges else {return}
             for i in query!.documents{
-                var readString = i.data()["unRead"] as! String
-                var IntString = Int(readString)!
+                var readString = i.data()["unRead"] as? String
+                var IntString = Int(readString ?? "")!
                 tempInt += IntString
                  
             }
@@ -164,7 +167,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             let cell = tableview.dequeueReusableCell(withIdentifier: "ChatListCustomCell", for: indexPath) as! ChatListCustomCell
             cell.OtherName.text = self.chatData[indexPath.row].chatRoomName
             cell.userSubtitle.alpha = 0
-            cell.userSubtitle.text = self.chatData[indexPath.row].otherGoogleName
+//            cell.userSubtitle.text = self.chatData[indexPath.row].otherGoogleName
             cell.userImage.image = UIImage(named: "avataaars")
             cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
 

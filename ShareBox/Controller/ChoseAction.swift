@@ -15,7 +15,7 @@ import CoreLocation
 class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate  {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        MaskImageView.alpha = 0
+        
     }
     @IBOutlet weak var MaskImageView: UIImageView!
     let db = Firestore.firestore()
