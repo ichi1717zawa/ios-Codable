@@ -32,7 +32,7 @@ class allPostDetailBycell: UIViewController      {
         super.viewDidLoad()
          let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
         queryData()
-        activityIndicator.startAnimating()
+       
         let filter: String! =  self.postUUID ?? self.data.postUUID
         print(filter!)
         
@@ -49,13 +49,15 @@ class allPostDetailBycell: UIViewController      {
 //                let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent("\(self.postUUID).jpg" ?? "\(self.data.postUUID).jpg")
             let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
                 if FileManager.default.fileExists(atPath: filePath2.path){
+                    self.maskView.alpha = 0
                      
 //                    let compressedData = try? NSData(contentsOfFile: url.path)?.decompressed(using: .lzma)
 //                    let myImage = UIImage(data: compressedData as! Data )
                     let image = UIImage(contentsOfFile: filePath2.path)
                     self.postimage.image = image
                 }else{
-                   
+                    self.maskView.alpha = 0.5
+                          self.activityIndicator.startAnimating()
 //                    let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
 //                           let query = CKQuery(recordType: "Note", predicate: predicate)
 //                    self.database.perform(query, inZoneWith: nil) { (records, _) in
@@ -86,10 +88,13 @@ class allPostDetailBycell: UIViewController      {
                                        }else{
                                             print("下載成功")
                                         print(url)
-                                        let decompressData = try? NSData(contentsOfFile: filePath2.path)?.decompressed(using: .lzma)
+//                                        let decompressData = try? NSData(contentsOfFile: filePath2.path)?.decompressed(using: .lzma)
 //                                        let newImageData = decompressData as Data
-                                        let newdata = (decompressData as! Data)
-                                        
+//                                        let newdata = (decompressData as! Data)
+                                        let image = UIImage(contentsOfFile: filePath2.path)
+                                        self.postimage.image = image
+                                        self.maskView.alpha = 0.0
+                                       self.activityIndicator.stopAnimating()
                                         
                                           
                                        }

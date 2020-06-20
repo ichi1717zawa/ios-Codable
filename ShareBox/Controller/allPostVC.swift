@@ -51,32 +51,28 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             allPostcell.postImage.image = image
             
         }else{
-            let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
-            let imageRef = ref.child("images/\(data.postUUID)")
+           
+                let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+                         var imageRef = ref.child("images/\(data.postUUID)")
+            
+         
             imageRef.write(toFile: url) { (url, error) in
                 if let e = error{
                     print("下載圖檔有錯誤\(e)")
+                    
                 }else{
                     print("下載成功")
                     
+                    
                     let image = UIImage(contentsOfFile: url!.path)
-                    //                                        let newImageData = decompressData as Data
                     allPostcell.postImage.image = image
+                   
                 }
                 
             }
-            
-            DispatchQueue.global().async {
-//                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
-//                           DispatchQueue.main.async {
-//                               allPostcell.postImage.image = image
-//
-//                        }
-//                }
-                 
-            }
-        }
-
+          
+        
+}
            
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
@@ -86,6 +82,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         return allPostcell
         
     }
+
     
 //    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
 //                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
@@ -116,12 +113,11 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        }
     
     
+    var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
-        print(tableview.frame.height)
-        
+  
        queryFirestore()
         queryfavoriteCounts()
     }
@@ -151,7 +147,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       }
     
   func queryFirestore(){
-            db.collection("userPost").addSnapshotListener { (query, error) in
+    db.collection("userPost").order(by: "timeStamp").addSnapshotListener { (query, error) in
                 if let error = error{
                     print("query Faild\(error)")
                 }
@@ -190,12 +186,19 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //googleName: change.document.data()["googleName"] as? String ?? "N/A",
 //postUUID: change.document.data()["postUUID"] as? String ?? "N/A")
 // self.mapKitView.addAnnotation(annotation)
-
-                        self.data.append(postdetail)
+                         
+//                        self.data.append(postdetail)
+                        self.data.insert(postdetail, at: 0)
                         
+                      
+//                                                        let indexPath = IndexPath(row: 0, section: 0)
+//                                                        self.tableview.insertRows(at: [indexPath], with: .left)
+//                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
                         self.tableview.reloadData()
+                         
                         
                     }
+                        
                     else if change.type == .modified{ //修改
                         if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
@@ -207,6 +210,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                                let indexPath = IndexPath(row: index, section: 0)
 //                                self.tableview.reloadRows(at: [indexPath], with: .fade)
                             self.tableview.reloadData()
+                           
 //                            }
                         }
                         
@@ -239,6 +243,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
     
     //
+    
     }
 
       func queryfavoriteCounts(){

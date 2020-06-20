@@ -46,7 +46,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
    
     func queryFirestore(){
         
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
+//        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         
         db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (query, error) in

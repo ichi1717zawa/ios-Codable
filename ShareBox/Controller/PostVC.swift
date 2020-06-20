@@ -271,7 +271,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
 //        try? image.write(to: filePath2!,options: [.atomic])
             
-            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
+//            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
             self.pushDataToGoogle(data: imageData, uuid: postUUID)
             
 //            try? compressData?.write(to: filePath2!, options: .atomicWrite)

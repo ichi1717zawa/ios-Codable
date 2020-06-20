@@ -13,19 +13,24 @@ import CoreData
 import CoreLocation
 
 class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate  {
+    @IBOutlet weak var maskview: UIView!
+    
+    @IBOutlet weak var activeIndicator: UIActivityIndicatorView!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-           
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        self.maskview.alpha = 0
+                               self.activeIndicator.stopAnimating()
         
     }
-    @IBOutlet weak var MaskImageView: UIImageView!
+
     let db = Firestore.firestore()
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var testimage: UIImageView!
+    
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error{print("登入錯誤\(error)"); return  }
         guard let authentication = user.authentication else { return }
@@ -35,17 +40,19 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 guard let authResultEmail = authResult?.user.email else {return}
 //                let authResultEmail = "qweqwe"
                 print(authResult?.user.email)
-                
+
                 self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
                     if   data?.isEmpty == true {
 //                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
+//                        self.maskview.alpha = 0
                         self.FirstSignUp()
                         print("Not In database")
                     }else{
-                         
+                        print(Auth.auth().currentUser?.uid)
+                         self.performSegue(withIdentifier: "tabSegue", sender: nil)
                         print("user IN database")
                     }
-                    
+
                         for i in data!.documents{
                             print(i.data()["nickName"])
                         }
@@ -54,30 +61,39 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //                    self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
 //                    self.navigationController?.navigationBar.alpha = 0
 //                }
- 
+
                  print("身份驗證完成")
 //                    ChatList.share.loginCall()
              }
                  Auth.auth().addStateDidChangeListener { (auth, user) in
                     if auth.currentUser == nil{
                          print("登出完畢")
-                        
+
                     }else{
                          print("登入完畢")
-                       
+
                     }
-                     
+
           }
     }
     
     @IBOutlet weak var signInButton: GIDSignInButton?
     @IBOutlet weak var PostResources: UIButton!
-    @IBOutlet weak var ReceivePostResources: UIButton!
-    @IBOutlet weak var LogoutButton: UIButton!
-    
+   
+ 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.maskview.alpha = 0
+               if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
+                GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+                self.maskview.alpha = 0.5
+                 self.activeIndicator.startAnimating()
+        }
+        
+    }
        let locationManager = CLLocationManager()
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() 
         
 //        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("50943AB7-D39D-44C3-9308-956ED6B50390.01c0978ce2db7a8997756143f682dbe2133a957ee1")
 //        print(cacheURL)
@@ -86,9 +102,9 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         
          
         
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
-     
-//        print(Auth.auth().currentUser?.email)
+ 
+       
+        //        print(Auth.auth().currentUser?.email)
 //        print(GIDSignIn.sharedInstance()?.currentUser.profile.name)
 //         getGoogleGmailDoIdentify()
         
@@ -133,10 +149,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
        
         GIDSignIn.sharedInstance()?.delegate = self
         
-        if GIDSignIn.sharedInstance()?.currentUser != nil{
-              LogoutButton.alpha = 1
-        
-        }
+     
  
         
     }
@@ -178,14 +191,17 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     @IBAction func PostResourcesAction(_ sender: Any) {
  
         if GIDSignIn.sharedInstance()?.currentUser != nil{
-            LogoutButton.alpha = 1
+         
             performSegue(withIdentifier: "tabSegue", sender: nil)
+      
             
         }else{
             let alerController = UIAlertController(title: "登入", message: " ", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Google登入", style: .default) { (ok) in
                      print("使用者尚未登入")
                     GoogleLogin.share.SignIn(whichViewVC: self)
+                    self.maskview.alpha = 0.5
+                     self.activeIndicator.startAnimating()
                 }
             let cancelaction = UIAlertAction(title: "取消", style: .cancel) { (cancel) in }
             let apple = UIAlertAction(title: "取消", style: .default) { (cancel) in }
@@ -196,23 +212,13 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
             alerController.addAction(gmail)
 //            alerController.isModalInPresentation = true
             present(alerController,animated: true)
-    }
+          
     
    
     
         
 }
-    @IBAction func SignOut(_ sender: Any) {
-        
-        GoogleLogin.share.SignOut(whichViewVC: self, SignOutButton: LogoutButton)
-        
-//
-//        GIDSignIn.sharedInstance()!.signOut()
-//         try? Auth.auth().signOut()
-        
-      
-        
-    }
+
     
     func getGoogleGmailDoIdentify(){
         
@@ -227,14 +233,11 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 for i in data!.documents{
                     print(i.data()["nickName"])
                 }
-                
-                
             }
         }
-         
     }
    
      
-    
+    }
 }
 
