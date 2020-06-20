@@ -24,17 +24,22 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     var allMessageCount : Int!
     var ocount = 0
     var unread : String?
-    
+    let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoredataShare.share.loadData()
-       viewInChatListUpdate()
+//        CoredataShare.share.loadData()
+//       viewInChatListUpdate()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        
         queryFirestore()
         updatePersonalUnreadCounts()
+        updateTabbarItembadge()
+        
+//        getSumUnRead ()
+         
     }
     
     
@@ -61,15 +66,19 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     self.chatData.insert(chatlist, at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
 //                    self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
-                    self.tabBarItem.badgeValue = String(self.allUnreadCounts)
+//                    self.tabBarItem.badgeValue = String(self.allUnreadCounts)
                 }
                 else if change.type == .modified{ //修改
                     self.ocount = 0
                     if let otherGoogleName = self.chatData.filter({ (otherGoogleName) -> Bool in
                         otherGoogleName.otherGoogleName == documentID
                     }).first{
+                        
+//                        self.updatePersonalUnreadCounts( )
                         otherGoogleName.unreadCount = change.document.data()["unRead"] as? String
-                        self.updateTabbarItembadge()
+                        self.tableview.reloadData()
+//                        self.updateTabbarItembadge()
+                        print("yes")
                     }
                     
                 }
@@ -78,26 +87,49 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
         }
     }
     func updatePersonalUnreadCounts( ){
+ 
           let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-          self.db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (data, error) in
-              for otherID in data!.documents{
-                  self.db.collection("user").document(myGoogleName).collection("Messages").document(otherID.documentID).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
-                      if let error = error{ print("query Faild\(error)") }
-                      guard let query = query else {return}
-                      let documentChange = query.documents
-                      for change in documentChange{
-                          //處理每一筆更新
-                          self.db.collection("user").document(myGoogleName)
-                              .collection("Messages")
-                              .document(otherID.documentID)
-                              .setData(["unRead":"\(query.count)"],merge: true)
-                      }
+        self.db.collection("user").document(myGoogleName).collection("Messages").addSnapshotListener { (data, error) in
+            for otherID in data!.documents{
+   
+                self.db.collection("user").document(myGoogleName).collection("Messages").document(otherID.documentID).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
+                    if let error = error{ print("query Faild\(error)") }
+                    guard let query = query else {return}
+                    
+                    //處理每一筆更新
+                    self.db.collection("user").document(myGoogleName)
+                        .collection("Messages")
+                        .document(otherID.documentID)
+                        .setData(["unRead":"\(query.count)"],merge: true)
+                    
+                      
                   }
+               
               }
+//            self.ocount = tempInt
+            
+//            self.db.collection("user").document(myGoogleName).setData(["unread":"\(tempInt)"],merge: true)
+//            self.tabBarItem.badgeValue = String(self.ocount)
           }
           
       }
    
+    func getSumUnRead (){
+        
+        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        db.collection("user").document(myGoogleName).getDocument { (query, error) in
+            if let error = error{
+                print("query Faild\(error)")
+            }
+            
+            guard let query = query  else {return}
+            self.tabBarItem.badgeValue =   query.data()?["unread"] as? String
+            
+           
+        }
+    }
+    
+    
     func updateTabbarItembadge (){
         var tempInt = 0
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
@@ -106,18 +138,21 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             if let error = error{
                 print("query Faild\(error)")
             }
-            
-            guard let documentChange = query?.documentChanges else {return}
+//            guard let documentChange = query?.documentChanges else {return}
             for i in query!.documents{
-                var readString = i.data()["unRead"] as? String
-                var IntString = Int(readString ?? "")!
-                tempInt += IntString
-                 
+                let readString = i.data()["unRead"] as? String
+                let IntString = Int(readString ?? "")
+                self.ocount += IntString ?? 0
+//                self.ocount = tempInt
+//                  self.db.collection("user").document(myGoogleName).setData(["unread":"\(tempInt)"],merge: true)
             }
-            self.ocount = tempInt
+     
+//            self.ocount = tempInt
             self.db.collection("user").document(myGoogleName).setData(["unread":"\(self.ocount)"],merge: true)
             self.tabBarItem.badgeValue = String(self.ocount)
+ 
         }
+              
     }
     
      
@@ -143,7 +178,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     if let otherGoogleName = self.chatData.filter({ (otherGoogleName) -> Bool in
                         otherGoogleName.otherGoogleName == documentID
                     }).first{
-                        otherGoogleName.unreadCount = change.document.data()["unRead"] as! String
+                        otherGoogleName.unreadCount = change.document.data()["unRead"] as? String
                         
                         if let index = self.chatData.index(of: otherGoogleName){
                             let indexPath = IndexPath(row: index, section: 0)
@@ -154,8 +189,10 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                 }
             }
         }
-    }
+    }//沒用到
 
+    
+    
 
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return self.chatData.count
@@ -167,7 +204,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             let cell = tableview.dequeueReusableCell(withIdentifier: "ChatListCustomCell", for: indexPath) as! ChatListCustomCell
             cell.OtherName.text = self.chatData[indexPath.row].chatRoomName
             cell.userSubtitle.alpha = 0
-//            cell.userSubtitle.text = self.chatData[indexPath.row].otherGoogleName
+            cell.userSubtitle.text = self.chatData[indexPath.row].otherGoogleName
             cell.userImage.image = UIImage(named: "avataaars")
             cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
 
@@ -177,13 +214,21 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let receiveMessageNickname = tableView.cellForRow(at: indexPath)?.textLabel?.text ?? "N/A"
     //         let OtherGoogleName = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text ?? "N/A"
+            
+           
+
             let receiveMessageNickname = self.chatData[indexPath.row].chatRoomName
             let OtherGoogleName =  self.chatData[indexPath.row].otherGoogleName
+ 
             self.receiveMessageNickname = receiveMessageNickname
             self.receiveMessageGoogleName =  OtherGoogleName
             
+             
+                
                performSegue(withIdentifier: "personalMessage", sender: nil)
+            
         }
+    
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "personalMessage"{
                 let personalMessage = segue.destination as! chatTable
@@ -192,5 +237,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
              
             }
         }
+  
     
 }
+

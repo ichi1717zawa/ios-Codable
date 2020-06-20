@@ -13,8 +13,12 @@ import CoreData
 import CoreLocation
 
 class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate  {
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+           
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
         
     }
     @IBOutlet weak var MaskImageView: UIImageView!

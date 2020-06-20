@@ -25,6 +25,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         @IBOutlet weak var textFieldBottomAnchor: NSLayoutConstraint!
         @IBOutlet weak var tableview: UITableView!
         var tempOriginY : CGFloat!
+     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,6 +44,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     }
     
   
+   
+    
+    
+ 
     
     
     override func viewDidLoad() {
@@ -61,10 +66,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         self.textField.delegate = self
         queryFirestore()
         self.tableview.transform = CGAffineTransform(rotationAngle: .pi)
-        queryFirestore2()
+//        queryFirestore2()
     }
     
-
+ 
     func queryFirestore2(){
           let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
@@ -91,7 +96,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
                    
               }
           }
-      }
+      } //暫時沒用
     
     func queryFirestore(){
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
@@ -111,7 +116,17 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             }
         }
     }
-
+    
+    
+    func clearViewCounts(){
+          db.collection("user").document(myGoogleName).collection("Messages").document(otherNickName).collection("Message").whereField("read", isEqualTo: false).getDocuments { (query, error) in
+              
+              guard let query = query?.documents else {return}
+              for i in query{
+                  self.db.collection("user").document(self.myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(i.documentID).setData(["read":""],merge: true)
+              }
+          }
+      }
      func currentTime () -> String   {
          
         
@@ -138,23 +153,19 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      
     @IBAction func sendMessage(_ sender: Any) {
         let currentTime :String! = self.currentTimeUncludeYear()
-//
-//        getUserData.share.getUserNickName { (string) in
-//            print(string)
-//        }
-        //*************以下送訊息以上參考
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-//        print(myGoogleName)
-//        //        let otherNickName = self.receiveMessageNickname!
-//
-        let sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime]
-        let receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime]
+ 
+        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name! 
+        let sendParameter :[String : Any]
+        let receiveParameter :[String : Any]
+         sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? ""]
+        receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? "" ,"read":false]
 //
         self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).setData(["otherGoogleName":self.otherGoogleName ?? "N/A"
         ]) { (error) in
             self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(self.currentTime ()).setData(sendParameter)
         }
 
+      
         self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).setData(["otherGoogleName":myGoogleName]) { (error) in
             self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
         }
@@ -199,6 +210,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     
     
+    override func viewDidAppear(_ animated: Bool) {
+      super.viewDidAppear(true)
+      clearViewCounts()
+      }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -209,6 +224,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
+         clearViewCounts()
          NotificationCenter.default.removeObserver(self)
      }
     

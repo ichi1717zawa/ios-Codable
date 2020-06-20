@@ -226,7 +226,6 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         self.mapKitView.delegate = self
                         self.mapKitView.addAnnotation(annotation)
                         self.data.append(annotation)
-                       
                         
                         //                                   self.moveRegion(coodinate: cordinate)
                     }
