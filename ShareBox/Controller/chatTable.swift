@@ -247,5 +247,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
        
  
     }
+    @IBAction func backToRoot(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
 }

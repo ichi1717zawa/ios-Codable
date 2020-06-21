@@ -35,6 +35,11 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if self.data.isEmpty == true {
+                   print("zero")
+        }else{
+             print("getData")
+        }
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
@@ -59,27 +64,35 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             imageRef.write(toFile: url) { (url, error) in
                 if let e = error{
                     print("下載圖檔有錯誤\(e)")
-                    
+//                    self.keepDownLoad( uuid: data.postUUID)
                 }else{
                     print("下載成功")
-                    
-                    
                     let image = UIImage(contentsOfFile: url!.path)
                     allPostcell.postImage.image = image
-                   
                 }
-                
             }
-          
-        
-}
-           
+        }
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
-        
-         
         return allPostcell
+    }
+    
+    func keepDownLoad(uuid:String ){
+          let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+        
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(uuid)")
+        while FileManager.default.fileExists(atPath: url.path) == false {
+           var imageRef = ref.child("images/\(uuid)")
+             imageRef.write(toFile: url) { (url, error) in
+                if let e = error {
+                    print("keep error")
+                }
+                else{
+                    print("success")
+                }
+            }
+        }
         
     }
 
@@ -120,8 +133,11 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
   
        queryFirestore()
         queryfavoriteCounts()
+        checkDataExsist()
     }
-   
+    func checkDataExsist(){
+       
+    }
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
@@ -190,11 +206,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                        self.data.append(postdetail)
                         self.data.insert(postdetail, at: 0)
                         
-                      
-//                                                        let indexPath = IndexPath(row: 0, section: 0)
-//                                                        self.tableview.insertRows(at: [indexPath], with: .left)
+ 
+                            let indexPath = IndexPath(row: 0, section: 0)
+                             self.tableview.insertRows(at: [indexPath], with: .left)
+ 
+                       
 //                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
-                        self.tableview.reloadData()
+//                        self.tableview.reloadData()
                          
                         
                     }
@@ -206,12 +224,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             perPost.viewsCount = change.document.data()["viewsCount"] as! Int
                             perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
 //                            note.imageName = change.document.data()["imageName"] as? String
-//                            if let index = self.data.index(of: perPost){
-//                                let indexPath = IndexPath(row: index, section: 0)
-//                                self.tableview.reloadRows(at: [indexPath], with: .fade)
-                            self.tableview.reloadData()
+                            if let index = self.data.firstIndex(of: perPost){
+                                let indexPath = IndexPath(row: index, section: 0)
+                                self.tableview.reloadRows(at: [indexPath], with: .fade)
+//                            self.tableview.reloadData()
                            
-//                            }
+                            }
                         }
                         
                     }
@@ -232,7 +250,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                                self.data[indexPath.row]
 //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
                                 self.data.remove(at: indexPath.row)
-                                self.tableview.reloadData()
+                                self.tableview.deleteRows(at: [indexPath], with: .fade)
+//                                self.tableview.reloadData()
                                 //
                                 
                             }
@@ -389,26 +408,26 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
         print("UP")
         UIView.animate(withDuration: 0.3) {
- self.hidenTopItem.alpha = 0
-                            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
+            self.hidenTopItem.alpha = 0
+            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
             self.tableview.frame.origin.y = super.view.frame.origin.y
         }
-//        self.tableview.topAnchor.constraint(equalTo: super.view.topAnchor,constant: 0).isActive = true
-//            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
-//            print(self.tableview.frame.height)
-    
+        //        self.tableview.topAnchor.constraint(equalTo: super.view.topAnchor,constant: 0).isActive = true
+        //            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
+        //            print(self.tableview.frame.height)
+        
     }
-     @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
-             print("Down")
-          UIView.animate(withDuration: 0.3) {
+    @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
+        print("Down")
+        UIView.animate(withDuration: 0.3) {
             self.hidenTopItem.alpha = 1
-        self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
- }
-      
+            self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
+        }
+        
     }
     
     
-    @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
+//    @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
     @IBOutlet weak var bottonLine: UIView!
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -542,6 +561,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     func initButton(){
          Buttoninit(btn1: btn1, btn2: btn2, btn3: btn3, btn4: btn4, btn5: btn5, btn6: btn6, btn7: btn7, btn8: btn8, btn9: btn9, btn10: btn10)
+    }
+    
+    @IBAction func scrollViewToTop(_ sender: UIButton) {
+        let indexpath = IndexPath(row: 0, section: 0)
+        self.tableview.scrollToRow(at: indexpath, at: .top, animated: true)
+              UIView.animate(withDuration: 0.3) {
+        self.hidenTopItem.alpha = 1
+         self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
+        }
     }
     
     

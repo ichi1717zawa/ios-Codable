@@ -30,7 +30,7 @@ class myPostDetailVC: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.startAnimating()
+        
         let filter: String! = self.data.postUUID
         
 //        let e :[String:Any] = ["viewcCount":12]
@@ -61,6 +61,8 @@ class myPostDetailVC: UIViewController  {
 //        }
    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         if FileManager.default.fileExists(atPath: url.path){
+            maskView.alpha = 0
+            
                //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
                //            let deCompressData = try? NSData(contentsOf: url).decompressed(using: .lzma)
                            let image = UIImage(contentsOfFile: url.path)
@@ -69,6 +71,8 @@ class myPostDetailVC: UIViewController  {
                            postimage.image = image
                            
                        }else{
+                        maskView.alpha = 0.55
+                        activityIndicator.startAnimating()
                            let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
                            let imageRef = ref.child("images/\(data.postUUID)")
                            imageRef.write(toFile: url) { (url, error) in
@@ -80,6 +84,8 @@ class myPostDetailVC: UIViewController  {
                                    let image = UIImage(contentsOfFile: url!.path)
                                    //                                        let newImageData = decompressData as Data
                                 self.postimage.image = image
+                                self.maskView.alpha = 0
+                                self.activityIndicator.stopAnimating()
                                }
                                
                            }
@@ -168,6 +174,9 @@ class myPostDetailVC: UIViewController  {
         }
         db.collection("user").document(self.data.postGoolgeName).collection("myPost").document(postUUID).delete()
         self.delegate?.Update(data: data)
+        self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func BackToRootViewcontroller(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
     

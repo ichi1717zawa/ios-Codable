@@ -28,9 +28,10 @@ class allPostDetailBycell: UIViewController      {
     var receiverAnnotationData : AnnotationDetail?
     var  postGoolgeName :String?
     var postNickName:String?
+    let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
     override func viewDidLoad() {
         super.viewDidLoad()
-         let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
+         
         queryData()
        
         let filter: String! =  self.postUUID ?? self.data.postUUID
@@ -109,12 +110,19 @@ class allPostDetailBycell: UIViewController      {
                 self.postNickName = data.data()["Name"] as? String
                 self.postGmail = data.data()["gmail"] as? String
                 print(data.data()["gmail"] as? String)
-                if data.data()["gmail"] as? String == myGmail{
+                 
+                if data.data()["gmail"] as? String != self.myGmail{
                     print("same gmail")
-                    self.favoriteButton.alpha = 0
-                    self.sendMessageOutlet.alpha = 0 }
+                    UIView.animate(withDuration: 0.3) {
+                        self.favoriteButton.alpha = 1
+                        self.sendMessageOutlet.alpha = 1
+                    }
+                }
+                
+                
             }
         }
+        
 //
        
  
@@ -139,7 +147,10 @@ class allPostDetailBycell: UIViewController      {
               }
     }
      
-
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
       
@@ -242,5 +253,8 @@ class allPostDetailBycell: UIViewController      {
         }
     }
     
+    @IBAction func backToRootView(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
 }

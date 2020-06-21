@@ -167,6 +167,9 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.Introduction.layer.cornerRadius = 20.0
+        
+        
         viewHeight = self.view.frame.height
         navagationBarHegiht = self.navigationController?.navigationBar.frame.height
      
@@ -251,17 +254,20 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
               if let error = error{
                   print("uplad image fail\(error)")
               }
+            
           }
           task.resume()
-                      
+        
                   
     }
     //MARK: ->done送出
     @IBAction func done(_ sender: Any) {
+        let serialQueue: DispatchQueue = DispatchQueue(label: "serialQueue")
+          let delayQueue = DispatchQueue(label: "delayQueue")
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
             
         
-        let postUUID =  UUID().uuidString
+            let postUUID =  UUID().uuidString
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
             guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
             try? imageData.write(to: filePath2!, options: .atomicWrite)
@@ -272,80 +278,21 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        try? image.write(to: filePath2!,options: [.atomic])
             
 //            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
-            self.pushDataToGoogle(data: imageData, uuid: postUUID)
-            
-//            try? compressData?.write(to: filePath2!, options: .atomicWrite)
-//        let myphoto = CKAsset(fileURL: filePath!)
-//            let compressedData = CKAsset(fileURL: filePath2!)
-//            self.newNote.setValue(compressedData, forKey: "myphoto")
-//        self.newNote.setValue(postUUID, forKey: "content")
-//            self.database.save(self.newNote) { (record, error) in
-//               if let error = error{
-//                   print(error)
-//               }
-//               guard   record  != nil else { return }
-//               print("saved record")
-                
-//        var annotatiobox : CLLocationCoordinate2D?
-//            let request = NSFetchRequest<PostInfomation>(entityName: "Post")
-//
-//        postIn.postIntroduction = didselect ?? ""
-            let postinformation = PostInfomation(context: self.sharepost.myContextPost) //有問題
- 
-
-//        postinformation.postCategory = didselect ?? Category[0]
-//        postinformation.userLocation = locationTextField.text ?? "N/A"
-//        postinformation.postIntroduction = Introduction.text ?? "N/A"
-        
-        
-        let geoLocation = CLGeocoder()
-            DispatchQueue.main.async {
-                
-            
-            geoLocation.geocodeAddressString(self.locationTextField.text ?? "N/A"
-            ) { (placemarks, error) in
-                if let error = error{
-                    print(error)
-                }
-              
-               guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
-                
-               var annotationCoordinate  = cordinate
-               
-               
-                
-                    annotationCoordinate.latitude += 0.0001
-                    annotationCoordinate.longitude += 0.0001
-//                   let annotation = MKPointAnnotation()
-//                   annotation.coordinate = annotationCoordinate
-//                annotatiobox = annotationCoordinate
-                postinformation.latitude = String(annotationCoordinate.latitude)
-                postinformation.longitude = String(annotationCoordinate.longitude)
-                postinformation.postCategory = self.didselect ?? "N/A"
-                postinformation.postUUID = postUUID
-                postinformation.postIntroduction = self.Introduction.text ?? "N/A"
-                postinformation.userLocation = self.locationTextField.text ?? "N/A"
-                
-                self.sharepost.data.append(postinformation)
-                self.sharepost.saveData()
+           serialQueue.sync {
+                self.pushDataToGoogle(data: imageData, uuid: postUUID)
            }
-        }
+          
             
-//        sharepost.data.append(postinformation)
-//        print(annotatiobox?.latitude)
-            DispatchQueue.main.async {
+          
+       
+            delayQueue.asyncAfter(deadline: DispatchTime.now() + 2) {
+                
                 guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
                 guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-                //                let authResultEmail = "qweqwe"
-                
-                
                 self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
                     guard let data = data else {return}
                     for i in data.documents{
-                        
-                        
                         self.myNickName = (i.data()["nickName"] as! String)
-                        
                         let parameters : [String:Any] = [
                             "Name":"\(self.myNickName ?? "N/A" )",
                             "postCategory":self.didselect  ?? "N/A" ,
@@ -375,18 +322,113 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             }
                         }
                         
-                        self.sharepost.saveData()
-                        DispatchQueue.main.async {
                             self.navigationController?.popViewController(animated: true)
-                        }
+                        
                     }
                 }
-                
-                
             }
+          
             
-            }
+//            try? compressData?.write(to: filePath2!, options: .atomicWrite)
+//        let myphoto = CKAsset(fileURL: filePath!)
+//            let compressedData = CKAsset(fileURL: filePath2!)
+//            self.newNote.setValue(compressedData, forKey: "myphoto")
+//        self.newNote.setValue(postUUID, forKey: "content")
+//            self.database.save(self.newNote) { (record, error) in
+//               if let error = error{
+//                   print(error)
+//               }
+//               guard   record  != nil else { return }
+//               print("saved record")
+                
+//        var annotatiobox : CLLocationCoordinate2D?
+//            let request = NSFetchRequest<PostInfomation>(entityName: "Post")
+//
+//        postIn.postIntroduction = didselect ?? ""
+//            let postinformation = PostInfomation(context: self.sharepost.myContextPost) //有問題
+ 
+
+//        postinformation.postCategory = didselect ?? Category[0]
+//        postinformation.userLocation = locationTextField.text ?? "N/A"
+//        postinformation.postIntroduction = Introduction.text ?? "N/A"
+        
+        
+//        let geoLocation = CLGeocoder()
+//            DispatchQueue.main.async {
+//
+//
+//            geoLocation.geocodeAddressString(self.locationTextField.text ?? "N/A"
+//            ) { (placemarks, error) in
+//                if let error = error{
+//                    print(error)
+//                }
+//
+//               guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+//
+//               var annotationCoordinate  = cordinate
+//
+//
+//
+//                    annotationCoordinate.latitude += 0.0001
+//                    annotationCoordinate.longitude += 0.0001
+////                   let annotation = MKPointAnnotation()
+////                   annotation.coordinate = annotationCoordinate
+////                annotatiobox = annotationCoordinate
+//                postinformation.latitude = String(annotationCoordinate.latitude)
+//                postinformation.longitude = String(annotationCoordinate.longitude)
+//                postinformation.postCategory = self.didselect ?? "N/A"
+//                postinformation.postUUID = postUUID
+//                postinformation.postIntroduction = self.Introduction.text ?? "N/A"
+//                postinformation.userLocation = self.locationTextField.text ?? "N/A"
+//
+//                self.sharepost.data.append(postinformation)
+//                self.sharepost.saveData()
+//           }
+//        }
+//            DispatchQueue.main.async {
+//                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
+//                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+//                self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
+//                    guard let data = data else {return}
+//                    for i in data.documents{
+//                        self.myNickName = (i.data()["nickName"] as! String)
+//                        let parameters : [String:Any] = [
+//                            "Name":"\(self.myNickName ?? "N/A" )",
+//                            "postCategory":self.didselect  ?? "N/A" ,
+//                            "userLocation":self.locationTextField.text  ?? "N/A" ,
+//                            "postIntroduction":self.Introduction.text  ?? "N/A" ,
+//                            "googleName":myGoogleName ,
+//                            "postUUID":  postUUID ,
+//                            "postTime":currentTime.share.time(),
+//                            "timeStamp": Timestamp(date: Date()),
+//                            "viewsCount":0,
+//                            "productName":self.productName.text ?? "N/A",
+//                            "favoriteCounts":0,
+//                            "userShortLocation":adressdata,
+//                            "mainCategory":self.mainCategoryTextField.text ?? "N/A",
+//                            "gmail":authResultEmail]
+//
+//                        //save to allpost
+//                        self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
+//                            if let e = error{
+//                                print("Error=\(e)")
+//                            }
+//                        }
+//                        //save to mypost
+//                        self.db.collection("user").document(myGoogleName).collection("myPost").document(postUUID).setData(["we":1]) { (error) in
+//                            if let e = error{
+//                                print("Error=\(e)")
+//                            }
+//                        }
+////                        self.sharepost.saveData()
+//                        DispatchQueue.main.async {
+//                            self.navigationController?.popViewController(animated: true)
+//                        }
+//                    }
+//                }
+//            }
         }
+    }
 //    }
 
     
