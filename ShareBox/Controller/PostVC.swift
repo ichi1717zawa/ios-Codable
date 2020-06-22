@@ -489,8 +489,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
        func thumbnailImage(image:UIImage)->UIImage?{
 
-            let thumbnailSize = CGSize(width: self.imageview.frame.size.width   ,
-                                       height: self.imageview.frame.size.height   ); //設定縮圖大小
+        let thumbnailSize = CGSize(width: image.size.width * 0.1     ,
+                                   height: image.size.height * 0.1    ); //設定縮圖大小
                    let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
                    //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
                    UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
@@ -502,12 +502,14 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
                    let ratio = min(widthRatio,heightRadio);
 
-                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
+//                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
+       
+        let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
 
     //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
     //               circlePath.addClip()
 
-                   image.draw(in: CGRect(x: -(imageSize.width-thumbnailSize.width)/2.0, y: -(imageSize.height-thumbnailSize.height)/2.0,
+                   image.draw(in: CGRect(x: -(imageSize.width-thumbnailSize.width), y: -(imageSize.height-thumbnailSize.height),
                                          width: imageSize.width, height: imageSize.height))
                    //取得畫布上的縮圖
                    let smallImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -628,9 +630,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //            print(  self.productName.frame.maxY)
 //            print(self.navigationController?.navigationBar.frame.height)
             print(tabarItemHeight)
-         }
-        
-       
+         } 
     }
     
     
