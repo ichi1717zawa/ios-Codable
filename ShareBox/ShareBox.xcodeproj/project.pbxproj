@@ -11,6 +11,7 @@
 		FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */; };
 		FA19045A247966D5009B9B3C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA190459247966D4009B9B3C /* Map.swift */; };
 		FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */; };
+		FA45650224A108730015DEF3 /* lookImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA45650124A108730015DEF3 /* lookImage.swift */; };
 		FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F47248CEE02002C68D4 /* allPostDetail.swift */; };
 		FA521F4C248CF138002C68D4 /* allPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* allPostVC.swift */; };
 		FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4D248CF72C002C68D4 /* allPostModel.swift */; };
@@ -53,6 +54,7 @@
 		FAC560E5247A700E000E8247 /* loginImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FAC560E4247A700D000E8247 /* loginImage.jpg */; };
 		FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560E6247A8FB4000E8247 /* TabbarVC.swift */; };
 		FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */; };
+		FAE357C024A13E3F00DBA748 /* MYPIN.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE357BF24A13E3F00DBA748 /* MYPIN.png */; };
 		FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */; };
 		FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */; };
 		FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFF247EB49200B6A716 /* PostVC.swift */; };
@@ -67,6 +69,7 @@
 		FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignIn.swift; sourceTree = "<group>"; };
 		FA190459247966D4009B9B3C /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Once.swift"; sourceTree = "<group>"; };
+		FA45650124A108730015DEF3 /* lookImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookImage.swift; sourceTree = "<group>"; };
 		FA521F47248CEE02002C68D4 /* allPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetail.swift; sourceTree = "<group>"; };
 		FA521F4B248CF138002C68D4 /* allPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostVC.swift; sourceTree = "<group>"; };
 		FA521F4D248CF72C002C68D4 /* allPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostModel.swift; sourceTree = "<group>"; };
@@ -112,6 +115,7 @@
 		FAC560E4247A700D000E8247 /* loginImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginImage.jpg; sourceTree = "<group>"; };
 		FAC560E6247A8FB4000E8247 /* TabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVC.swift; sourceTree = "<group>"; };
 		FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCustomCell.swift; sourceTree = "<group>"; };
+		FAE357BF24A13E3F00DBA748 /* MYPIN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MYPIN.png; sourceTree = "<group>"; };
 		FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLoginInit.swift; sourceTree = "<group>"; };
 		FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataShare.swift; sourceTree = "<group>"; };
 		FAEDBAFF247EB49200B6A716 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */,
+				FA45650124A108730015DEF3 /* lookImage.swift */,
 				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
 				FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */,
 				FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */,
@@ -186,6 +191,7 @@
 				FA6F8C502480343E0051E318 /* pointRed@2x.png */,
 				FA6F8C4F2480343E0051E318 /* pointRed@3x.png */,
 				FAAED459248FA219006EA3FD /* chatIcon.png */,
+				FAE357BF24A13E3F00DBA748 /* MYPIN.png */,
 				FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */,
 			);
 			path = Helper;
@@ -348,6 +354,7 @@
 				FA6F8C532480343E0051E318 /* pointRed@2x.png in Resources */,
 				FA6F8C542480343E0051E318 /* pointRed.png in Resources */,
 				FA66AD17246E306E00C9F31F /* Assets.xcassets in Resources */,
+				FAE357C024A13E3F00DBA748 /* MYPIN.png in Resources */,
 				FA6F8C522480343E0051E318 /* pointRed@3x.png in Resources */,
 				FA66AD12246E306A00C9F31F /* Main.storyboard in Resources */,
 				FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */,
@@ -424,6 +431,7 @@
 				FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */,
 				FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */,
 				FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */,
+				FA45650224A108730015DEF3 /* lookImage.swift in Sources */,
 				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,
 				FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */,
 				FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */,

@@ -265,11 +265,13 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         let serialQueue: DispatchQueue = DispatchQueue(label: "serialQueue")
           let delayQueue = DispatchQueue(label: "delayQueue")
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
-            
-        
+//            
+        let image = self.imageview.image
+        print(self.thumbnailImage(image: image!)?.size.width)
+        print(self.thumbnailImage(image: image!)?.size.height)
             let postUUID =  UUID().uuidString
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
-            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.3) else {return}
             try? imageData.write(to: filePath2!, options: .atomicWrite)
             
 //             let fileName = "tempImage.jpg"
@@ -487,35 +489,69 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
           self.dismiss(animated: true, completion: nil)
     }
     
+    
        func thumbnailImage(image:UIImage)->UIImage?{
+         let imageScale = image.size.width / image.size.height
+        if imageScale >= 1 {
+            let thumbnailSize = CGSize(width: 120     ,
+                                       height: 90    ); //設定縮圖大小
+                               let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
+                               //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
+                               UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
 
-        let thumbnailSize = CGSize(width: image.size.width * 0.1     ,
-                                   height: image.size.height * 0.1    ); //設定縮圖大小
-                   let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
-                   //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
-                   UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
+                               //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill
+                               //最小值MIN會變成UIViewContentModeScaleAspectFit
+                               let widthRatio = thumbnailSize.width / image.size.width;
+                               let heightRadio = thumbnailSize.height / image.size.height;
 
-                   //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill
-                   //最小值MIN會變成UIViewContentModeScaleAspectFit
-                   let widthRatio = thumbnailSize.width / image.size.width;
-                   let heightRadio = thumbnailSize.height / image.size.height;
+                               let ratio = min(widthRatio,heightRadio);
 
-                   let ratio = min(widthRatio,heightRadio);
+            //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
+                   
+                    let imageSize = CGSize(width:  image.size.width*ratio   , height:  image.size.height*ratio );
 
-//                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
+                //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
+                //               circlePath.addClip()
+
+                               image.draw(in: CGRect(x: -(imageSize.width-thumbnailSize.width), y: -(imageSize.height-thumbnailSize.height),
+                                                     width: imageSize.width, height: imageSize.height))
+                               //取得畫布上的縮圖
+                               let smallImage = UIGraphicsGetImageFromCurrentImageContext();
+                               //關掉畫布
+                               UIGraphicsEndImageContext();
+                               return smallImage
+        } else if imageScale <= 1 {
+            let thumbnailSize = CGSize(width: 90     ,
+                                                  height: 120    ); //設定縮圖大小
+                                          let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
+                                          //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
+                                          UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
+
+                                          //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill
+                                          //最小值MIN會變成UIViewContentModeScaleAspectFit
+                                          let widthRatio = thumbnailSize.width / image.size.width;
+                                          let heightRadio = thumbnailSize.height / image.size.height;
+
+                                          let ratio = min(widthRatio,heightRadio);
+
+                       //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
+                              
+//                               let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
+             let imageSize = CGSize(width:  image.size.width*ratio   , height:  image.size.height*ratio );
+
+                           //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
+                           //               circlePath.addClip()
+
+                                          image.draw(in: CGRect(x: -(imageSize.width-thumbnailSize.width), y: -(imageSize.height-thumbnailSize.height),
+                                                                width: imageSize.width, height: imageSize.height))
+                                          //取得畫布上的縮圖
+                                          let smallImage = UIGraphicsGetImageFromCurrentImageContext();
+                                          //關掉畫布
+                                          UIGraphicsEndImageContext();
+                                          return smallImage
+        }
+        return nil
        
-        let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
-
-    //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
-    //               circlePath.addClip()
-
-                   image.draw(in: CGRect(x: -(imageSize.width-thumbnailSize.width), y: -(imageSize.height-thumbnailSize.height),
-                                         width: imageSize.width, height: imageSize.height))
-                   //取得畫布上的縮圖
-                   let smallImage = UIGraphicsGetImageFromCurrentImageContext();
-                   //關掉畫布
-                   UIGraphicsEndImageContext();
-                   return smallImage
 
            }
     

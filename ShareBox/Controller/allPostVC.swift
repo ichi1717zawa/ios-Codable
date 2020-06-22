@@ -44,6 +44,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
+        allPostcell.introduction.text = data.subTitle
 //        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         

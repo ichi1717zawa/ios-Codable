@@ -52,7 +52,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+     
        tempOriginY = self.textField.frame.origin.y
         
         
@@ -249,6 +249,9 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     }
     @IBAction func backToRoot(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
+       
     }
+   
+    @IBOutlet weak var navagationBar: UINavigationBar!
     
 }

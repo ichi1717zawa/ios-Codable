@@ -170,6 +170,11 @@ class allPostDetailBycell: UIViewController      {
             personalMessage.otherGoogleName = self.postGoolgeName ?? self.data.postGoolgeName
             personalMessage.otherNickName =  self.postNickName ??  self.data.postNickName
           }
+          else if segue.identifier == "showImageSegue"{
+            let showImage = segue.destination as! lookImage
+            showImage.myimage = self.postimage.image
+            
+        }
       }
     
     
@@ -255,6 +260,11 @@ class allPostDetailBycell: UIViewController      {
     
     @IBAction func backToRootView(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
+        
     }
     
-}
+   
+  
+   
+    
+ }
