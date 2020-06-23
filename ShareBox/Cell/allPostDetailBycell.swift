@@ -13,6 +13,7 @@ class allPostDetailBycell: UIViewController      {
     var tempIndex : IndexPath!
     var postUUID : String?
     var postGmail :String?
+    let myuid = Auth.auth().currentUser?.uid
     @IBOutlet weak var sendMessageOutlet: UIButton!
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -31,7 +32,7 @@ class allPostDetailBycell: UIViewController      {
     let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
     override func viewDidLoad() {
         super.viewDidLoad()
-         
+           
         queryData()
        
         let filter: String! =  self.postUUID ?? self.data.postUUID
@@ -58,7 +59,7 @@ class allPostDetailBycell: UIViewController      {
                     self.postimage.image = image
                 }else{
                     self.maskView.alpha = 0.5
-                          self.activityIndicator.startAnimating()
+                    self.activityIndicator.startAnimating()
 //                    let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
 //                           let query = CKQuery(recordType: "Note", predicate: predicate)
 //                    self.database.perform(query, inZoneWith: nil) { (records, _) in
@@ -224,13 +225,13 @@ class allPostDetailBycell: UIViewController      {
          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         if self.favoriteButton.currentTitle == "inDatabase"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
-            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myGoogleName).delete()
-            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myuid!).delete()
+            self.db.collection("user").document(myuid!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
             
         }else{
             self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
-            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myGoogleName).setData(["favorite": "favorite"])
-            self.db.collection("user").document(myGoogleName).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myuid!).setData(["favorite": "favorite"])
+            self.db.collection("user").document(myuid!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
         }
         //        if segue.identifier == "allPostDetailBycell"{
         //                            let detailVcByCell = segue.destination as! allPostDetailBycell
@@ -243,7 +244,8 @@ class allPostDetailBycell: UIViewController      {
     
     func queryData(){
          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        self.db.collection("user").document(myGoogleName).collection("favoriteList").addSnapshotListener { (query, error) in
+//        guard let myuid = Auth.auth().currentUser?.uid else {return}
+        self.db.collection("user").document(myuid!).collection("favoriteList").addSnapshotListener { (query, error) in
             guard let query = query else {return}
             for i in query.documents{
                 print(i.documentID)

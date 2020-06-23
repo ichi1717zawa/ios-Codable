@@ -16,22 +16,17 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
+#ifndef FBSDKMonitorHeaders_h
+#define FBSDKMonitorHeaders_h
 
-#if !TARGET_OS_TV
+#import "FBSDKMethodUsageMonitor.h"
+#import "FBSDKMethodUsageMonitorEntry.h"
+#import "FBSDKMonitor.h"
+#import "FBSDKMonitoringConfiguration.h"
+#import "FBSDKMonitorEntry.h"
+#import "FBSDKMonitorNetworker.h"
+#import "FBSDKMonitorStore.h"
+#import "FBSDKPerformanceMonitor.h"
+#import "FBSDKPerformanceMonitorEntry.h"
 
-#import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface FBSDKAddressInferencer : NSObject
-
-+ (void)initializeDenseFeature;
-+ (void)loadWeights;
-+ (BOOL)shouldFilterParam:(nullable NSString *)param;
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-#endif
+#endif /* FBSDKMonitorHeaders_h */

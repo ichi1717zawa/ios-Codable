@@ -290,9 +290,14 @@
         GIDSignIn.sharedInstance()?.signOut()
         self.navigationController?.popToRootViewController(animated: true)
     }
+    
     @IBAction func SignOutButton(_ sender: UIButton) {
         GIDSignIn.sharedInstance()?.signOut()
         self.navigationController?.popToRootViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func kkjij(_ sender: Any) {
+          self.navigationController?.popToRootViewController(animated: true)
     }
  }
  

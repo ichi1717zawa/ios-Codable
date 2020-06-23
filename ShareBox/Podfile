@@ -11,4 +11,5 @@ target 'ShareBox' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Storage'
+  pod 'FBSDKLoginKit'
 end

@@ -36,15 +36,13 @@ class CoredataShare {
                           
                       }
                   }
-                  
-                  
-                  
               }
+    
               
               //-----------------------------------------------------
            func saveData(){
-                          try? myContext.save()
-                      }
+            try? myContext.save()
+            }
     
     
     func myContextCount() -> Int {
