@@ -167,7 +167,6 @@
 				FA521F4B248CF138002C68D4 /* allPostVC.swift */,
 				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
 				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
-				FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */,
 				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
 				FAB45D8B24802589005A183D /* MapVC.swift */,
 				FA96841C2485E461002301A7 /* chatTable.swift */,
@@ -258,6 +257,7 @@
 		FAA03346248FE50F00E157A9 /* Prepare Delete */ = {
 			isa = PBXGroup;
 			children = (
+				FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */,
 				FA6641BA247E4415003D121C /* AboutMeVC.swift */,
 				FA0F574E2479AA21007CA9C6 /* GoogleSignIn.swift */,
 				FA66AD0E246E306A00C9F31F /* ViewController.swift */,

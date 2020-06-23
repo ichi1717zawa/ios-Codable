@@ -12,6 +12,7 @@ import GoogleSignIn
 import CloudKit
 import FirebaseStorage
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate,UIGestureRecognizerDelegate {
+    let myUID : String! = Auth.auth().currentUser?.uid
     func updateSearchResults(for searchController: UISearchController) {
       
     }
@@ -191,7 +192,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
                     userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
                     favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
-                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A")
+                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
+                    posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
                         
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -358,7 +360,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         let postUUID = self.data[indexPath.row].postUUID
         
       let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        db.collection("userPost").document("\(postUUID)").collection("views").document(myGoogleName).setData(["viww": "view"])
+        db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
         CountViews()
          
     }

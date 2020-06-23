@@ -4,6 +4,7 @@
  import Firebase
  import GoogleSignIn
  class FavoriteVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
+    let myUID : String! = Auth.auth().currentUser?.uid
     func updateSearchResults(for searchController: UISearchController) {
         
     }
@@ -78,7 +79,8 @@
     
     func queryFirestore(){
         guard let myGoogleName = self.myGoogleName else {return}
-        db.collection("user").document(myGoogleName).collection("favoriteList").addSnapshotListener { (query, error) in
+        
+        db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
             }
@@ -108,7 +110,8 @@
                                                                      userLocation: data.data()?["userLocation"] as? String ?? "N/A",
                                                                      userShortLocation:data.data()?["userShortLocation"] as? String ?? "N/A",
                                                                      favoriteCount: data.data()?["favoriteCounts"] as? Int ?? 0,
-                                                                     mainCategory:data.data()?["mainCategory"] as? String ?? "N/A")
+                                                                     mainCategory:data.data()?["mainCategory"] as? String ?? "N/A",
+                                                                     posterUID: data.data()?["posterUID"] as? String ?? "N/A")
                           
                                        self.data.append(postdetail)
                                        self.tableview.reloadData()
@@ -209,8 +212,8 @@
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let postUUID = self.data[indexPath.row].postUUID
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        db.collection("userPost").document("\(postUUID)").collection("views").document(myGoogleName).setData(["viww": "view"])
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
         CountViews()
     }
     

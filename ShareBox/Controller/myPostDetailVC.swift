@@ -15,6 +15,7 @@ class myPostDetailVC: UIViewController  {
     var db = Firestore.firestore()
     var annotation : MKAnnotation?
     var tempIndex : IndexPath!
+    let myUID : String! = Auth.auth().currentUser?.uid
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
@@ -172,7 +173,7 @@ class myPostDetailVC: UIViewController  {
         db.collection("userPost").document(postUUID).delete { (error) in
             print(error)
         }
-        db.collection("user").document(self.data.postGoolgeName).collection("myPost").document(postUUID).delete()
+        db.collection("user").document(myUID).collection("myPost").document(postUUID).delete()
         self.delegate?.Update(data: data)
         self.navigationController?.popViewController(animated: true)
     }

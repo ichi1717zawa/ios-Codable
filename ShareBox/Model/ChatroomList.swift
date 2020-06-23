@@ -19,4 +19,5 @@ class chatRoomList :Equatable {
     var otherGoogleName : String?
     var unreadCount: String?
     var AllCountArray : String?
+    var otherUID:String?
 }

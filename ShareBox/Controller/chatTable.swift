@@ -13,6 +13,7 @@ import GoogleSignIn
 class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
         static var Share = chatTable()
         var otherGoogleName: String!
+        var otherUID:String!
         var otherNickName: String!
         var db = Firestore.firestore()
         var data : [ChatNote] = []
@@ -20,6 +21,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         let my = CoredataShare.share.data.first?.nickname
         var myNickName : String!
         let dummyString = ["9":"9"]
+    let myUID : String! = Auth.auth().currentUser?.uid
         @IBOutlet weak var textField: UITextField!
         @IBOutlet weak var textFieldTopAnchor: NSLayoutConstraint!
         @IBOutlet weak var textFieldBottomAnchor: NSLayoutConstraint!
@@ -57,7 +59,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         
         
         print(self.tableview.frame.origin.y)
-        self.db.collection("user").document( GIDSignIn.sharedInstance()!.currentUser!.profile.name!).getDocument { (data, error) in
+        self.db.collection("user").document(myUID).getDocument { (data, error) in
             if let data = data {
                 self.myNickName = data["nickName"] as? String ?? "N/A"
             }
@@ -72,7 +74,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
  
     func queryFirestore2(){
           let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
+        self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
               if let error = error{ print("query Faild\(error)") }
            
               guard let documentChange = query?.documents else {return}
@@ -100,7 +102,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     func queryFirestore(){
         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").addSnapshotListener { (query, error) in
+        self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").addSnapshotListener { (query, error) in
             if let error = error{ print("query Faild\(error)") }
             guard let documentChange = query?.documentChanges else {return}
             for change in documentChange{
@@ -119,11 +121,11 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     
     func clearViewCounts(){
-          db.collection("user").document(myGoogleName).collection("Messages").document(otherNickName).collection("Message").whereField("read", isEqualTo: false).getDocuments { (query, error) in
+          db.collection("user").document(myUID).collection("Messages").document(otherNickName).collection("Message").whereField("read", isEqualTo: false).getDocuments { (query, error) in
               
               guard let query = query?.documents else {return}
               for i in query{
-                  self.db.collection("user").document(self.myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(i.documentID).setData(["read":""],merge: true)
+                  self.db.collection("user").document(self.myUID).collection("Messages").document(self.otherNickName).collection("Message").document(i.documentID).setData(["read":""],merge: true)
               }
           }
       }
@@ -160,15 +162,16 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? ""]
         receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? "" ,"read":false]
 //
-        self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).setData(["otherGoogleName":self.otherGoogleName ?? "N/A"
+        self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).setData(["otherUID":self.otherUID ?? "N/A"
         ]) { (error) in
-            self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(self.currentTime ()).setData(sendParameter)
+            self.db.collection("user").document(self.myUID).collection("Messages").document(self.otherNickName).collection("Message").document(self.currentTime ()).setData(sendParameter)
         }
 
       
-        self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).setData(["otherGoogleName":myGoogleName]) { (error) in
-            self.db.collection("user").document(self.otherGoogleName).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
+        self.db.collection("user").document(self.otherUID).collection("Messages").document( self.myNickName).setData(["otherUID":myUID!]) { (error) in
+            self.db.collection("user").document(self.otherUID).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
         }
+        
         self.textField.text = ""
     }
     

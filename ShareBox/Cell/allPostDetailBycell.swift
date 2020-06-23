@@ -13,7 +13,8 @@ class allPostDetailBycell: UIViewController      {
     var tempIndex : IndexPath!
     var postUUID : String?
     var postGmail :String?
-    let myuid = Auth.auth().currentUser?.uid
+    var posterUID : String?
+    let myUID = Auth.auth().currentUser?.uid
     @IBOutlet weak var sendMessageOutlet: UIButton!
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -110,9 +111,10 @@ class allPostDetailBycell: UIViewController      {
                 self.postGoolgeName = data.data()["googleName"] as? String
                 self.postNickName = data.data()["Name"] as? String
                 self.postGmail = data.data()["gmail"] as? String
+                self.posterUID = data.data()["posterUID"] as? String
                 print(data.data()["gmail"] as? String)
                  
-                if data.data()["gmail"] as? String != self.myGmail{
+                if data.data()["posterUID"] as? String != self.myUID{
                     print("same gmail")
                     UIView.animate(withDuration: 0.3) {
                         self.favoriteButton.alpha = 1
@@ -168,7 +170,8 @@ class allPostDetailBycell: UIViewController      {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
           if segue.identifier == "personalMessageWithCell"{
               let personalMessage = segue.destination as! chatTable
-            personalMessage.otherGoogleName = self.postGoolgeName ?? self.data.postGoolgeName
+            personalMessage.otherUID = self.posterUID
+//            personalMessage.otherGoogleName = self.posterUID ?? self.data.postGoolgeName
             personalMessage.otherNickName =  self.postNickName ??  self.data.postNickName
           }
           else if segue.identifier == "showImageSegue"{
@@ -225,13 +228,13 @@ class allPostDetailBycell: UIViewController      {
          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         if self.favoriteButton.currentTitle == "inDatabase"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
-            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myuid!).delete()
-            self.db.collection("user").document(myuid!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myUID!).delete()
+            self.db.collection("user").document(myUID!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
             
         }else{
             self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
-            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myuid!).setData(["favorite": "favorite"])
-            self.db.collection("user").document(myuid!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
+            self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myUID!).setData(["favorite": "favorite"])
+            self.db.collection("user").document(myUID!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
         }
         //        if segue.identifier == "allPostDetailBycell"{
         //                            let detailVcByCell = segue.destination as! allPostDetailBycell
@@ -245,7 +248,7 @@ class allPostDetailBycell: UIViewController      {
     func queryData(){
          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
 //        guard let myuid = Auth.auth().currentUser?.uid else {return}
-        self.db.collection("user").document(myuid!).collection("favoriteList").addSnapshotListener { (query, error) in
+        self.db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
             guard let query = query else {return}
             for i in query.documents{
                 print(i.documentID)

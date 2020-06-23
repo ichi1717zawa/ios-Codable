@@ -61,7 +61,8 @@ extension allPostVC {
                         userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
                         userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
                         favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
-                        mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A")
+                        mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
+                         posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
                             
     //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
     //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",

@@ -30,7 +30,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     let shareInfo = CoredataShare.share
     var tempCategoryDetail = [String]()
      var tempNumber : Int!
-    
+    let myUID : String! = Auth.auth().currentUser?.uid
      var db :Firestore!
     
     
@@ -291,7 +291,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                 
                 guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
                 guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-                self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
+                self.db.collection("user").whereField("uid", isEqualTo: self.myUID!).getDocuments { (data, error) in
                     guard let data = data else {return}
                     for i in data.documents{
                         self.myNickName = (i.data()["nickName"] as! String)
@@ -300,7 +300,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "postCategory":self.didselect  ?? "N/A" ,
                             "userLocation":self.locationTextField.text  ?? "N/A" ,
                             "postIntroduction":self.Introduction.text  ?? "N/A" ,
-                            "googleName":myGoogleName ,
+                            "posterUID":self.myUID ?? "N/A" ,
                             "postUUID":  postUUID ,
                             "postTime":currentTime.share.time(),
                             "timeStamp": Timestamp(date: Date()),
@@ -309,7 +309,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "favoriteCounts":0,
                             "userShortLocation":adressdata,
                             "mainCategory":self.mainCategoryTextField.text ?? "N/A",
-                            "gmail":authResultEmail]
+                            "gmail":authResultEmail ?? "N/A" ]
                         
                         //save to allpost
                         self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
@@ -318,7 +318,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             }
                         }
                         //save to mypost
-                        self.db.collection("user").document(myGoogleName).collection("myPost").document(postUUID).setData(["we":1]) { (error) in
+                        self.db.collection("user").document(self.myUID).collection("myPost").document(postUUID).setData(["we":1]) { (error) in
                             if let e = error{
                                 print("Error=\(e)")
                             }
