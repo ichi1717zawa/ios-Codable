@@ -264,6 +264,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     @IBAction func done(_ sender: Any) {
         let serialQueue: DispatchQueue = DispatchQueue(label: "serialQueue")
           let delayQueue = DispatchQueue(label: "delayQueue")
+         let ctx = CIContext()
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
 //            
         let image = self.imageview.image
@@ -271,8 +272,21 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         print(self.thumbnailImage(image: image!)?.size.height)
             let postUUID =  UUID().uuidString
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
-            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),let imageData = thumbImage.jpegData(compressionQuality: 0.3) else {return}
+            let filePath3 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("postUUID")
+            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),
+                let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+            
+            
             try? imageData.write(to: filePath2!, options: .atomicWrite)
+            
+            let ciImage = CIImage(image: self.thumbnailImage(image: image!)!)
+            
+                                
+             try! ctx.writeHEIFRepresentation(of: ciImage!, to: filePath3!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
+            let data = try! Data(contentsOf: filePath3!)
+//                        let ima = UIImage(ciImage: ciImage!)
+//                        self.imageview.image = ima
+            
             
 //             let fileName = "tempImage.jpg"
 //            let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
@@ -280,8 +294,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        try? image.write(to: filePath2!,options: [.atomic])
             
 //            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
+            
+            
            serialQueue.sync {
-                self.pushDataToGoogle(data: imageData, uuid: postUUID)
+                self.pushDataToGoogle(data: data, uuid: postUUID)
            }
           
             
@@ -483,9 +499,31 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         }
      
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let filePath2 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("testData")
+         
+       
+        
+      
         if let image = info[.originalImage] as? UIImage{
-            self.imageview.image = image
+           
+            
+           
+//            try! data?.write(to: filePath2!)
+//            self.imageview.image = image
+             do {
+
+                        let ctx = CIContext()
+                        let ciImage = CIImage(image: image)
+//                try ctx.writeHEIFRepresentation(of: ciImage!, to: filePath2!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
+                let ima = UIImage(ciImage: ciImage!)
+                self.imageview.image = ima
+                
+
+                    } catch {
+                        print("ERROR", error.localizedDescription)
+                    }
         }
+        
           self.dismiss(animated: true, completion: nil)
     }
     
@@ -493,8 +531,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
        func thumbnailImage(image:UIImage)->UIImage?{
          let imageScale = image.size.width / image.size.height
         if imageScale >= 1 {
-            let thumbnailSize = CGSize(width: 120     ,
-                                       height: 90    ); //設定縮圖大小
+            let thumbnailSize = CGSize(width: 1200     ,
+                                       height: 900    ); //設定縮圖大小
                                let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
                                //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
                                UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)

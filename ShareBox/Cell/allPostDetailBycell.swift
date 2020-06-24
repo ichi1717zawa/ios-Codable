@@ -6,7 +6,8 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 import FirebaseStorage
-class allPostDetailBycell: UIViewController      {
+class allPostDetailBycell: UIViewController  {
+    @IBOutlet weak var discriptionLabel: UILabel!
     var data : allPostModel!
     var db = Firestore.firestore()
     var annotation : MKAnnotation?
@@ -23,7 +24,7 @@ class allPostDetailBycell: UIViewController      {
     @IBOutlet weak var categoryLabel: UITextField!
     @IBOutlet weak var niceNameLabel: UITextField!
     @IBOutlet weak var userLocationLabel: UITextField!
-    @IBOutlet weak var discriptionLabel: UITextView!
+//    @IBOutlet weak var discriptionLabel: UITextView!
     @IBOutlet weak var favoriteButton: UIButton!
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
@@ -106,7 +107,8 @@ class allPostDetailBycell: UIViewController      {
                 self.categoryLabel.text = data.data()["postCategory"] as? String
                 self.niceNameLabel.text = data.data()["Name"] as? String
                 self.userLocationLabel.text = data.data()["userLocation"] as? String
-                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
+//                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
+                 self.discriptionLabel.text = data.data()["postIntroduction"] as? String
                 self.productName.text = data.data()["productName"] as? String
                 self.postGoolgeName = data.data()["googleName"] as? String
                 self.postNickName = data.data()["Name"] as? String
