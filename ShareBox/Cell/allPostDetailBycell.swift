@@ -31,7 +31,7 @@ class allPostDetailBycell: UIViewController  {
     var receiverAnnotationData : AnnotationDetail?
     var  postGoolgeName :String?
     var postNickName:String?
-    let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
+//    let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
     override func viewDidLoad() {
         super.viewDidLoad()
            
@@ -145,11 +145,7 @@ class allPostDetailBycell: UIViewController  {
         
 //        self.receiverAnnotationData = receiveAnnotation
         
-              if self.postGmail == myGmail{
-                  
-               
-                 
-              }
+           
     }
      
     required init?(coder: NSCoder) {
@@ -227,7 +223,7 @@ class allPostDetailBycell: UIViewController  {
 //    }
     
     @IBAction func favoriteButtonClick(_ sender: UIButton) {
-         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         if self.favoriteButton.currentTitle == "inDatabase"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
             self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myUID!).delete()
@@ -248,7 +244,7 @@ class allPostDetailBycell: UIViewController  {
     
     
     func queryData(){
-         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
 //        guard let myuid = Auth.auth().currentUser?.uid else {return}
         self.db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
             guard let query = query else {return}

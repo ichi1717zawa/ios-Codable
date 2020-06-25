@@ -26,7 +26,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     var unread : String?
     var receiveMessageOtherUID:String!
     let myUID : String! = Auth.auth().currentUser?.uid
-    let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//    let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     override func viewDidLoad() {
         super.viewDidLoad()
 //        CoredataShare.share.loadData()
@@ -50,7 +50,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     func queryFirestore(){
         
 //        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
             if let error = error{
@@ -82,7 +82,10 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                         
 //                        self.updatePersonalUnreadCounts( )
                         otherUID.unreadCount = change.document.data()["unRead"] as? String
-                        self.tableview.reloadData()
+                        
+                        if let tableview = self.tableview{
+                            tableview.reloadData()
+                        }
 //                        self.updateTabbarItembadge()
                         print("yes")
                     }
@@ -94,7 +97,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }
     func updatePersonalUnreadCounts( ){
  
-          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (data, error) in
             for otherID in data!.documents{
    
@@ -107,7 +110,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                         .collection("Messages")
                         .document(otherID.documentID)
                         .setData(["unRead":"\(query.count)"],merge: true)
-                    
+                      
                       
                   }
                
@@ -122,7 +125,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
    
     func getSumUnRead (){
         
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("user").document(myUID).getDocument { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -138,7 +141,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     
     func updateTabbarItembadge (){
         var tempInt = 0
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
             if let error = error{
@@ -164,7 +167,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
      
     func viewInChatListUpdate(){
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {GIDSignIn.sharedInstance()?.restorePreviousSignIn() }
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -198,7 +201,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }//沒用到
 
     
-    
+   
 
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return self.chatData.count

@@ -26,6 +26,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
+    var tableviewOringinminY :CGFloat!
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +70,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                    self.keepDownLoad( uuid: data.postUUID)
                 }else{
                     print("下載成功")
-                    let image = UIImage(contentsOfFile: url!.path)
+                    let ciimage = CIImage(contentsOf: url!)
+//                    let image = UIImage(contentsOfFile: url!.path)
+                    let image = UIImage(ciImage: ciimage!)
                     allPostcell.postImage.image = image
                 }
             }
@@ -131,12 +134,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         
-  
        queryFirestore()
         queryfavoriteCounts()
         checkDataExsist()
     }
+    
+       
+     
     func checkDataExsist(){
        
     }
@@ -359,7 +365,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let postUUID = self.data[indexPath.row].postUUID
         
-      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
         CountViews()
          
@@ -408,12 +414,19 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //         print("down")
 //    }
  
+    @IBOutlet weak var tableviewBottomAnchor: NSLayoutConstraint!
     @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
         print("UP")
         UIView.animate(withDuration: 0.3) {
+            
+            self.tableview.topAnchor.constraint(equalTo:
+                self.view.topAnchor,constant: (self.navigationController?.navigationBar.frame.height)!).isActive = true
+            self.tableview.frame.origin.y = super.view.frame.origin.y + (self.navigationController?.navigationBar.frame.height)!
             self.hidenTopItem.alpha = 0
-            self.tableview.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 0).isActive = true
-            self.tableview.frame.origin.y = super.view.frame.origin.y
+            
+             
+             
+          
         }
         //        self.tableview.topAnchor.constraint(equalTo: super.view.topAnchor,constant: 0).isActive = true
         //            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
@@ -425,6 +438,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         UIView.animate(withDuration: 0.3) {
             self.hidenTopItem.alpha = 1
             self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
+             
         }
         
     }
@@ -492,6 +506,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
            categoryControllButtenView.center.x = super.view.center.x
            searchButton.alpha = 0
            initButton()
+          
        }
     
 
@@ -502,7 +517,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func pressCategoryButton(button:UIButton){
         UIView.animate(withDuration: 0.3) {
             self.initButton()
-                 self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x
+                 self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
                  self.searchButton.alpha = 1
                  button.alpha = 0.6
              }

@@ -4,14 +4,25 @@
  import Firebase
  import GoogleSignIn
  import FirebaseStorage
- class myPostDetailCell: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate {
+ import FBSDKLoginKit
+ class myPostDetailCell: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate, LoginButtonDelegate {
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        
+    }
+    
     let myUID : String! = Auth.auth().currentUser?.uid
     func updateSearchResults(for searchController: UISearchController) {
     }
-        @IBOutlet weak var myInfoView: UIView!
+    @IBOutlet weak var fbLogIn: FBLoginButton!
+  
+    @IBOutlet weak var myInfoView: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var selectCategoryLabel: UILabel!
-    let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name
+//    let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name
     
     @IBOutlet weak var nickname: UILabel!
      @IBOutlet weak var userPhoneNumber: UILabel!
@@ -83,9 +94,13 @@
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-              db.collection("user").whereField("Gmail", isEqualTo: UserEmail).getDocuments { (data, error) in
+        
+        fbLogIn.delegate = self
+        fbLogIn.permissions = ["public_profile","email","user_friends"]
+        
+               
+//  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+        db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments { (data, error) in
                   guard let data = data else {return}
                   for i in data.documents{
                       self.nickname.text = "暱稱:\(i.data()["nickName"] ?? "N/A")"
@@ -123,7 +138,7 @@
     }
     
     func queryFirestore(){
-        guard let myGoogleName = self.myGoogleName else {return}
+//        guard let myGoogleName = self.myGoogleName else {return}
        self.db.collection("userPost").whereField("posterUID", isEqualTo: myUID).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -284,23 +299,29 @@
     }
   
     
-    @IBAction func searchButton(_ sender: UIButton) {
-        
-    }
-     
-    @IBAction func loginOut(_ sender: UIButton) {
-        GIDSignIn.sharedInstance()?.signOut()
-        self.navigationController?.popToRootViewController(animated: true)
-    }
+ 
     
     @IBAction func SignOutButton(_ sender: UIButton) {
+        let fbLoginManager = LoginManager()
+              fbLoginManager.logOut()
+        
+        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
+           
+        }
+         let listener1 = self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener  { querySnapshot, error in
+                  
+               }
+        
+       
+        listener.remove()
+        listener1.remove()
+        
         GIDSignIn.sharedInstance()?.signOut()
+        
+//         try? Auth.auth().signOut()
         self.navigationController?.popToRootViewController(animated: true)
-//        self.navigationController?.popViewController(animated: true)
     }
-    @IBAction func kkjij(_ sender: Any) {
-          self.navigationController?.popToRootViewController(animated: true)
-    }
+  
  }
  
 

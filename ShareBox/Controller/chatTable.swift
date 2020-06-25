@@ -12,7 +12,8 @@ import GoogleSignIn
 
 class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
         static var Share = chatTable()
-        var otherGoogleName: String!
+    @IBOutlet weak var userImage: UIImageView!
+    var otherGoogleName: String!
         var otherUID:String!
         var otherNickName: String!
         var db = Firestore.firestore()
@@ -27,19 +28,25 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         @IBOutlet weak var textFieldBottomAnchor: NSLayoutConstraint!
         @IBOutlet weak var tableview: UITableView!
         var tempOriginY : CGFloat!
-     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+    
+    
+//     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell
+         let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
         if let data = self.data[indexPath.row].SendMessage {
-            cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = data
-            cell.textLabel?.textAlignment = .right
+
+            cell.messageTitle.text = data
+            cell.messageTitle.textAlignment = .right
+            cell.userImage.image = nil
         }else{
-            cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = self.data[indexPath.row].ReceiveMessage
-            cell.textLabel?.textAlignment = .left
+//
+            cell.userImage.image = UIImage(named: "avataaars")
+            cell.messageTitle.text = self.data[indexPath.row].ReceiveMessage
+            cell.messageTitle.textAlignment = .left
+          
         }
         cell.contentView.transform = CGAffineTransform(rotationAngle: .pi)
         return cell
@@ -54,7 +61,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        self.navagationBar.topItem?.title = otherNickName
        tempOriginY = self.textField.frame.origin.y
         
         
@@ -73,7 +80,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
  
     func queryFirestore2(){
-          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
               if let error = error{ print("query Faild\(error)") }
            
@@ -101,7 +108,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
       } //暫時沒用
     
     func queryFirestore(){
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").addSnapshotListener { (query, error) in
             if let error = error{ print("query Faild\(error)") }
             guard let documentChange = query?.documentChanges else {return}
@@ -156,11 +163,12 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     @IBAction func sendMessage(_ sender: Any) {
         let currentTime :String! = self.currentTimeUncludeYear()
  
-        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name! 
+//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name! 
         let sendParameter :[String : Any]
         let receiveParameter :[String : Any]
-         sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? ""]
-        receiveParameter = ["receive":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? "" ,"read":false]
+//         sendParameter = ["send":"\(myNickName ?? "N/A"):\(self.textField.text ?? "N/A")","time":currentTime ?? ""]
+        sendParameter = ["send":"\(self.textField.text ?? "N/A")","time":currentTime ?? ""]
+        receiveParameter = ["receive":"\(self.textField.text ?? "N/A")","time":currentTime ?? "" ,"read":false]
 //
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).setData(["otherUID":self.otherUID ?? "N/A"
         ]) { (error) in
@@ -212,14 +220,16 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 
     
     
-    
+    var viewOriginSize : CGFloat!
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
+       viewOriginSize = self.view.frame.size.height
       clearViewCounts()
       }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        print(self.view.frame.size.height)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -232,17 +242,27 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
     
     @objc func keyboardWillHide(notification : Notification)  {
-     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+//     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+//       self.view.frame.size.height +=  viewOriginSize
+        self.view.frame.size.height += 1200
      }
 
-
+    
     @IBOutlet weak var sendButton: UIButton!
     @objc func keyBoardWillShow ( notification : Notification ){
-        
+       
+//        self.tableview.frame.origin.y = super.view.frame.origin.y + (  self.navagationBar.frame.height)
+      
         if let userInfo = notification.userInfo,
             let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
-            print(self.tableview.contentSize.height)
-            self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34 )
+             
+//            self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34  )
+//
+//             print( self.tableview.frame.size.height)
+            self.view.frame.size.height =  (self.view.frame.size.height - keyboardRectangle.height + self.textField.frame.size.height)
+//            self.view.frame.size.width = super.view.frame.size.width
+            
+            
         }
            
             

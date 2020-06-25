@@ -14,36 +14,41 @@ import CoreLocation
 import FBSDKLoginKit
 
 class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate, LoginButtonDelegate  {
+   
     
  
     
-    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-            if let error = error {
-               print(error.localizedDescription)
-               return
-             }
-        
-        
-        let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
-        
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            print(authResult?.user.email)
- 
-          
-        }
-    }
-    
-  
-    
-    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
-        
-    }
+
     
     
     @IBOutlet weak var maskview: UIView!
     @IBOutlet weak var activeIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var signInButton: GIDSignInButton?
+    @IBOutlet weak var PostResources: UIButton!
+    
+    let db = Firestore.firestore()
+    let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let locationManager = CLLocationManager()
+    
+ 
+    
+ 
     
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.maskview.alpha = 0
+        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+            self.maskview.alpha = 0.5
+            self.activeIndicator.startAnimating()
+        }
+        if let token = AccessToken.current, !token.isExpired{
+        self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                   
+               }
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -55,96 +60,35 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         
     }
     
-    let db = Firestore.firestore()
-    let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error{print("登入錯誤\(error)"); return  }
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,accessToken: authentication.accessToken)
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error { print("\(error)");  return }
-            guard let authResultEmail = authResult?.user.email else {return}
-            //                let authResultEmail = "qweqwe"
-            print(authResult?.user.email)
-            
-            self.db.collection("user").whereField("Gmail", isEqualTo: authResultEmail).getDocuments { (data, error) in
-                if   data?.isEmpty == true {
-                    //                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
-                    //                        self.maskview.alpha = 0
-                    self.FirstSignUp()
-                    print("Not In database")
-                }else{
-                    print(Auth.auth().currentUser?.uid)
-                    self.performSegue(withIdentifier: "tabSegue", sender: nil)
-                    print("user IN database")
-                }
-                
-                for i in data!.documents{
-                    print(i.data()["nickName"])
-                }
-            }
-            //                if CoredataShare.share.myContextCount() == 0{
-            //                    self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
-            //                    self.navigationController?.navigationBar.alpha = 0
-            //                }
-            
-            print("身份驗證完成")
-            //                    ChatList.share.loginCall()
-        }
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if auth.currentUser == nil{
-                print("登出完畢")
-                
-            }else{
-                print("登入完畢")
-                
-            }
-            
-        }
-    }
-    
-    @IBOutlet weak var signInButton: GIDSignInButton?
-    @IBOutlet weak var PostResources: UIButton!
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        self.maskview.alpha = 0
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
-            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-            self.maskview.alpha = 0.5
-            self.activeIndicator.startAnimating()
-        }
-        
-    }
-    
-    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad() 
 //
+         
         print("user\(Auth.auth().currentUser?.uid)")
+         print(Auth.auth().currentUser?.displayName)
         locationManager.requestAlwaysAuthorization() //要求權限
         locationManager.delegate = self
 //
 //
         GIDSignIn.sharedInstance()?.delegate = self
-        
+      
           let loginButton = FBLoginButton()
          loginButton.delegate = self
+        
         loginButton.frame.origin.y = self.view.frame.origin.y + 200
         loginButton.frame.origin.x = self.view.frame.width / 3
         loginButton.permissions = ["email"]
         view.addSubview(loginButton)
         
         //檢查FB登入狀態
-//        if let token = AccessToken.current, !token.isExpired{
-//
-//        }
-//       try! Auth.auth().signOut()
-        print(Auth.auth().currentUser?.displayName)
+        if let token = AccessToken.current, !token.isExpired{
+ self.performSegue(withIdentifier: "tabSegue", sender: nil)
+            
+        }
+      
+       
        
     }
     
@@ -183,9 +127,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         doneSignUpAction.addAction(doneSignupAction)
         present(doneSignUpAction,animated: true)
     }
-    
-    
-    
+     
     @IBAction func PostResourcesAction(_ sender: Any) {
         
         if GIDSignIn.sharedInstance()?.currentUser != nil{
@@ -231,5 +173,88 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
             }
         }
     }
+    
+ //MARK: -> FACEBOOK登入
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        if let error = error {  print(error.localizedDescription);  return }
+        
+        
+        let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+//            guard let authResult = authResult else {return}
+            print(Auth.auth().currentUser?.uid)
+            self.db.collection("user").whereField("uid", isEqualTo: authResult?.user.uid).getDocuments { (data, error) in
+            if   data?.isEmpty == true {
+                                //                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
+                                //                        self.maskview.alpha = 0
+                                self.FirstSignUp()
+                                print("Not In database")
+                            }else{
+                                print(Auth.auth().currentUser?.uid)
+                                self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                                print("user IN database")
+                            }
+        }
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser == nil{
+                print("登出完畢")
+                
+            }else{
+                print("登入完畢")
+                print(user?.uid)
+                
+            }
+        }
+     }
+    }
+    
+    
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        print("登出完畢")
+    }
+    
+ //MARK: -> GOOGLE登入
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+         if let error = error{
+            print("登入錯誤\(error)")
+        ; return  }
+        
+         guard let authentication = user.authentication else { return }
+         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,accessToken: authentication.accessToken)
+         Auth.auth().signIn(with: credential) { (authResult, error) in
+             if let error = error {
+                print("\(error)")
+                return }
+            
+            
+            print(authResult?.user.email)
+            print(authResult?.user.uid)
+            self.db.collection("user").whereField("uid", isEqualTo: authResult?.user.uid).getDocuments { (data, error) in
+                if   data?.isEmpty == true {
+                    self.FirstSignUp()
+                    print("Not In database")
+                }else{
+                    print(Auth.auth().currentUser?.uid)
+                    self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                    print("user IN database")
+                }
+                
+                for i in data!.documents{
+                    print(i.data()["nickName"])
+                }
+            }
+            print("身份驗證完成")
+        }
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser == nil{
+                print("登出完畢")
+            }else{
+                print("登入完畢")
+                
+            }
+            
+        }
+    }
 }
-
+ 

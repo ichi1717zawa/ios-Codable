@@ -268,22 +268,21 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
 //            
         let image = self.imageview.image
-        print(self.thumbnailImage(image: image!)?.size.width)
-        print(self.thumbnailImage(image: image!)?.size.height)
+      
             let postUUID =  UUID().uuidString
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
-            let filePath3 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("postUUID")
+//            let filePath3 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
             guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),
-                let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+                let imageData = thumbImage.jpegData(compressionQuality: 0.3) else {return}
             
             
             try? imageData.write(to: filePath2!, options: .atomicWrite)
             
-            let ciImage = CIImage(image: self.thumbnailImage(image: image!)!)
-            
-                                
-             try! ctx.writeHEIFRepresentation(of: ciImage!, to: filePath3!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
-            let data = try! Data(contentsOf: filePath3!)
+//            let ciImage = CIImage(image: self.thumbnailImage(image: image!)!)
+//            try! ctx.writePNGRepresentation(of: ciImage!, to: filePath3!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
+
+//             try! ctx.writeHEIFRepresentation(of: ciImage!, to: filePath3!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
+//            let data = try! Data(contentsOf: filePath3!)
 //                        let ima = UIImage(ciImage: ciImage!)
 //                        self.imageview.image = ima
             
@@ -297,7 +296,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
             
            serialQueue.sync {
-                self.pushDataToGoogle(data: data, uuid: postUUID)
+                self.pushDataToGoogle(data: imageData, uuid: postUUID)
            }
           
             
@@ -305,8 +304,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
        
             delayQueue.asyncAfter(deadline: DispatchTime.now() + 2) {
                 
-                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
-                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
+//                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
+//                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return }
                 self.db.collection("user").whereField("uid", isEqualTo: self.myUID!).getDocuments { (data, error) in
                     guard let data = data else {return}
                     for i in data.documents{
@@ -325,7 +324,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "favoriteCounts":0,
                             "userShortLocation":adressdata,
                             "mainCategory":self.mainCategoryTextField.text ?? "N/A",
-                            "gmail":authResultEmail ?? "N/A" ]
+                            "gmail":i.data()["Gmail"] as? String ?? i.data()["byuserKeyGmail"] as? String ?? "N/A" ]
                         
                         //save to allpost
                         self.db.collection("userPost").document("\(postUUID)").setData(parameters) { (error) in
@@ -509,19 +508,31 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
            
 //            try! data?.write(to: filePath2!)
-//            self.imageview.image = image
-             do {
-
-                        let ctx = CIContext()
-                        let ciImage = CIImage(image: image)
+            self.imageview.image = image
+            
+            guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),
+                let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
+            print(thumbImage.size.width)
+            print(thumbImage.size.height)
+            
+            try? imageData.write(to: filePath2!, options: .atomicWrite)
+//             do {
+//
+//                        let ctx = CIContext()
+//                        let ciImage = CIImage(image: image)
+//
 //                try ctx.writeHEIFRepresentation(of: ciImage!, to: filePath2!, format: CIFormat.RGBA8, colorSpace: ctx.workingColorSpace!, options: [:])
-                let ima = UIImage(ciImage: ciImage!)
-                self.imageview.image = ima
-                
-
-                    } catch {
-                        print("ERROR", error.localizedDescription)
-                    }
+//                let newci = CIImage(contentsOf: filePath2!)
+////                let ima = UIImage(ciImage: ciImage!)
+//               guard let source = CGImageSourceCreateWithURL(filePath2! as CFURL, nil) else { return  }
+//                   guard let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return  }
+//                self.imageview.image = UIImage(cgImage:   cgImage )
+//
+//
+//
+//                    } catch {
+//                        print("ERROR", error.localizedDescription)
+//                    }
         }
         
           self.dismiss(animated: true, completion: nil)
@@ -531,8 +542,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
        func thumbnailImage(image:UIImage)->UIImage?{
          let imageScale = image.size.width / image.size.height
         if imageScale >= 1 {
-            let thumbnailSize = CGSize(width: 1200     ,
-                                       height: 900    ); //設定縮圖大小
+            let thumbnailSize = CGSize(width: super.view.frame.size.width * 0.5    ,
+                                       height: (super.view.frame.size.width * 0.75 ) * 0.5  ); //設定縮圖大小
                                let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
                                //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
                                UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
@@ -546,7 +557,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
             //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
                    
-                    let imageSize = CGSize(width:  image.size.width*ratio   , height:  image.size.height*ratio );
+            let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
 
                 //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
                 //               circlePath.addClip()
@@ -559,8 +570,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                                UIGraphicsEndImageContext();
                                return smallImage
         } else if imageScale <= 1 {
-            let thumbnailSize = CGSize(width: 90     ,
-                                                  height: 120    ); //設定縮圖大小
+            let thumbnailSize = CGSize(width:  super.view.frame.size.width * 0.5      ,
+                                       height: (super.view.frame.size.width * 1.33 ) * 0.5  )   ; //設定縮圖大小
                                           let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0
                                           //產生畫布，第一個參數指定大小,第二個參數true:不透明（黑色底）,false表示透明背景,scale為螢幕scale
                                           UIGraphicsBeginImageContextWithOptions(thumbnailSize,false,scale)
@@ -575,7 +586,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                        //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
                               
 //                               let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
-             let imageSize = CGSize(width:  image.size.width*ratio   , height:  image.size.height*ratio );
+              let imageSize = CGSize(width:  thumbnailSize.width   , height:  thumbnailSize.height );
 
                            //               let circlePath = UIBezierPath(ovalIn: CGRect(x: 0,y: 0,width: thumbnailSize.width,height: thumbnailSize.height))
                            //               circlePath.addClip()
@@ -687,23 +698,14 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
          if let userInfo = notification.userInfo,
              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
         
-            self.view.transform = CGAffineTransform(translationX: 0, y:
-                -(keyboardRectangle.height - tabarItemHeight - productName.frame.size.height  )
-//                self.viewHeight -
-//                keyboardRectangle.height -
-//                locationTextField.frame.maxY -
-//                productName.frame.maxY +
-//                 navagationBarHegiht
-            )
+//            self.view.transform = CGAffineTransform(translationX: 0, y:
+//                -(keyboardRectangle.height - tabarItemHeight - productName.frame.size.height  )
+//
+//            )
             
             print( self.tabBarController?.tabBar.frame.height)
             self.tabBarController?.tabBar.frame.height
-//            print(  self.view.frame.height)
-//            print(keyboardRectangle.height)
-//            print(  self.productName.frame.minY)
-//            print(  self.productName.frame.maxY)
-//            print(self.navigationController?.navigationBar.frame.height)
-            print(tabarItemHeight)
+
          } 
     }
     

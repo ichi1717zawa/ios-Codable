@@ -11,7 +11,7 @@
     
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var selectCategoryLabel: UILabel!
-    let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name
+//    let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name
     
  
     let db = Firestore.firestore()
@@ -78,7 +78,7 @@
     }
     
     func queryFirestore(){
-        guard let myGoogleName = self.myGoogleName else {return}
+//        guard let myGoogleName = self.myGoogleName else {return}
         
         db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
             if let error = error{
