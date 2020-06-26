@@ -19,6 +19,7 @@
 		FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */; };
 		FA521F52248D2742002C68D4 /* myPostDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F51248D2742002C68D4 /* myPostDetailCell.swift */; };
 		FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */; };
+		FA61181924A6399D00C1FC10 /* Icon-76@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA61181824A6399C00C1FC10 /* Icon-76@3x.png */; };
 		FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6641BA247E4415003D121C /* AboutMeVC.swift */; };
 		FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0A246E306A00C9F31F /* AppDelegate.swift */; };
 		FA66AD0D246E306A00C9F31F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0C246E306A00C9F31F /* SceneDelegate.swift */; };
@@ -78,6 +79,7 @@
 		FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetailBycell.swift; sourceTree = "<group>"; };
 		FA521F51248D2742002C68D4 /* myPostDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailCell.swift; sourceTree = "<group>"; };
 		FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailVC.swift; sourceTree = "<group>"; };
+		FA61181824A6399C00C1FC10 /* Icon-76@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@3x.png"; sourceTree = "<group>"; };
 		FA6641BA247E4415003D121C /* AboutMeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeVC.swift; sourceTree = "<group>"; };
 		FA66AD07246E306A00C9F31F /* ShareBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA66AD0A246E306A00C9F31F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */,
 				FAC560E4247A700D000E8247 /* loginImage.jpg */,
 				FA86E3B4247B5E9400284596 /* ShareBox.entitlements */,
+				FA61181824A6399C00C1FC10 /* Icon-76@3x.png */,
 			);
 			path = ShareBox;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA61181924A6399D00C1FC10 /* Icon-76@3x.png in Resources */,
 				FA66AD1A246E306E00C9F31F /* LaunchScreen.storyboard in Resources */,
 				FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */,
 				FA6F8C532480343E0051E318 /* pointRed@2x.png in Resources */,

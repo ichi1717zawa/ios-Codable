@@ -61,8 +61,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navagationBar.topItem?.title = otherNickName
-       tempOriginY = self.textField.frame.origin.y
+//        self.navagationBar.topItem?.title = otherNickName
+       
         
         
         print(self.tableview.frame.origin.y)
@@ -119,6 +119,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
                     note.SendMessage = change.document.data()["send"] as? String
                     note.ReceiveMessage = change.document.data()["receive"] as? String
                     self.data.insert(note, at: 0)
+//                    self.data.append(note)
                     let indexPath = IndexPath(row: 0, section: 0)
                     self.tableview.insertRows(at: [indexPath], with: .automatic)
                 }
@@ -223,6 +224,9 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     var viewOriginSize : CGFloat!
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
+//        let indexpath = IndexPath(row: self.data.count - 1, section: 0)
+//        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
+                 
        viewOriginSize = self.view.frame.size.height
       clearViewCounts()
       }
@@ -242,24 +246,25 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
     
     @objc func keyboardWillHide(notification : Notification)  {
-//     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+     self.view.transform = CGAffineTransform(translationX: 0, y: 0)
 //       self.view.frame.size.height +=  viewOriginSize
-        self.view.frame.size.height += 1200
+//        self.view.frame.size.height += 1200
      }
 
     
     @IBOutlet weak var sendButton: UIButton!
+    
     @objc func keyBoardWillShow ( notification : Notification ){
-       
+        self.navigationController?.isNavigationBarHidden = false
 //        self.tableview.frame.origin.y = super.view.frame.origin.y + (  self.navagationBar.frame.height)
       
         if let userInfo = notification.userInfo,
             let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
-             
-//            self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34  )
+//            self.tableview.frame = self.tableview.frame.offsetBy(dx: 0, dy: -200)
+            self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34  )
 //
 //             print( self.tableview.frame.size.height)
-            self.view.frame.size.height =  (self.view.frame.size.height - keyboardRectangle.height + self.textField.frame.size.height)
+//            self.tableview.frame.size.height =  (self.view.frame.size.height - keyboardRectangle.height + self.textField.frame.size.height)
 //            self.view.frame.size.width = super.view.frame.size.width
             
             
