@@ -241,9 +241,15 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
          clearViewCounts()
          NotificationCenter.default.removeObserver(self)
+        
      }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+         
+    }
     
     @objc func keyboardWillHide(notification : Notification)  {
      self.view.transform = CGAffineTransform(translationX: 0, y: 0)

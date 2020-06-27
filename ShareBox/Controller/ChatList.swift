@@ -27,21 +27,28 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     var receiveMessageOtherUID:String!
     let myUID : String! = Auth.auth().currentUser?.uid
 //    let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+   
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+           self.navigationController?.isNavigationBarHidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+       self.navigationController?.isNavigationBarHidden = true
+        
 //        CoredataShare.share.loadData()
 //       viewInChatListUpdate()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
+        super.init(coder: coder) 
         queryFirestore()
           
         updatePersonalUnreadCounts()
         updateTabbarItembadge()
         
 //        getSumUnRead ()
+ 
          
     }
     
@@ -158,7 +165,13 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
      
 //            self.ocount = tempInt
             self.db.collection("user").document(self.myUID).setData(["unread":"\(self.ocount)"],merge: true)
-            self.tabBarItem.badgeValue = String(self.ocount)
+            if self.ocount == 0{
+                self.navigationController?.tabBarItem.badgeColor = .white
+                self.navigationController?.tabBarItem.badgeValue = ""
+            }else{
+                self.navigationController?.tabBarItem.badgeColor = UIColor(named: "myOrangeColor")
+             self.navigationController?.tabBarItem.badgeValue  = String(self.ocount)
+            }
  
         }
               

@@ -166,6 +166,7 @@ class myPostDetailVC: UIViewController  {
 //
 //    }
     
+    @IBOutlet weak var Mynavagation: UIBarButtonItem!
     @IBAction func deleteMyPost(_ sender: UIButton) {
         let postUUID = self.data.postUUID
         
@@ -181,6 +182,7 @@ class myPostDetailVC: UIViewController  {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBOutlet weak var MynavigationBar: UINavigationBar!
     
 }
 

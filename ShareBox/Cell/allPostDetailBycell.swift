@@ -20,9 +20,10 @@ class allPostDetailBycell: UIViewController  {
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
-    @IBOutlet weak var productName: UITextField!
-    @IBOutlet weak var categoryLabel: UITextField!
-    @IBOutlet weak var niceNameLabel: UITextField!
+//    @IBOutlet weak var productName: UITextField!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var SubcategoryLabel: UILabel!
+    @IBOutlet weak var nickNameLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UITextField!
 //    @IBOutlet weak var discriptionLabel: UITextView!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -104,8 +105,8 @@ class allPostDetailBycell: UIViewController  {
                                        }
                                    }
                 }
-                self.categoryLabel.text = data.data()["postCategory"] as? String
-                self.niceNameLabel.text = data.data()["Name"] as? String
+                self.SubcategoryLabel.text = data.data()["postCategory"] as? String
+                self.nickNameLabel.text = data.data()["Name"] as? String
                 self.userLocationLabel.text = data.data()["userLocation"] as? String
 //                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
                  self.discriptionLabel.text = data.data()["postIntroduction"] as? String

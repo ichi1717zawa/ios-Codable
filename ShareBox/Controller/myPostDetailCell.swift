@@ -19,6 +19,7 @@
     }
     @IBOutlet weak var fbLogIn: FBLoginButton!
   
+    @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var myInfoView: UIView!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var selectCategoryLabel: UILabel!
@@ -37,7 +38,7 @@
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let allPostcell = tableview.dequeueReusableCell(withIdentifier: "myPostCell", for: indexPath) as! allPostDetail
+        let allPostcell = tableview.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         var data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
@@ -45,6 +46,7 @@
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
+        allPostcell.introduction.text = data.subTitle
            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
            if FileManager.default.fileExists(atPath: url.path){
         //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
@@ -95,17 +97,18 @@
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fbLogIn.delegate = self
-        fbLogIn.permissions = ["public_profile","email","user_friends"]
+//        fbLogIn.delegate = self
+//        fbLogIn.permissions = ["public_profile","email","user_friends"]
         
                
 //  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
         db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments { (data, error) in
                   guard let data = data else {return}
                   for i in data.documents{
-                      self.nickname.text = "暱稱:\(i.data()["nickName"] ?? "N/A")"
-                      self.userPhoneNumber.text = "聯絡電話:\(i.data()["phoneNumber"] ?? "N/A")"
-                      self.googleGamil.text = "信箱:\(i.data()["Gmail"] ?? "N/A")"
+                      self.nickname.text = "\(i.data()["nickName"] ?? "N/A")"
+                      self.userPhoneNumber.text = "\(i.data()["phoneNumber"] ?? "N/A")"
+                      self.googleGamil.text = "\(i.data()["Gmail"] ?? "N/A")"
+                    self.userName.text = "Test"
 
                   }
               }
@@ -158,7 +161,7 @@
                                        let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
                                                                      likeImage: UIImage(named: "pointRed")!,
                                                                      buildTime:  data.data()?["postTime"] as? String ?? "N/A",
-                                                                     subTitle: data.data()?["userShortLocation"] as? String ?? "N/A",
+                                                                     subTitle: data.data()?["postIntroduction"] as? String ?? "N/A",
                                                                      Title: data.data()?["productName"] as? String ?? "N/A",
                                                                      postGoogleName: data.data()?["googleName"] as? String ?? "N/A",
                                                                      postNickName: data.data()?["Name"]as? String ?? "N/A",
