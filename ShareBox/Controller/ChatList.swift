@@ -34,10 +34,14 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       self.navigationController?.isNavigationBarHidden = true
+//       self.navigationController?.isNavigationBarHidden = true
         
 //        CoredataShare.share.loadData()
 //       viewInChatListUpdate()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+         self.navigationController?.isNavigationBarHidden = true
     }
     
     required init?(coder: NSCoder) {

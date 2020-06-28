@@ -22,9 +22,10 @@ class allPostDetailBycell: UIViewController  {
     @IBOutlet weak var postimage: UIImageView!
 //    @IBOutlet weak var productName: UITextField!
     @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var MaincategoryLabel: UILabel!
     @IBOutlet weak var SubcategoryLabel: UILabel!
     @IBOutlet weak var nickNameLabel: UILabel!
-    @IBOutlet weak var userLocationLabel: UITextField!
+    @IBOutlet weak var userLocationLabel: UILabel!
 //    @IBOutlet weak var discriptionLabel: UITextView!
     @IBOutlet weak var favoriteButton: UIButton!
     var image : UIImage!
@@ -115,6 +116,7 @@ class allPostDetailBycell: UIViewController  {
                 self.postNickName = data.data()["Name"] as? String
                 self.postGmail = data.data()["gmail"] as? String
                 self.posterUID = data.data()["posterUID"] as? String
+                self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String
                 print(data.data()["gmail"] as? String)
                  
                 if data.data()["posterUID"] as? String != self.myUID{
@@ -155,9 +157,12 @@ class allPostDetailBycell: UIViewController  {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-      
-        
     }
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(true)
+             self.navigationController?.isNavigationBarHidden = true
+       }
+    
     @IBAction func sendMessage(_ sender: Any) {
 //        var myNickName :String!
          print("click sendMessageButton")

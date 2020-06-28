@@ -503,11 +503,16 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //"女裝婦幼"
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
+            self.navigationController?.isNavigationBarHidden = true
            categoryControllButtenView.center.x = super.view.center.x
            searchButton.alpha = 0
            initButton()
           
        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+         self.navigationController?.isNavigationBarHidden = false
+    }
     
 
     @IBAction func tap(_ sender: Any) {
