@@ -37,11 +37,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.data.isEmpty == true {
-                   print("zero")
-        }else{
-             print("getData")
-        }
+      
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
@@ -175,15 +171,17 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 if let error = error{
                     print("query Faild\(error)")
                 }
-             
+        
+        
+        
                 guard let documentChange = query?.documentChanges else {return}
                 for change in documentChange{
+                   
                     //處理每一筆更新
                     let documentID = change.document.documentID
                      self.updateCount(documentID: documentID)
                     self.updateFavoriteCount(documentID: documentID)
                     if change.type == .added{
-                       
                    let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
                     likeImage: UIImage(named: "pointRed")!,
                     buildTime: change.document.data()["postTime"] as? String ?? "N/A",
@@ -199,6 +197,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
                     favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
                     mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
+                    subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
                     posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
                         
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
@@ -413,31 +412,28 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //        self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
 //         print("down")
 //    }
- 
-    @IBOutlet weak var tableviewBottomAnchor: NSLayoutConstraint!
+     @IBOutlet weak var tableviewTopAnchor: NSLayoutConstraint!
+    
     @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
         print("UP")
-        UIView.animate(withDuration: 0.3) {
-            
-            self.tableview.topAnchor.constraint(equalTo:
-                self.view.topAnchor,constant: (self.navigationController?.navigationBar.frame.height)!).isActive = true
+        UIView.animate(withDuration: 0.3) { 
+//            self.tableview.topAnchor.constraint(equalTo:
+//                self.view.topAnchor,constant: (self.navigationController?.navigationBar.frame.height)!).isActive = true
+            self.tableviewTopAnchor.constant =  -self.hidenTopItem.frame.height
             self.tableview.frame.origin.y = super.view.frame.origin.y + (self.navigationController?.navigationBar.frame.height)!
+//            self.tableview.frame.size.height = self.view.frame.height
             self.hidenTopItem.alpha = 0
-            
-             
-             
-          
         }
-        //        self.tableview.topAnchor.constraint(equalTo: super.view.topAnchor,constant: 0).isActive = true
-        //            self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
-        //            print(self.tableview.frame.height)
-        
     }
+    
+
     @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
         print("Down")
         UIView.animate(withDuration: 0.3) {
             self.hidenTopItem.alpha = 1
+            self.tableviewTopAnchor.constant =  0
             self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
+             
              
         }
         

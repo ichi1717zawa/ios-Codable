@@ -10,6 +10,8 @@ import UIKit
 
 class chatTableCell: UITableViewCell {
 
+    @IBOutlet var myRightAnchor: NSLayoutConstraint!
+    @IBOutlet var myLeftAnchor: NSLayoutConstraint!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var messageTitle: UILabel!
     

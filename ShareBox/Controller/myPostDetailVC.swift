@@ -20,14 +20,23 @@ class myPostDetailVC: UIViewController  {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var postimage: UIImageView!
     @IBOutlet weak var productName: UITextField!
-    @IBOutlet weak var categoryLabel: UITextField!
-    @IBOutlet weak var niceNameLabel: UITextField!
+    @IBOutlet weak var MaincategoryLabel: UILabel!
+    @IBOutlet weak var SubcategoryLabel: UILabel!
+    @IBOutlet weak var nickNameLabel: UITextField!
     @IBOutlet weak var userLocationLabel: UITextField!
     @IBOutlet weak var discriptionLabel: UITextView!
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.navigationController?.isNavigationBarHidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -106,8 +115,10 @@ class myPostDetailVC: UIViewController  {
 //        niceNameLabel.text = self.data[self.tempIndex.row].postNickName
 //        userLocationLabel.text = self.data[self.tempIndex.row].postUUID
 //        discriptionLabel.text = self.data[self.tempIndex.row].subTitle
-        categoryLabel.text = self.data.Title
-        niceNameLabel.text = self.data.postNickName
+//        categoryLabel.text = self.data.Title
+        MaincategoryLabel.text = self.data.mainCategory
+        SubcategoryLabel.text = self.data.subCategory
+        nickNameLabel.text = self.data.postNickName
         userLocationLabel.text = self.data.userLocation
         discriptionLabel.text = self.data.subTitle
         productName.text = self.data.productName
@@ -167,17 +178,45 @@ class myPostDetailVC: UIViewController  {
 //    }
     
     @IBOutlet weak var Mynavagation: UIBarButtonItem!
-    @IBAction func deleteMyPost(_ sender: UIButton) {
+    
+    @IBAction func giveAwayPost(_ sender: Any) {
         let postUUID = self.data.postUUID
-        
-        
-        db.collection("userPost").document(postUUID).delete { (error) in
-            print(error)
-        }
-        db.collection("user").document(myUID).collection("myPost").document(postUUID).delete()
-        self.delegate?.Update(data: data)
-        self.navigationController?.popViewController(animated: true)
+                
+                db.collection("userPost").document(postUUID).delete { (error) in
+                    if let error = error{
+                        print("PO文刪除失敗：\(error)")
+                    }
+                }
+                
+                db.collection("user").document(myUID).collection("myPost").document(postUUID).delete { (error) in
+                    if let error = error {
+                        print("PO文刪除失敗：\(error)")
+                    }
+                    self.delegate?.Update(data: self.data)
+                    self.navigationController?.popViewController(animated: true)
+                }
     }
+    @IBAction func deletePost(_ sender: Any) {
+        let postUUID = self.data.postUUID
+              
+              db.collection("userPost").document(postUUID).delete { (error) in
+                  if let error = error{
+                      print("PO文刪除失敗：\(error)")
+                  }
+              }
+              
+              db.collection("user").document(myUID).collection("myPost").document(postUUID).delete { (error) in
+                  if let error = error {
+                      print("PO文刪除失敗：\(error)")
+                  }
+                  self.delegate?.Update(data: self.data)
+                  self.navigationController?.popViewController(animated: true)
+              }
+    }
+
+    
+    
+    
     @IBAction func BackToRootViewcontroller(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }

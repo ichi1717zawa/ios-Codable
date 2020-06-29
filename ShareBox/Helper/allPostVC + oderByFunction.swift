@@ -12,33 +12,33 @@ import Firebase
 
 
 extension allPostVC {
-    
-    
+
+
     @IBAction func oderByViewCounts(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
         queryData(oderby: "viewsCount")
        }
-       
+
        @IBAction func oderByTimeStamp(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
         queryData(oderby: "timeStamp")
-           
+
        }
        @IBAction func oderByFavorteCounts(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
         queryData(oderby: "favoriteCounts")
        }
-    
-    
+
+
     func queryData(oderby oderby:String){
         db.collection("userPost").order(by: oderby).addSnapshotListener { (query, error) in
                     if let error = error{
                         print("query Faild\(error)")
                     }
-                 
+
                     guard let documentChange = query?.documentChanges else {return}
                     for change in documentChange{
                         //處理每一筆更新
@@ -46,8 +46,8 @@ extension allPostVC {
                          self.updateCount(documentID: documentID)
                         self.updateFavoriteCount(documentID: documentID)
                         if change.type == .added{
-                           
-                       let postdetail = allPostModel(categoryImage: UIImage(named: "testqq")!,
+
+                       let postdetail = allPostModel(categoryImage: UIImage(named: "chevron.left")!,
                         likeImage: UIImage(named: "pointRed")!,
                         buildTime: change.document.data()["postTime"] as? String ?? "N/A",
                         subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -62,8 +62,9 @@ extension allPostVC {
                         userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
                         favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
                         mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
+                        subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
                          posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
-                            
+
     //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
     //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
     //coordinate: annotationCoordinate,
@@ -76,9 +77,9 @@ extension allPostVC {
     // self.mapKitView.addAnnotation(annotation)
                             self.data.insert(postdetail, at: 0)
 //                            self.data.append(postdetail)
-                            
+
                             self.tableview.reloadData()
-                            
+
                         }
                         else if change.type == .modified{ //修改
                             if let perPost = self.data.filter({ (perPost) -> Bool in
@@ -93,17 +94,17 @@ extension allPostVC {
                                 self.tableview.reloadData()
     //                            }
                             }
-                            
+
                         }
                         else if change.type == .removed{ //刪除
-                            
+
                             if let perPost = self.data.filter({ (perPost) -> Bool in
                                 perPost.postUUID == documentID
                             }).first{
                                 
     //                            self.updateFavoriteCount(documentID: perPost.postUUID)
-                                
-                                
+
+
                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                 //                            note.imageName = change.document.data()["imageName"] as? String
                                 if let index = self.data.index(of: perPost){
@@ -114,14 +115,14 @@ extension allPostVC {
                                     self.data.remove(at: indexPath.row)
                                     self.tableview.reloadData()
                                     //
-                                    
+
                                 }
                             }
                         }
           }
-                    
+
         }
-        
+
         //
         }
 }

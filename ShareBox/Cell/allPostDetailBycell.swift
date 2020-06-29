@@ -155,9 +155,10 @@ class allPostDetailBycell: UIViewController  {
         super.init(coder: coder)
         
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-    }
+     override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(true)
+         self.navigationController?.isNavigationBarHidden = false
+     }
     override func viewWillDisappear(_ animated: Bool) {
            super.viewWillDisappear(true)
              self.navigationController?.isNavigationBarHidden = true

@@ -96,7 +96,7 @@
                                   self.db.collection("userPost").document(documentID).getDocument{ (data, error) in
                                     guard let data = data else {return}
                                     
-                                       let postdetail = allPostModel(categoryImage: UIImage(named: "testqq")!,
+                                       let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
                                                                      likeImage: UIImage(named: "pointRed")!,
                                                                      buildTime:  data.data()?["postTime"] as? String ?? "N/A",
                                                                      subTitle: data.data()?["userShortLocation"] as? String ?? "N/A",
@@ -111,6 +111,7 @@
                                                                      userShortLocation:data.data()?["userShortLocation"] as? String ?? "N/A",
                                                                      favoriteCount: data.data()?["favoriteCounts"] as? Int ?? 0,
                                                                      mainCategory:data.data()?["mainCategory"] as? String ?? "N/A",
+                                                                     subCategory: data.data()?["postCategory"] as? String ?? "N/A",
                                                                      posterUID: data.data()?["posterUID"] as? String ?? "N/A")
                           
                                        self.data.append(postdetail)

@@ -28,6 +28,7 @@ class allPostModel : Equatable{
     var userShortLocation : String
     var favoriteCount:Int
     var mainCategory:String
+    var subCategory:String
     var posterUID:String
     
     init(categoryImage:UIImage,
@@ -45,6 +46,7 @@ class allPostModel : Equatable{
          userShortLocation:String,
          favoriteCount:Int,
          mainCategory:String,
+         subCategory:String,
          posterUID:String
     )
     
@@ -64,6 +66,8 @@ class allPostModel : Equatable{
         self.userShortLocation = userShortLocation
         self.favoriteCount = favoriteCount
         self.mainCategory = mainCategory
+        self.subCategory = subCategory
         self.posterUID = posterUID
+        
     }
 }

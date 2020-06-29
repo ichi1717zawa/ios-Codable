@@ -24,11 +24,11 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         let dummyString = ["9":"9"]
     let myUID : String! = Auth.auth().currentUser?.uid
         @IBOutlet weak var textField: UITextField!
-        @IBOutlet weak var textFieldTopAnchor: NSLayoutConstraint!
-        @IBOutlet weak var textFieldBottomAnchor: NSLayoutConstraint!
+  
         @IBOutlet weak var tableview: UITableView!
         var tempOriginY : CGFloat!
     
+ 
     
 //     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
@@ -37,12 +37,15 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
         if let data = self.data[indexPath.row].SendMessage {
-
+//            cell.SendmessageTitle.text = data
+//            cell.myRightAnchor.constant = 10
+//            cell.myLeftAnchor.constant = 200
             cell.messageTitle.text = data
             cell.messageTitle.textAlignment = .right
             cell.userImage.image = nil
         }else{
-//
+//   cell.myRightAnchor.constant = 200
+//         cell.myLeftAnchor.constant = 10
             cell.userImage.image = UIImage(named: "avataaars")
             cell.messageTitle.text = self.data[indexPath.row].ReceiveMessage
             cell.messageTitle.textAlignment = .left
@@ -225,8 +228,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
 //        let indexpath = IndexPath(row: self.data.count - 1, section: 0)
-//        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
-                 
+//        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true) 
        viewOriginSize = self.view.frame.size.height
       clearViewCounts()
       }
