@@ -10,6 +10,11 @@ import UIKit
 
 class chatTableCell: UITableViewCell {
 
+    @IBOutlet weak var receiveTextview: UITextView!
+    @IBOutlet weak var sendTextview: UITextView!
+    @IBOutlet var sendMessageview: UIView!
+    @IBOutlet var receiveMessageview: UIView!
+    @IBOutlet var sendMessageLabel: UILabel!
     @IBOutlet var myRightAnchor: NSLayoutConstraint!
     @IBOutlet var myLeftAnchor: NSLayoutConstraint!
     @IBOutlet weak var userImage: UIImageView!
@@ -17,7 +22,7 @@ class chatTableCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+      
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,5 +30,7 @@ class chatTableCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+     
 
 }

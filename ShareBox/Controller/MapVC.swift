@@ -29,7 +29,15 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     var categoryImageName:String!
     
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+
     //MARK: -> viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()

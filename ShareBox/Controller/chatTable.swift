@@ -12,7 +12,6 @@ import GoogleSignIn
 
 class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
         static var Share = chatTable()
-    @IBOutlet weak var userImage: UIImageView!
     var otherGoogleName: String!
         var otherUID:String!
         var otherNickName: String!
@@ -23,34 +22,49 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         var myNickName : String!
         let dummyString = ["9":"9"]
     let myUID : String! = Auth.auth().currentUser?.uid
+    var tempOriginY : CGFloat!
         @IBOutlet weak var textField: UITextField!
-  
         @IBOutlet weak var tableview: UITableView!
-        var tempOriginY : CGFloat!
+    @IBOutlet weak var MysendButton: UIButton!
     
  
     
 //     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
     
-    
+    var emptyString :String = "    "
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ 
          let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
-        if let data = self.data[indexPath.row].SendMessage {
-//            cell.SendmessageTitle.text = data
-//            cell.myRightAnchor.constant = 10
-//            cell.myLeftAnchor.constant = 200
-            cell.messageTitle.text = data
-            cell.messageTitle.textAlignment = .right
-            cell.userImage.image = nil
+        if var data = self.data[indexPath.row].SendMessage {
+            cell.sendMessageLabel.alpha = 1
+            cell.sendMessageLabel.alpha = 1
+            if data.count >= 6{
+                    data = "  \(data)  "
+            }
+           data += emptyString
+            cell.sendMessageLabel.text = data
+            cell.messageTitle.alpha = 0
+            cell.userImage.alpha = 0
+            
+            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
         }else{
-//   cell.myRightAnchor.constant = 200
-//         cell.myLeftAnchor.constant = 10
+        if var data = self.data[indexPath.row].ReceiveMessage{
+            cell.messageTitle.alpha = 1
+            cell.userImage.alpha = 1
+            cell.sendMessageLabel.alpha = 0
+            cell.sendMessageLabel.alpha = 0
             cell.userImage.image = UIImage(named: "avataaars")
-            cell.messageTitle.text = self.data[indexPath.row].ReceiveMessage
-            cell.messageTitle.textAlignment = .left
-          
+            if data.count >= 6{
+                data = "  \(data)  "
+            }
+            data += emptyString
+            cell.messageTitle.text = data
+            
+            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
+            
         }
+    }
         cell.contentView.transform = CGAffineTransform(rotationAngle: .pi)
         return cell
     }
@@ -65,7 +79,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navagationBar.topItem?.title = otherNickName
-       
+        
+                
+              
+        self.navigationController?.navigationItem
         
         
         print(self.tableview.frame.origin.y)
@@ -124,7 +141,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
                     self.data.insert(note, at: 0)
 //                    self.data.append(note)
                     let indexPath = IndexPath(row: 0, section: 0)
-                    self.tableview.insertRows(at: [indexPath], with: .automatic)
+                    self.tableview.insertRows(at: [indexPath], with: .bottom)
+                    
                 }
             }
         }
@@ -164,7 +182,19 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          
      }
      
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        print(textField.text?.count)
+        if textField.text!.count > 0 {
+            self.MysendButton.isEnabled = true
+            self.MysendButton.alpha = 1
+            
+        }else{
+            self.MysendButton.isEnabled = false
+            self.MysendButton.alpha = 0.5
+        }
+    }
     @IBAction func sendMessage(_ sender: Any) {
+  
         let currentTime :String! = self.currentTimeUncludeYear()
  
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name! 
@@ -227,6 +257,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     var viewOriginSize : CGFloat!
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
+         self.tableview.reloadData()
 //        let indexpath = IndexPath(row: self.data.count - 1, section: 0)
 //        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true) 
        viewOriginSize = self.view.frame.size.height
@@ -260,7 +291,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
 
     
-    @IBOutlet weak var sendButton: UIButton!
+ 
     
     @objc func keyBoardWillShow ( notification : Notification ){
         self.navigationController?.isNavigationBarHidden = false
