@@ -258,6 +258,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
          self.tableview.reloadData()
+        self.navigationController?.isNavigationBarHidden = false
 //        let indexpath = IndexPath(row: self.data.count - 1, section: 0)
 //        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true) 
        viewOriginSize = self.view.frame.size.height
