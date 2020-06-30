@@ -32,7 +32,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
-    
+   
  
 
     
@@ -362,6 +362,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         tableView.deselectRow(at: indexPath, animated: false)
         let postUUID = self.data[indexPath.row].postUUID
         
 //      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!

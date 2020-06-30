@@ -196,9 +196,21 @@ class myPostDetailVC: UIViewController  {
                     self.navigationController?.popViewController(animated: true)
                 }
     }
+    
     @IBAction func deletePost(_ sender: Any) {
         let postUUID = self.data.postUUID
               
+        db.collection("userPost").document(postUUID).collection("favoriteCounts").getDocuments { (otherUserId, error) in
+            if let e = error{
+                print(e)
+            }
+            guard let userID = otherUserId else {return}
+            for userID in userID.documents{
+                self.db.collection("user").document(userID.documentID).collection("favoriteList").document(postUUID).delete()
+            }
+            
+            
+        }
               db.collection("userPost").document(postUUID).delete { (error) in
                   if let error = error{
                       print("PO文刪除失敗：\(error)")
@@ -212,6 +224,8 @@ class myPostDetailVC: UIViewController  {
                   self.delegate?.Update(data: self.data)
                   self.navigationController?.popViewController(animated: true)
               }
+        
+        
     }
 
     

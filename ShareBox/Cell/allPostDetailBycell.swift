@@ -44,6 +44,7 @@ class allPostDetailBycell: UIViewController  {
         
         self.db.collection("userPost").whereField("postUUID", isEqualTo: self.postUUID ?? self.data.postUUID  ).getDocuments { (data, error) in
             if let e = error{
+                print("錯誤了啦！！！！！！！")
                 print(e)
             }
            
@@ -230,14 +231,14 @@ class allPostDetailBycell: UIViewController  {
 //    }
     
     @IBAction func favoriteButtonClick(_ sender: UIButton) {
+        print(self.favoriteButton.currentImage?.accessibilityIdentifier)
 //         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        if self.favoriteButton.currentTitle == "inDatabase"{
+        if self.favoriteButton.currentTitle == "inDatabase" || self.favoriteButton.currentImage?.accessibilityIdentifier == "heart-r"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)
             self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myUID!).delete()
             self.db.collection("user").document(myUID!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).delete()
-            
-        }else{
-            self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
+        }else if self.favoriteButton.currentTitle != "notInDatabase" || self.favoriteButton.currentImage?.accessibilityIdentifier == "heart"{
+            self.favoriteButton.setImage(UIImage(named:"heart-r"), for: .normal)
             self.db.collection("userPost").document(self.postUUID ?? self.data.postUUID).collection("favoriteCounts").document(myUID!).setData(["favorite": "favorite"])
             self.db.collection("user").document(myUID!).collection("favoriteList").document(self.postUUID ?? self.data.postUUID).setData(["Myfavorite": "Null"])
         }
@@ -258,10 +259,11 @@ class allPostDetailBycell: UIViewController  {
             for i in query.documents{
                 print(i.documentID)
                 if i.documentID == self.postUUID ?? self.data.postUUID {
-                    self.favoriteButton.setImage(UIImage(named:"heart.fill"), for: .normal)
+                    self.favoriteButton.setImage(UIImage(named:"heart-r"), for: .normal)
                     self.favoriteButton.setTitle("inDatabase", for: .normal)
                 }
                 else{
+                    self.favoriteButton.setTitle("notInDatabase", for: .normal)
                     print("nonono")
                 }
             }

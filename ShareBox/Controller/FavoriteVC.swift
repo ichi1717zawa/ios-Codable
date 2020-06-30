@@ -95,7 +95,11 @@
                                     
                                   self.db.collection("userPost").document(documentID).getDocument{ (data, error) in
                                     guard let data = data else {return}
-                                    
+                                    if ((data.data()?["productName"] as? String) == nil) {
+//                                        print("沒有資料\(documentID)")
+//                                        self.db.collection("user").document(self.myUID!).collection("favoriteList").document(documentID).delete()
+//                                        self.tableview.reloadData()
+                                    }
                                        let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
                                                                      likeImage: UIImage(named: "pointRed")!,
                                                                      buildTime:  data.data()?["postTime"] as? String ?? "N/A",
@@ -145,7 +149,7 @@
                                           
                                           //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                           //                            note.imageName = change.document.data()["imageName"] as? String
-                                          if let index = self.data.index(of: perPost){
+                                        if let index = self.data.firstIndex(of: perPost){
                                               let indexPath = IndexPath(row: index, section: 0)
                                               //                                self.mapKitView.annotations[indexPath.row]
                                               //                                self.data[indexPath.row]
@@ -223,6 +227,12 @@
             let detailVcByCell = segue.destination as! allPostDetailBycell
             if let indexPath = self.tableview.indexPathForSelectedRow{
                 let data = self.data[indexPath.row]
+                
+                if data.Title == "N/A"{
+                    print("zzz......")
+                    
+                    
+                }
                 detailVcByCell.data = data
             }
         }

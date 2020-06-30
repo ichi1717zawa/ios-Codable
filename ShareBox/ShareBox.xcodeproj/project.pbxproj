@@ -56,6 +56,8 @@
 		FAC560E5247A700E000E8247 /* loginImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FAC560E4247A700D000E8247 /* loginImage.jpg */; };
 		FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560E6247A8FB4000E8247 /* TabbarVC.swift */; };
 		FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */; };
+		FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */; };
+		FAD8455724AB76D600243F0B /* categoryViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD8455624AB76D600243F0B /* categoryViewVC.swift */; };
 		FAE357C024A13E3F00DBA748 /* MYPIN.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE357BF24A13E3F00DBA748 /* MYPIN.png */; };
 		FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */; };
 		FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */; };
@@ -119,6 +121,8 @@
 		FAC560E4247A700D000E8247 /* loginImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginImage.jpg; sourceTree = "<group>"; };
 		FAC560E6247A8FB4000E8247 /* TabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVC.swift; sourceTree = "<group>"; };
 		FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCustomCell.swift; sourceTree = "<group>"; };
+		FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categorytableviewcell.swift; sourceTree = "<group>"; };
+		FAD8455624AB76D600243F0B /* categoryViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryViewVC.swift; sourceTree = "<group>"; };
 		FAE357BF24A13E3F00DBA748 /* MYPIN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MYPIN.png; sourceTree = "<group>"; };
 		FAEDBAFB247E8B8400B6A716 /* FirstLoginInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLoginInit.swift; sourceTree = "<group>"; };
 		FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataShare.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
 				FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */,
 				FA45650124A108730015DEF3 /* lookImage.swift */,
 				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
@@ -276,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				FA961CDC2470285A000F5C59 /* userInfo.swift */,
+				FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */,
 				FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */,
 				FA521F4D248CF72C002C68D4 /* allPostModel.swift */,
 				FAEDBB01247EBD5200B6A716 /* postInfo.swift */,
@@ -448,6 +454,7 @@
 				FA968421248614D8002301A7 /* ChatroomList.swift in Sources */,
 				FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */,
 				FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */,
+				FAD8455724AB76D600243F0B /* categoryViewVC.swift in Sources */,
 				FA6F8C80248403030051E318 /* AnnotationDetail.swift in Sources */,
 				FAB45D8C24802589005A183D /* MapVC.swift in Sources */,
 				FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */,
@@ -465,6 +472,7 @@
 				FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */,
 				FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */,
 				FA6F8C8A2485808C0051E318 /* ChatNote.swift in Sources */,
+				FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */,
 				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
 				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
 				FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */,
