@@ -126,12 +126,11 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
            return true
        }
     
-    
+  
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        
+     
        queryFirestore()
         queryfavoriteCounts()
         checkDataExsist()
@@ -424,6 +423,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             self.tableview.frame.origin.y = super.view.frame.origin.y + (self.navigationController?.navigationBar.frame.height)!
 //            self.tableview.frame.size.height = self.view.frame.height
             self.hidenTopItem.alpha = 0
+            self.categoryControllButtenView.center.x = super.view.center.x
+            self.searchButton.alpha = 0
+            self.initButton()
         }
     }
     
@@ -516,12 +518,14 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        
     }
  
-    func pressCategoryButton(button:UIButton){
+    func pressCategoryButton(button:UIButton,categoryName:String){
         UIView.animate(withDuration: 0.3) {
             self.initButton()
+            
                  self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
                  self.searchButton.alpha = 1
-                 button.alpha = 0.6
+            button.setImage(UIImage(named: categoryName), for: .normal)
+//                 button.alpha = 0.6
              }
     }
  
@@ -530,57 +534,58 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        
 //       self.jio.frame.origin.x = super.view.frame.origin.x
         selectCategoryLabel.text = "ALL" 
-       pressCategoryButton(button:btn1)
+        pressCategoryButton(button:btn1, categoryName: "ALL彩")
         
     }
     @IBAction func btn2(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "書籍文具票券"
-      pressCategoryButton(button:btn2)
+        pressCategoryButton(button:btn2, categoryName: "書籍文具票券彩")
     }
     @IBAction func btn3(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "3c產品"
-        pressCategoryButton(button: btn3)
+        pressCategoryButton(button: btn3, categoryName: "3c產品彩")
     }
     @IBAction func btn4(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "玩具電玩"
-        pressCategoryButton(button: btn4)
+        pressCategoryButton(button: btn4, categoryName: "玩具電玩彩")
     }
     @IBAction func btn5(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "生活居家與家電"
-        pressCategoryButton(button: btn5)
+        pressCategoryButton(button: btn5, categoryName: "生活居家與家電彩")
     }
     @IBAction func btn6(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "影視音娛樂"
-        pressCategoryButton(button: btn6)
+        pressCategoryButton(button: btn6, categoryName: "影視音娛樂彩")
     }
     @IBAction func btn7(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text =  "飲品食品"
-        pressCategoryButton(button: btn7)
+        pressCategoryButton(button: btn7, categoryName: "飲品食品彩")
     }
     @IBAction func btn8(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "保養彩妝"
-        pressCategoryButton(button: btn8)
+        pressCategoryButton(button: btn8, categoryName: "保養彩妝彩")
     }
     @IBAction func btn9(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "男裝配件"
-         pressCategoryButton(button: btn9)
+        pressCategoryButton(button: btn9, categoryName: "男裝配件彩")
     }
     @IBAction func btn10(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "女裝婦幼"
-         pressCategoryButton(button: btn10)
+        pressCategoryButton(button: btn10, categoryName: "女裝婦幼彩")
     }
     
     func initButton(){
-         Buttoninit(btn1: btn1, btn2: btn2, btn3: btn3, btn4: btn4, btn5: btn5, btn6: btn6, btn7: btn7, btn8: btn8, btn9: btn9, btn10: btn10)
+        Buttoninit.init(btn1: btn1, btn2: btn2, btn3: btn3, btn4: btn4, btn5: btn5, btn6: btn6, btn7: btn7, btn8: btn8, btn9: btn9, btn10: btn10)
+        
     }
     
     @IBAction func scrollViewToTop(_ sender: UIButton) {

@@ -304,6 +304,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
        
             delayQueue.asyncAfter(deadline: DispatchTime.now() + 2) {
                 
+                
 //                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
 //                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return }
                 self.db.collection("user").whereField("uid", isEqualTo: self.myUID!).getDocuments { (data, error) in
