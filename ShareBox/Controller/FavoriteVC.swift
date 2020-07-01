@@ -25,14 +25,37 @@
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let allPostcell = tableview.dequeueReusableCell(withIdentifier: "favoriteCell", for: indexPath) as! allPostDetail
-        var data = self.data[indexPath.row]
+        let data = self.data[indexPath.row]
+          let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
+                
+                if FileManager.default.fileExists(atPath: url.path){
+                    let image = UIImage(contentsOfFile: url.path)
+                    allPostcell.postImage.image = image
+                    
+                }else{
+                   
+                     let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
+                    let imageRef = ref.child("images/\(data.postUUID)")
+                    imageRef.write(toFile: url) { (url, error) in
+                        if let e = error{
+                            print("下載圖檔有錯誤\(e)")
+        //                    self.keepDownLoad( uuid: data.postUUID)
+                        }else{
+                            print("下載成功")
+                            let ciimage = CIImage(contentsOf: url!)
+        //                    let image = UIImage(contentsOfFile: url!.path)
+                            let image = UIImage(ciImage: ciimage!)
+                            allPostcell.postImage.image = image
+                        }
+                    }
+                }
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
-//        //        allPostcell.likeImage.image = data.likeImage
-        allPostcell.postImage.image = data.categoryImage
+//        allPostcell.postImage.image = data.categoryImage
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
+        allPostcell.introduction.text = data.Title
          
         
         
@@ -104,7 +127,7 @@
                                                                      likeImage: UIImage(named: "pointRed")!,
                                                                      buildTime:  data.data()?["postTime"] as? String ?? "N/A",
                                                                      subTitle: data.data()?["userShortLocation"] as? String ?? "N/A",
-                                                                     Title: data.data()?["productName"] as? String ?? "N/A",
+                                                                     Title: data.data()?["postIntroduction"] as? String ?? "N/A",
                                                                      postGoogleName: data.data()?["googleName"] as? String ?? "N/A",
                                                                      postNickName: data.data()?["Name"]as? String ?? "N/A",
                                                                      postUUID: data.data()?["postUUID"] as? String ?? "N/A" ,
