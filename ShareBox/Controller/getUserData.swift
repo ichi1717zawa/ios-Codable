@@ -13,7 +13,7 @@ import Firebase
 
 class getUserData{
       
-    let db = Firestore.firestore()
+let db = Firestore.firestore()
   
 static var share = getUserData()
     
@@ -27,14 +27,12 @@ static var share = getUserData()
                 if let error = error{ print(error)  }
                 guard let data = data else {return}
                 for i in data.documents{
-                    MynickName = (i.data()["nickName"] as! String)
-                    
+                MynickName = (i.data()["nickName"] as! String)
                 }
-                
             }
             
         }
-   }
+    }
     
     
     

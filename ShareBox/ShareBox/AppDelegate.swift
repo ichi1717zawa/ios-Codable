@@ -46,7 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
          ApplicationDelegate.shared.application( app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation] )
                 return (GIDSignIn.sharedInstance()?.handle(url))!
             }
-
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        print("離開")
+    }
+ 
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print("進入")
+    }
  
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

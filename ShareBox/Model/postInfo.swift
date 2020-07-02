@@ -21,7 +21,6 @@ class PostInfomation : NSManagedObject    {
     
     override func awakeFromInsert() {
         let mycontextPost = CoredataSharePost.share.myContextPost
-        
         let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
         let results = try! mycontextPost.fetch(request)
       

@@ -141,11 +141,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             if let error = error{
                 print("query Faild\(error)")
             }
-            
             guard let query = query  else {return}
             self.tabBarItem.badgeValue =   query.data()?["unread"] as? String
-            
-           
         }
     }
     
@@ -153,10 +150,9 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     func updateTabbarItembadge (){
         var tempInt = 0
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
             if let error = error{
-                print("query Faild\(error)")
+             print("query Faild\(error)")
             }
 //            guard let documentChange = query?.documentChanges else {return}
             for i in query!.documents{
@@ -166,7 +162,6 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
 //                self.ocount = tempInt
 //                  self.db.collection("user").document(myGoogleName).setData(["unread":"\(tempInt)"],merge: true)
             }
-     
 //            self.ocount = tempInt
             self.db.collection("user").document(self.myUID).setData(["unread":"\(self.ocount)"],merge: true)
             if self.ocount == 0{
@@ -237,20 +232,14 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
            
             return cell
         }
+    
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let receiveMessageNickname = tableView.cellForRow(at: indexPath)?.textLabel?.text ?? "N/A"
     //         let OtherGoogleName = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text ?? "N/A"
-            
-           
-
             let receiveMessageNickname = self.chatData[indexPath.row].chatRoomName
             let otherUID =  self.chatData[indexPath.row].otherUID
- 
             self.receiveMessageNickname = receiveMessageNickname
             self.receiveMessageOtherUID =  otherUID
-            
-             
-                
                performSegue(withIdentifier: "personalMessage", sender: nil)
             
         }

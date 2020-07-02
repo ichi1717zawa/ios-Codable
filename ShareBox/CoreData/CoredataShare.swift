@@ -24,13 +24,11 @@ class CoredataShare {
 //                  let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
        //           let sort = NSSortDescriptor(key: "labelName", ascending: false)
        //           request.sortDescriptors = [sort]
-        
                   myContext.performAndWait {
                       do{
                           let results = try myContext.fetch(request)
                           self.data = results
-                        
-                        
+                         
                       }catch{
                           print("error while fetching Note from db \(error)")
                           

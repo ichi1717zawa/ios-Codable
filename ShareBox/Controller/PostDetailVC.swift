@@ -118,10 +118,7 @@ class PostDetailVC: UIViewController      {
                 print(error.localizedDescription)
             }
         }
-//    func getLocation(){
-//
-//
-//    }
+ 
     
    
 }

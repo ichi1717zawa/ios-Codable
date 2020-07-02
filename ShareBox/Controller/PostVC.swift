@@ -723,6 +723,17 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
     
     
+    
+    //輸入檢查 正規表達
+//    func checkUserNameIsValid(username:String) -> Bool{
+//          let regex = "^[a-zA-Z0-9{6,12}$"
+//        if let _ = username.range(of: regex,options: .regularExpression){
+//            return true
+//        }
+//        return false
+//      }
+
+    
 }
 
  
