@@ -9,9 +9,9 @@
 import Foundation
 import CoreData
 import UIKit
-import Firebase
+
 class CoredataSharePost {
-    let db = Firestore.firestore()
+    
     static let share = CoredataSharePost()
     
     
@@ -43,29 +43,6 @@ class CoredataSharePost {
            func saveData(){
                           try? myContextPost.save()
                       }
-    
-    
-    func updateData (uuid:String,index:IndexPath ){
-
-                      let request = NSFetchRequest<PostInfomation>(entityName: "Post")
-    //                  let sort = NSSortDescriptor(key: "labelName", ascending: false)
-    //                  request.sortDescriptors = [sort]
-         let predicate = NSPredicate(format: "postUUID = %@ " , uuid)
-        request.predicate = predicate
-                      myContextPost.performAndWait {
-                          do{
-                              let results = try myContextPost.fetch(request)
-                            
-                            self.data[index.row].productName = "rrrrwgwjgpowejgopwjeopg"
-                            try? myContextPost.save()
-                          }catch{
-                              print("error while fetching Note from db \(error)")
-                              
-                          }
-                      }
-                      
-                     
-                  }
     
     
     func myContextCount() -> Int {

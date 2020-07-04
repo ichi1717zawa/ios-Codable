@@ -13,27 +13,15 @@ class testFile: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 queryFirestore()
-        
-//        let now = String(Date().timeIntervalSince1970)
-              
-//              let dateformatter = DateFormatter()
-              //    dateformatter.dateFormat = "MM/dd/yy HH/mm/ss"
-//              let currentTime = dateformatter.string(from: now)
-//        print("Noew\(now)")
+        // Do any additional setup after loading the view.
     }
     
     func queryFirestore(){
-        let nowTime = String(Date().timeIntervalSince1970)
-       
-              db.collection("userPost").order(by: "timeStamp").whereField("coreDataTimeUse", isGreaterThan: nowTime).addSnapshotListener { (query, error) in
-                                if let error = error{
-                                    print("query Faild\(error)")
-                                }
-                        
-            //            db.collection("userPost").whereField("coreDataTimeUse", isLessThan:    nowTime).addSnapshotListener { (query, error) in
-            //                           if let error = error{
-            //                               print("query Faild\(error)")
-            //                           }
+        db.collection("userPost").order(by: "timeStamp").addSnapshotListener { (query, error) in
+                    if let error = error{
+                        print("query Faild\(error)")
+                    }
+            
             
             
                     guard let documentChange = query?.documentChanges else {return}

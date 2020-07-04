@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Post" representedClassName=".PostInfomation" syncable="YES">
-        <attribute name="coreDataTimeUse" optional="YES" attributeType="String"/>
-        <attribute name="favoriteCounts" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="mainCategory" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="googleName" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="String"/>
+        <attribute name="longitude" optional="YES" attributeType="String"/>
+        <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="postCategory" optional="YES" attributeType="String"/>
-        <attribute name="posterUID" optional="YES" attributeType="String"/>
+        <attribute name="postID" optional="YES" attributeType="String"/>
         <attribute name="postIntroduction" optional="YES" attributeType="String"/>
         <attribute name="postTime" optional="YES" attributeType="String"/>
         <attribute name="postUUID" optional="YES" attributeType="String"/>
-        <attribute name="productName" optional="YES" attributeType="String"/>
         <attribute name="userLocation" optional="YES" attributeType="String"/>
-        <attribute name="userShorLocation" optional="YES" attributeType="String"/>
-        <attribute name="viewCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="viewsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="UserInfo" representedClassName=".UserInfomation" syncable="YES">
         <attribute name="contribute" optional="YES" attributeType="String"/>
@@ -25,7 +23,7 @@
         <attribute name="userLocation" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Post" positionX="-63" positionY="27" width="128" height="238"/>
+        <element name="Post" positionX="-63" positionY="27" width="128" height="208"/>
         <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="148"/>
     </elements>
 </model>

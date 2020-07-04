@@ -320,7 +320,6 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "postUUID":  postUUID ,
                             "postTime":currentTime.share.time(),
                             "timeStamp": Timestamp(date: Date()),
-                            "coreDataTimeUse":String(Date().timeIntervalSince1970) ,
                             "viewsCount":0,
                             "productName":self.productName.text ?? "N/A",
                             "favoriteCounts":0,

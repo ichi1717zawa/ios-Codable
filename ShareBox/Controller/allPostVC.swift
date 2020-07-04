@@ -11,7 +11,6 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 import FirebaseStorage
-import CoreData
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate,UIGestureRecognizerDelegate {
     let myUID : String! = Auth.auth().currentUser?.uid
     func updateSearchResults(for searchController: UISearchController) {
@@ -25,17 +24,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var selectCategoryLabel: UILabel!
     let database = CKContainer.default().publicCloudDatabase
     let db = Firestore.firestore()
-//    var data: [allPostModel] = []
-//    var data: [PostInfomation] = []
-    var data : [PostInfomation]!
+    var data: [allPostModel] = []
     var tempIndex: IndexPath?
     var tableviewOringinminY :CGFloat!
     
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         let data = CoredataSharePost.share.data
-        print(data.count)
         return data.count
     }
    
@@ -43,15 +37,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data  = self.data![indexPath.row]
-//        var mydata = self.data[indexPath.row]
+      
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
-//        let data = self.data[indexPath.row]
+        let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
-//        allPostcell.subTitle.text = data.userShortLocation
-//        allPostcell.introduction.text = data.subTitle
-        allPostcell.subTitle.text = data.userShorLocation
-        allPostcell.introduction.text = data.postIntroduction
+        allPostcell.subTitle.text = data.userShortLocation
+        allPostcell.introduction.text = data.subTitle
 //        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         
@@ -82,11 +73,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 }
             }
         }
-//        allPostcell.buildTime.text = data.buildTime
-        allPostcell.buildTime.text = data.postTime
-        allPostcell.viewsCount.text = String(data.viewCount)
-//        allPostcell.favoriteCount.text = String(data.favoriteCount)
-        allPostcell.favoriteCount.text = String(data.favoriteCounts)
+        allPostcell.buildTime.text = data.buildTime
+        allPostcell.viewsCount.text = String(data.viewsCount)
+        allPostcell.favoriteCount.text = String(data.favoriteCount)
         return allPostcell
     }
     
@@ -141,8 +130,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoredataSharePost.share.loadData()
-         data = CoredataSharePost.share.data
+     
        queryFirestore()
         queryfavoriteCounts()
         checkDataExsist()
@@ -178,7 +166,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       }
     
   func queryFirestore(){
-  
     db.collection("userPost").order(by: "timeStamp").addSnapshotListener { (query, error) in
                 if let error = error{
                     print("query Faild\(error)")
@@ -188,7 +175,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
                 guard let documentChange = query?.documentChanges else {return}
                 for change in documentChange{
-                     let PostInformation = PostInfomation(context: CoredataSharePost.share.myContextPost)
+                   
                     //處理每一筆更新
                     let documentID = change.document.documentID
                      self.updateCount(documentID: documentID)
@@ -211,22 +198,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
                     subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
                     posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
-                         //CoreDataPost
-//
-                        PostInformation.name =  change.document.data()["Name"] as! String
-                           PostInformation.favoriteCounts =  change.document.data()["favoriteCounts"] as! Int
-                          PostInformation.mainCategory =  change.document.data()["mainCategory"] as! String
-                           PostInformation.postCategory =  change.document.data()["postCategory"] as! String
-                            PostInformation.postIntroduction =  change.document.data()["postIntroduction"] as! String
-                         PostInformation.postTime =  change.document.data()["postTime"] as! String
-                         PostInformation.postUUID =  change.document.data()["postUUID"] as! String
-                          PostInformation.posterUID =  change.document.data()["posterUID"] as! String
-                          PostInformation.productName =  change.document.data()["productName"] as! String
-                           PostInformation.coreDataTimeUse =  change.document.data()["coreDataTimeUse"] as! String
-                           PostInformation.userLocation =  change.document.data()["userLocation"] as! String
-                          PostInformation.userShorLocation =  change.document.data()["userShortLocation"] as! String
-                          PostInformation.viewCount =  change.document.data()["viewsCount"] as! Int
-                   
+                        
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
 //coordinate: annotationCoordinate,
@@ -239,46 +211,33 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 // self.mapKitView.addAnnotation(annotation)
                          
 //                        self.data.append(postdetail)
-//                        self.data.insert(postdetail, at: 0)
-//                        self.data.insert(PostInformation, at: 0)
-//
-//
-//                            let indexPath = IndexPath(row: 0, section: 0)
-//                             self.tableview.insertRows(at: [indexPath], with: .left)
+                        self.data.insert(postdetail, at: 0)
+                        
+ 
+                            let indexPath = IndexPath(row: 0, section: 0)
+                             self.tableview.insertRows(at: [indexPath], with: .left)
  
                        
 //                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
 //                        self.tableview.reloadData()
-//                           CoredataSharePost.share.saveData()
+                         
                         
                     }
-                  
+                        
                     else if change.type == .modified{ //修改
-                       
-                       
-                        if let perPost =  self.data.filter({ (perPost) -> Bool in
+                        if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
-                          
                         }).first{
-                              print("找到了")
-                            perPost.viewCount = change.document.data()["viewsCount"] as! Int
-                            perPost.favoriteCounts = change.document.data()["viewsCount"] as! Int
-                            perPost.productName = change.document.data()["productName"] as! String
-//                            perPost.viewsCount = change.document.data()["viewsCount"] as! Int
-//                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
+                            perPost.viewsCount = change.document.data()["viewsCount"] as! Int
+                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
 //                            note.imageName = change.document.data()["imageName"] as? String
-                             
-                            if let index =   self.data.firstIndex(of: perPost){
-                                    
+                            if let index = self.data.firstIndex(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
-                                CoredataSharePost.share.updateData( uuid:  perPost.postUUID, index: indexPath)
-                                
 //                            self.tableview.reloadData()
                            
                             }
                         }
-                      
                         
                     }
                     else if change.type == .removed{ //刪除
@@ -292,13 +251,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             
                             //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                             //                            note.imageName = change.document.data()["imageName"] as? String
-                            if let index = self.data.firstIndex(of: perPost){
+                            if let index = self.data.index(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
 //                                self.mapKitView.annotations[indexPath.row]
 //                                self.data[indexPath.row]
 //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
-//                                self.data.remove(at: indexPath.row)
-//                                self.tableview.deleteRows(at: [indexPath], with: .fade)
+                                self.data.remove(at: indexPath.row)
+                                self.tableview.deleteRows(at: [indexPath], with: .fade)
 //                                self.tableview.reloadData()
                                 //
                                 
@@ -417,7 +376,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                       let detailVcByCell = segue.destination as! allPostDetailBycell
                     if let indexPath = self.tableview.indexPathForSelectedRow{
                         let data = self.data[indexPath.row]
-//                        detailVcByCell.data = data
+                        detailVcByCell.data = data
                     }
                    
                   }
@@ -663,7 +622,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     
-   
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text?.count != 0 {
+            searchImage.alpha = 0
+        }else{
+            searchImage.alpha = 1
+        }
+    }
     
     @IBOutlet weak var searchImage: UIImageView!
     
