@@ -38,6 +38,7 @@
 		FA6F8C8A2485808C0051E318 /* ChatNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C892485808C0051E318 /* ChatNote.swift */; };
 		FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */; };
 		FA74F47724902DA40081AEA1 /* GetUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74F47624902DA40081AEA1 /* GetUserData.swift */; };
+		FA79711924B21A17005048BC /* teview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79711824B21A17005048BC /* teview.swift */; };
 		FA7ABAFC2499C7A70033B8DD /* allPostVC + oderByFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */; };
 		FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86E3B5247B5F3300284596 /* GoogleLogin.swift */; };
 		FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA874FCF24922EC300E22647 /* FavoriteVC.swift */; };
@@ -103,6 +104,7 @@
 		FA6F8C892485808C0051E318 /* ChatNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNote.swift; sourceTree = "<group>"; };
 		FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA74F47624902DA40081AEA1 /* GetUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserData.swift; sourceTree = "<group>"; };
+		FA79711824B21A17005048BC /* teview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teview.swift; sourceTree = "<group>"; };
 		FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "allPostVC + oderByFunction.swift"; sourceTree = "<group>"; };
 		FA86E3B4247B5E9400284596 /* ShareBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBox.entitlements; sourceTree = "<group>"; };
 		FA86E3B5247B5F3300284596 /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FA79711824B21A17005048BC /* teview.swift */,
 				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
 				FA52A8EB24AE0836007D6AA9 /* testFile.swift */,
 				FA45650124A108730015DEF3 /* lookImage.swift */,
@@ -451,6 +454,7 @@
 				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,
 				FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */,
 				FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */,
+				FA79711924B21A17005048BC /* teview.swift in Sources */,
 				FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */,
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
 				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,

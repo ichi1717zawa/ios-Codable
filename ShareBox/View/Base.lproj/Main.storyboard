@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="W8F-PA-EKa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="asI-Ws-rQX">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -118,7 +118,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginImage.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="kLX-Ib-T8o">
-                                <rect key="frame" x="0.0" y="-44" width="414" height="940"/>
+                                <rect key="frame" x="0.0" y="-44" width="414" height="842"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDu-ep-20m">
                                 <rect key="frame" x="123" y="374.66666666666669" width="168" height="147.00000000000006"/>
@@ -131,7 +131,7 @@
                                 </connections>
                             </button>
                             <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M9n-Bv-S6l">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="798"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="i1D-8E-bz0">
                                         <rect key="frame" x="197" y="438" width="20" height="20"/>
@@ -140,7 +140,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="i1D-8E-bz0" firstAttribute="centerY" secondItem="M9n-Bv-S6l" secondAttribute="centerY" id="GTA-yi-zmh"/>
+                                    <constraint firstItem="i1D-8E-bz0" firstAttribute="centerY" secondItem="M9n-Bv-S6l" secondAttribute="centerY" constant="49" id="GTA-yi-zmh"/>
                                     <constraint firstItem="i1D-8E-bz0" firstAttribute="centerX" secondItem="M9n-Bv-S6l" secondAttribute="centerX" id="m4l-kj-brm"/>
                                 </constraints>
                             </view>
@@ -149,18 +149,25 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </activityIndicatorView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="LYb-Vn-3hK">
+                                <rect key="frame" x="0.0" y="825" width="414" height="37"/>
+                                <color key="backgroundColor" red="0.92156862750000001" green="0.47843137250000001" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="PDu-ep-20m" firstAttribute="centerX" secondItem="J2M-xI-3rp" secondAttribute="centerX" id="0NM-OR-Q6O"/>
-                            <constraint firstAttribute="bottom" secondItem="M9n-Bv-S6l" secondAttribute="bottom" id="4dy-j3-u67"/>
+                            <constraint firstAttribute="bottom" secondItem="M9n-Bv-S6l" secondAttribute="bottom" constant="98" id="4dy-j3-u67"/>
+                            <constraint firstItem="LYb-Vn-3hK" firstAttribute="trailing" secondItem="D48-ga-TlX" secondAttribute="trailing" id="5t7-O6-frV"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" id="7bh-es-LC0"/>
+                            <constraint firstItem="LYb-Vn-3hK" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" id="8rd-zj-QQo"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="trailing" secondItem="D48-ga-TlX" secondAttribute="trailing" id="Dar-Fd-Mgv"/>
                             <constraint firstItem="M9n-Bv-S6l" firstAttribute="trailing" secondItem="D48-ga-TlX" secondAttribute="trailing" id="FBQ-kD-pmD"/>
                             <constraint firstItem="kLX-Ib-T8o" firstAttribute="top" secondItem="D48-ga-TlX" secondAttribute="top" constant="-88" id="SiW-WI-F6i"/>
                             <constraint firstItem="PDu-ep-20m" firstAttribute="centerY" secondItem="J2M-xI-3rp" secondAttribute="centerY" id="dSE-k3-3OI"/>
                             <constraint firstItem="M9n-Bv-S6l" firstAttribute="top" secondItem="J2M-xI-3rp" secondAttribute="top" id="emH-kR-hff"/>
-                            <constraint firstAttribute="bottom" secondItem="kLX-Ib-T8o" secondAttribute="bottom" id="s34-2r-la7"/>
+                            <constraint firstItem="LYb-Vn-3hK" firstAttribute="bottom" secondItem="D48-ga-TlX" secondAttribute="bottom" id="q9e-tD-t7D"/>
+                            <constraint firstAttribute="bottom" secondItem="kLX-Ib-T8o" secondAttribute="bottom" constant="98" id="s34-2r-la7"/>
                             <constraint firstItem="M9n-Bv-S6l" firstAttribute="leading" secondItem="D48-ga-TlX" secondAttribute="leading" id="uHG-ju-Wh7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="D48-ga-TlX"/>
@@ -175,7 +182,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Np-oj-xSb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1033" y="-1437"/>
+            <point key="canvasLocation" x="1031.8840579710145" y="-1437.0535714285713"/>
         </scene>
         <!--PostVC-->
         <scene sceneID="Jyw-nu-SiJ">
@@ -1127,6 +1134,50 @@
             </objects>
             <point key="canvasLocation" x="-772.46376811594212" y="818.30357142857144"/>
         </scene>
+        <!--Teview-->
+        <scene sceneID="Mvi-LT-7k7">
+            <objects>
+                <viewController id="asI-Ws-rQX" customClass="teview" customModule="ShareBox" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hPU-RQ-mP3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ezu-lu-XBD">
+                                <rect key="frame" x="20" y="44" width="374" height="551"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="PNk-um-cgs"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="N9G-Lu-3H3"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="obB-b1-zq9">
+                                <rect key="frame" x="348" y="735" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="buttonaction:" destination="asI-Ws-rQX" eventType="touchUpInside" id="v94-lm-1VY"/>
+                                </connections>
+                            </button>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="cPQ-Bl-MZa">
+                                <rect key="frame" x="115" y="742" width="185" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="pageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pageControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="on5-jH-ux5"/>
+                    </view>
+                    <connections>
+                        <outlet property="pagecl" destination="cPQ-Bl-MZa" id="2PQ-G2-UCj"/>
+                        <outlet property="scroview" destination="ezu-lu-XBD" id="kWR-rj-Dlq"/>
+                        <outlet property="testbutton" destination="obB-b1-zq9" id="bQb-0r-sWQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B7h-5H-E06" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1217.3913043478262" y="-2205.1339285714284"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="7ZQ-aj-vxj">
             <objects>
@@ -1152,7 +1203,7 @@
             <objects>
                 <viewController id="b49-XI-dmT" customClass="lookImage" customModule="ShareBox" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yOX-i2-Fsy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="scA-3V-xlo">
@@ -2932,8 +2983,8 @@
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="favorite" width="50" height="50"/>
         <image name="favorite-r" width="50" height="50"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart" width="57" height="57"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart-r-76" width="76" height="76"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="home" width="50" height="50"/>
