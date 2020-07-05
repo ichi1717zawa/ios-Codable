@@ -37,7 +37,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      
+        print(self.data.count)
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
@@ -133,7 +133,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
      
        queryFirestore()
         queryfavoriteCounts()
-        checkDataExsist()
+//        checkDataExsist()
     }
     
        
@@ -154,7 +154,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
     
     func updateFavoriteCount (documentID:Any){
-          self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+        self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
               for i in data!.documents{
                   self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
                 if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
@@ -164,9 +164,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
               }
           }
       }
-    
+   
   func queryFirestore(){
-    db.collection("userPost").order(by: "timeStamp").addSnapshotListener { (query, error) in
+    db.collection("userPost").order(by: "timeStamp",descending: true).addSnapshotListener { (query, error) in
+////        db.collection("userPost").order(by: "timeStamp").addSnapshotListener(includeMetadataChanges: true) { (query, error) in
+            
+        
+//        self.db.collection("userPost").order(by: "timeStamp").getDocuments(source: .cache) { (query, error) in
+            
+//        }
                 if let error = error{
                     print("query Faild\(error)")
                 }
@@ -623,11 +629,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text?.count != 0 {
-            searchImage.alpha = 0
-        }else{
-            searchImage.alpha = 1
-        }
+       
     }
     
     @IBOutlet weak var searchImage: UIImageView!

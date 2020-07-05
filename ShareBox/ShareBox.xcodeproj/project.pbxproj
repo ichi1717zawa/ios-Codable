@@ -14,11 +14,11 @@
 		FA37F16D24A4921300AAF5B9 /* chatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */; };
 		FA45650224A108730015DEF3 /* lookImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA45650124A108730015DEF3 /* lookImage.swift */; };
 		FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F47248CEE02002C68D4 /* allPostDetail.swift */; };
-		FA521F4C248CF138002C68D4 /* allPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* allPostVC.swift */; };
+		FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* AllPostVC.swift */; };
 		FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4D248CF72C002C68D4 /* allPostModel.swift */; };
 		FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */; };
-		FA521F52248D2742002C68D4 /* myPostDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F51248D2742002C68D4 /* myPostDetailCell.swift */; };
-		FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */; };
+		FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */; };
+		FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */; };
 		FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA52A8EB24AE0836007D6AA9 /* testFile.swift */; };
 		FA61181924A6399D00C1FC10 /* Icon-76@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA61181824A6399C00C1FC10 /* Icon-76@3x.png */; };
 		FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6641BA247E4415003D121C /* AboutMeVC.swift */; };
@@ -37,7 +37,7 @@
 		FA6F8C84248568D30051E318 /* currentTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C83248568D30051E318 /* currentTime.swift */; };
 		FA6F8C8A2485808C0051E318 /* ChatNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F8C892485808C0051E318 /* ChatNote.swift */; };
 		FA6F8C9024868F2C0051E318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */; };
-		FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74F47624902DA40081AEA1 /* getUserData.swift */; };
+		FA74F47724902DA40081AEA1 /* GetUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74F47624902DA40081AEA1 /* GetUserData.swift */; };
 		FA7ABAFC2499C7A70033B8DD /* allPostVC + oderByFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */; };
 		FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86E3B5247B5F3300284596 /* GoogleLogin.swift */; };
 		FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA874FCF24922EC300E22647 /* FavoriteVC.swift */; };
@@ -47,7 +47,7 @@
 		FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */; };
 		FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */; };
 		FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDC2470285A000F5C59 /* userInfo.swift */; };
-		FA96841D2485E461002301A7 /* chatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* chatTable.swift */; };
+		FA96841D2485E461002301A7 /* ChatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* ChatTable.swift */; };
 		FA96841F248613C9002301A7 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841E248613C9002301A7 /* ChatList.swift */; };
 		FA968421248614D8002301A7 /* ChatroomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA968420248614D7002301A7 /* ChatroomList.swift */; };
 		FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAAED459248FA219006EA3FD /* chatIcon.png */; };
@@ -77,11 +77,11 @@
 		FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTableCell.swift; sourceTree = "<group>"; };
 		FA45650124A108730015DEF3 /* lookImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookImage.swift; sourceTree = "<group>"; };
 		FA521F47248CEE02002C68D4 /* allPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetail.swift; sourceTree = "<group>"; };
-		FA521F4B248CF138002C68D4 /* allPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostVC.swift; sourceTree = "<group>"; };
+		FA521F4B248CF138002C68D4 /* AllPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostVC.swift; sourceTree = "<group>"; };
 		FA521F4D248CF72C002C68D4 /* allPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostModel.swift; sourceTree = "<group>"; };
 		FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetailBycell.swift; sourceTree = "<group>"; };
-		FA521F51248D2742002C68D4 /* myPostDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailCell.swift; sourceTree = "<group>"; };
-		FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myPostDetailVC.swift; sourceTree = "<group>"; };
+		FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostDetailCell.swift; sourceTree = "<group>"; };
+		FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostDetailVC.swift; sourceTree = "<group>"; };
 		FA52A8EB24AE0836007D6AA9 /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 		FA61181824A6399C00C1FC10 /* Icon-76@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@3x.png"; sourceTree = "<group>"; };
 		FA6641BA247E4415003D121C /* AboutMeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeVC.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 		FA6F8C83248568D30051E318 /* currentTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = currentTime.swift; sourceTree = "<group>"; };
 		FA6F8C892485808C0051E318 /* ChatNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNote.swift; sourceTree = "<group>"; };
 		FA6F8C8F24868F2C0051E318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FA74F47624902DA40081AEA1 /* getUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserData.swift; sourceTree = "<group>"; };
+		FA74F47624902DA40081AEA1 /* GetUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserData.swift; sourceTree = "<group>"; };
 		FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "allPostVC + oderByFunction.swift"; sourceTree = "<group>"; };
 		FA86E3B4247B5E9400284596 /* ShareBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBox.entitlements; sourceTree = "<group>"; };
 		FA86E3B5247B5F3300284596 /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryButtionInit.swift; sourceTree = "<group>"; };
 		FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIreBaseStore.swift; sourceTree = "<group>"; };
 		FA961CDC2470285A000F5C59 /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
-		FA96841C2485E461002301A7 /* chatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTable.swift; sourceTree = "<group>"; };
+		FA96841C2485E461002301A7 /* ChatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTable.swift; sourceTree = "<group>"; };
 		FA96841E248613C9002301A7 /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		FA968420248614D7002301A7 /* ChatroomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomList.swift; sourceTree = "<group>"; };
 		FAAED459248FA219006EA3FD /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
@@ -171,17 +171,17 @@
 				FA52A8EB24AE0836007D6AA9 /* testFile.swift */,
 				FA45650124A108730015DEF3 /* lookImage.swift */,
 				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
-				FA521F55248D2D48002C68D4 /* myPostDetailVC.swift */,
-				FA521F51248D2742002C68D4 /* myPostDetailCell.swift */,
+				FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */,
+				FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */,
 				FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */,
-				FA521F4B248CF138002C68D4 /* allPostVC.swift */,
+				FA521F4B248CF138002C68D4 /* AllPostVC.swift */,
 				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
 				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
 				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
 				FAB45D8B24802589005A183D /* MapVC.swift */,
-				FA96841C2485E461002301A7 /* chatTable.swift */,
+				FA96841C2485E461002301A7 /* ChatTable.swift */,
 				FA96841E248613C9002301A7 /* ChatList.swift */,
-				FA74F47624902DA40081AEA1 /* getUserData.swift */,
+				FA74F47624902DA40081AEA1 /* GetUserData.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -451,12 +451,12 @@
 				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,
 				FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */,
 				FA0F574F2479AA21007CA9C6 /* GoogleSignIn.swift in Sources */,
-				FA521F52248D2742002C68D4 /* myPostDetailCell.swift in Sources */,
+				FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */,
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
-				FA521F4C248CF138002C68D4 /* allPostVC.swift in Sources */,
+				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,
 				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
 				FA968421248614D8002301A7 /* ChatroomList.swift in Sources */,
-				FA74F47724902DA40081AEA1 /* getUserData.swift in Sources */,
+				FA74F47724902DA40081AEA1 /* GetUserData.swift in Sources */,
 				FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */,
 				FAD8455724AB76D600243F0B /* categoryViewVC.swift in Sources */,
 				FA6F8C80248403030051E318 /* AnnotationDetail.swift in Sources */,
@@ -479,9 +479,9 @@
 				FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */,
 				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
 				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
-				FA521F56248D2D48002C68D4 /* myPostDetailVC.swift in Sources */,
+				FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */,
 				FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */,
-				FA96841D2485E461002301A7 /* chatTable.swift in Sources */,
+				FA96841D2485E461002301A7 /* ChatTable.swift in Sources */,
 				FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */,
 				FA7ABAFC2499C7A70033B8DD /* allPostVC + oderByFunction.swift in Sources */,
 				FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */,

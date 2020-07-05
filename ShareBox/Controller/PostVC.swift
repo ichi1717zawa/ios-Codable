@@ -15,8 +15,10 @@ import GoogleSignIn
 import CloudKit
 import FirebaseStorage
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
-    
     @IBOutlet weak var maskView: UIView!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var sendmaskView: UIView!
     @IBOutlet weak var imageview: UIImageView!
     @IBOutlet weak var PickViewControlView: UIView!
     @IBOutlet weak var mainCategoryTextField: UITextField!
@@ -262,6 +264,8 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
     //MARK: ->done送出
     @IBAction func done(_ sender: Any) {
+        self.sendmaskView.alpha = 0.55
+        self.activityIndicator.startAnimating()
         let serialQueue: DispatchQueue = DispatchQueue(label: "serialQueue")
           let delayQueue = DispatchQueue(label: "delayQueue")
          let ctx = CIContext()
@@ -297,14 +301,14 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
            serialQueue.sync {
                 self.pushDataToGoogle(data: imageData, uuid: postUUID)
+            
            }
           
             
           
        
             delayQueue.asyncAfter(deadline: DispatchTime.now() + 2) {
-                
-                
+            
 //                guard let myGoogleName = GIDSignIn.sharedInstance()?.currentUser.profile.name else {return}
 //                guard let authResultEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return }
                 self.db.collection("user").whereField("uid", isEqualTo: self.myUID!).getDocuments { (data, error) in
@@ -340,8 +344,17 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             }
                         }
                         
-                            self.navigationController?.popViewController(animated: true)
+//                            self.navigationController?.popViewController(animated: true)
+//                        let mainPageIndex = self.tabBarController?.viewControllers[0]
+                                    self.Introduction.text = ""
+                                    self.caterogyTextField.text = ""
+                                    self.productName.text = ""
+                                    self.mainCategoryTextField.text = ""
+                                    self.imageview.image = UIImage(named: "photo.fill")
                         
+                        self.tabBarController?.selectedIndex = 0
+                        self.sendmaskView.alpha = 0
+                         self.activityIndicator.stopAnimating()
                     }
                 }
             }
@@ -449,6 +462,13 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
 //    }
 
+    @IBAction func cancelPost(_ sender: Any) {
+            self.Introduction.text = ""
+            self.caterogyTextField.text = ""
+            self.productName.text = ""
+            self.mainCategoryTextField.text = ""
+            self.imageview.image = UIImage(named: "photo.fill") 
+    }
     
  
     override func viewDidAppear(_ animated: Bool) {

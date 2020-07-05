@@ -99,7 +99,7 @@ class myPostDetailVC: UIViewController  {
                                }
                                
                            }
-                           
+
                            DispatchQueue.global().async {
                //                       self.getCloudKitImage(uuid: data.postUUID) { (image) in
                //                           DispatchQueue.main.async {
@@ -198,6 +198,8 @@ class myPostDetailVC: UIViewController  {
     }
     
     @IBAction func deletePost(_ sender: Any) {
+        maskView.alpha = 0.55
+        self.activityIndicator.startAnimating()
         let postUUID = self.data.postUUID
               
         db.collection("userPost").document(postUUID).collection("favoriteCounts").getDocuments { (otherUserId, error) in
@@ -223,6 +225,8 @@ class myPostDetailVC: UIViewController  {
                   }
                   self.delegate?.Update(data: self.data)
                   self.navigationController?.popViewController(animated: true)
+                 self.maskView.alpha = 0
+                 self.activityIndicator.stopAnimating()
               }
         
         

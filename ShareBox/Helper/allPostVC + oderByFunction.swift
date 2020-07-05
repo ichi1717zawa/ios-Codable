@@ -17,24 +17,26 @@ extension allPostVC {
     @IBAction func oderByViewCounts(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
-        queryData(oderby: "viewsCount")
+        queryData(by: "viewsCount")
        }
 
        @IBAction func oderByTimeStamp(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
-        queryData(oderby: "timeStamp")
+        queryData(by: "timeStamp")
 
        }
        @IBAction func oderByFavorteCounts(_ sender: Any) {
         self.data.removeAll()
         tableview.reloadData()
-        queryData(oderby: "favoriteCounts")
+        queryData(by: "favoriteCounts")
        }
 
 
-    func queryData(oderby oderby:String){
-        db.collection("userPost").order(by: oderby).addSnapshotListener { (query, error) in
+    func queryData(by oderby:String){
+//        db.collection("userPost").order(by: oderby).addSnapshotListener { (query, error) in
+            db.collection("userPost").order(by: oderby).getDocuments(source: .cache){ (query, error) in
+              
                     if let error = error{
                         print("query Faild\(error)")
                     }
@@ -125,4 +127,5 @@ extension allPostVC {
 
         //
         }
+    
 }

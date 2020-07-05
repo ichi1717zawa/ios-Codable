@@ -48,7 +48,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         
         if mainCategory == "ALL" {
             queryALLFirestore()
-            categoryImageName = "Cirecle1"
+            categoryImageName = "ALL彩"
         }else{
         queryFirestore()
         }
@@ -87,7 +87,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         infoButton.addTarget(self, action: #selector(buttonPressd(sender:)), for: .touchUpInside)
         annotationView.rightCalloutAccessoryView = infoButton
         //        if annotation.title == "玩具"{ 
-        annotationView.image = (UIImage(named: "\(annotation.mainCategory ?? "")"))
+        annotationView.image = (UIImage(named: "\(annotation.mainCategory ?? "")彩"))
         //        }
         return annotationView
         
