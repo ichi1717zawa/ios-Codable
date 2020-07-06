@@ -14,6 +14,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
    
     
  
+    
     var db = Firestore.firestore()
     @IBOutlet weak var tableview: UITableView!
     var chatData : [chatRoomList] = []
@@ -34,6 +35,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        
 //       self.navigationController?.isNavigationBarHidden = true
         
 //        CoredataShare.share.loadData()
@@ -94,9 +97,17 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
 //                        self.updatePersonalUnreadCounts( )
                         otherUID.unreadCount = change.document.data()["unRead"] as? String
                         
-                        if let tableview = self.tableview{
-                            tableview.reloadData()
-                        }
+//                        if let index = self.chatData.firstIndex(of: otherUID){
+//                            let indexPath = IndexPath(row: index, section: 0)
+//                            self.tableview.reloadRows(at: [indexPath], with: .automatic)
+//                            
+//                            
+//                        }
+                        self.tableview.reloadData()
+//                        if let tableview = self.tableview{
+//                            tableview.reloadData()
+//                            tableview.reloadRows(at: [indexPath], with: .automatic)
+//                        }
 //                        self.updateTabbarItembadge()
                         print("yes")
                     }
@@ -201,11 +212,12 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     }).first{
                         otherUID.unreadCount = change.document.data()["unRead"] as? String
                         
-                        if let index = self.chatData.firstIndex(of: otherUID){
-                            let indexPath = IndexPath(row: index, section: 0)
-                            self.tableview.reloadRows(at: [indexPath], with: .automatic)
-                            self.tableview.reloadData()
-                        }
+//                        if let index = self.chatData.firstIndex(of: otherUID){
+//                            let indexPath = IndexPath(row: index, section: 0)
+//                            self.tableview.reloadRows(at: [indexPath], with: .automatic)
+//                            self.tableview.reloadData()
+//                        }
+                        self.tableview.reloadData()
                     }
                 }
             }
@@ -228,7 +240,32 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             cell.userSubtitle.text = self.chatData[indexPath.row].otherUID
             cell.userImage.image = UIImage(named: "avataaars")
             cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
-
+             
+            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(source: .cache, completion: { (query, error)  in
+           if let query = query{
+          cell.messageTime.text =   query.documents.first?.data()["time"] as? String ?? "??"
+                }
+               })
+            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(source: .cache, completion: { (query, error)  in
+                      if let query = query{
+                     cell.lastMessage.text =   query.documents.first?.data()["send"] as? String ?? query.documents.first?.data()["receive"] as? String
+                           }
+                          })
+            
+            if cell.unreadMessageCount.text != "0"{
+//                cell.countMessageView.alpha = 0
+//                cell.unreadMessageCount.alpha = 0
+//                cell.countMessageView.alpha = 1
+//                                  cell.unreadMessageCount.alpha = 1
+//                cell.countMessageView.backgroundColor =  UIColor(named: "newOrangeColor")
+//                               cell.unreadMessageCount.textColor = .black
+               
+            }else{
+//                cell.countMessageView.backgroundColor = . white
+//                cell.unreadMessageCount.textColor = .white
+//                cell.countMessageView.alpha = 1
+//                    cell.unreadMessageCount.alpha = 1
+            }
            
             return cell
         }

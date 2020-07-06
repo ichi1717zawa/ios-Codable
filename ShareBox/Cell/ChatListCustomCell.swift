@@ -15,6 +15,8 @@ class ChatListCustomCell: UITableViewCell {
     @IBOutlet weak var userSubtitle: UILabel!
     @IBOutlet weak var messageTime: UILabel! 
     @IBOutlet weak var unreadMessageCount: UILabel!
+    @IBOutlet weak var lastMessage: UILabel!
+    @IBOutlet weak var countMessageView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

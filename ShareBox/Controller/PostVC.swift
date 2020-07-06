@@ -175,7 +175,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         viewHeight = self.view.frame.height
         navagationBarHegiht = self.navigationController?.navigationBar.frame.height
      
-        self.myToolBar.alpha = 0
+//        self.myToolBar.alpha = 0
         let emptyView = UIView()
         caterogyTextField.inputView = emptyView
 //        getLocation()
@@ -213,7 +213,11 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             
         }
         let camera = UIAlertAction(title: "相機", style: .default) { (action) in
-            
+            let imagePicker = UIImagePickerController()//內建老師會再說
+                             imagePicker.sourceType = .camera //從相簿中選照片
+                                 imagePicker.delegate = self
+                     //            self.present(imagePicker,animated: true,completion: nil) //跳出選照片Controller
+                                 self.present(imagePicker, animated: true)
             
         }
         let cancelaction = UIAlertAction(title: "取消", style: .cancel) { (cancel) in }
@@ -351,6 +355,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                                     self.productName.text = ""
                                     self.mainCategoryTextField.text = ""
                                     self.imageview.image = UIImage(named: "photo.fill")
+//                                    self.myToolBar.alpha = 0
                         
                         self.tabBarController?.selectedIndex = 0
                         self.sendmaskView.alpha = 0
@@ -463,16 +468,18 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //    }
 
     @IBAction func cancelPost(_ sender: Any) {
-            self.Introduction.text = ""
-            self.caterogyTextField.text = ""
-            self.productName.text = ""
-            self.mainCategoryTextField.text = ""
-            self.imageview.image = UIImage(named: "photo.fill") 
+//            self.Introduction.text = ""
+//            self.caterogyTextField.text = ""
+//            self.productName.text = ""
+//            self.mainCategoryTextField.text = ""
+//            self.imageview.image = UIImage(named: "photo.fill")
+        self.tabBarController?.selectedIndex = 0
     }
     
  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         getLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
@@ -715,7 +722,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
 
     @objc func keyBoardWillShow ( notification : Notification ){
-        self.myToolBar.alpha = 1
+         
          if let userInfo = notification.userInfo,
              let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
         
@@ -734,15 +741,24 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     @IBOutlet weak var myToolBar: UIToolbar!
     
-    @IBAction func dismissKeyboard(_ sender: Any) {
-        self.view.endEditing(true)
-    }
+    
  
-    @IBAction func removeTextViewEdit(_ sender: UIBarButtonItem) {
+    
+    @IBAction func removeTextViewEdit(_ sender: Any) {
         self.Introduction.text = ""
     }
     
+    @IBAction func dismissKeyboard(_ sender: Any) {
+         self.view.endEditing(true)
+        UIView.animate(withDuration: 0.4) {
+                  self.removeTextViewBTN.alpha = 0
+                  self.dismissKeyboardBTN.alpha = 0
+              }
+    }
     
+    
+    @IBOutlet weak var removeTextViewBTN: UIButton!
+    @IBOutlet weak var dismissKeyboardBTN: UIButton!
     
     //輸入檢查 正規表達
 //    func checkUserNameIsValid(username:String) -> Bool{
@@ -753,7 +769,26 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        return false
 //      }
 
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+    }
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        print(textView.text.count)
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+          UIView.animate(withDuration: 0.4) {
+                  self.removeTextViewBTN.alpha = 1
+                  self.dismissKeyboardBTN.alpha = 1
+              }
+    }
     
+    @IBAction func tapEmptyView(_ sender: Any) {
+        self.view.endEditing(true)
+        UIView.animate(withDuration: 0.4) {
+                  self.removeTextViewBTN.alpha = 0
+                  self.dismissKeyboardBTN.alpha = 0
+              }
+    }
 }
 
  

@@ -22,12 +22,13 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var tableview: UITableView! 
     @IBOutlet weak var serchMap: UITextField!
     @IBOutlet weak var selectCategoryLabel: UILabel!
+    @IBOutlet weak var backToTopBTN: UIButton!
     let database = CKContainer.default().publicCloudDatabase
     let db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
     var tableviewOringinminY :CGFloat!
-    
+    var firstIndex : IndexPath!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -37,7 +38,14 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(self.data.count)
+        
+        if let first = tableView.indexPathsForVisibleRows?.first  {
+            
+                firstIndex = first
+            
+        }
+         
+        
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
@@ -606,16 +614,16 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //            btn8: btn8.setImage(UIImage(named: "ALL灰"),
 //            btn9: btn9.setImage(UIImage(named: "ALL灰"),
 //            btn10: btn10.setImage(UIImage(named: "ALL灰")
-            btn1.setImage(UIImage(named: "ALL灰"), for: .normal)
-            btn2.setImage(UIImage(named: "書籍文具票券灰"), for: .normal)
-            btn3.setImage(UIImage(named: "3c產品灰"), for: .normal)
-            btn4.setImage(UIImage(named: "玩具電玩灰"), for: .normal)
-            btn5.setImage(UIImage(named: "生活居家與家電灰"), for: .normal)
-            btn6.setImage(UIImage(named: "影視音娛樂灰"), for: .normal)
-            btn7.setImage(UIImage(named: "飲品食品灰"), for: .normal)
-            btn8.setImage(UIImage(named: "保養彩妝灰"), for: .normal)
-            btn9.setImage(UIImage(named: "男裝配件灰"), for: .normal)
-            btn10.setImage(UIImage(named: "女裝婦幼灰"), for: .normal)
+            btn1.setImage(UIImage(named: "ALL彩"), for: .normal)
+            btn2.setImage(UIImage(named: "書籍文具票券彩"), for: .normal)
+            btn3.setImage(UIImage(named: "3c產品彩"), for: .normal)
+            btn4.setImage(UIImage(named: "玩具電玩彩"), for: .normal)
+            btn5.setImage(UIImage(named: "生活居家與家電彩"), for: .normal)
+            btn6.setImage(UIImage(named: "影視音娛樂彩"), for: .normal)
+            btn7.setImage(UIImage(named: "飲品食品彩"), for: .normal)
+            btn8.setImage(UIImage(named: "保養彩妝彩"), for: .normal)
+            btn9.setImage(UIImage(named: "男裝配件彩"), for: .normal)
+            btn10.setImage(UIImage(named: "女裝婦幼彩"), for: .normal)
  
     }
     
@@ -631,8 +639,39 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func textFieldDidChangeSelection(_ textField: UITextField) {
        
     }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        backToTopBTN.alpha = 0
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+
+        if firstIndex.row == 0{
+                          backToTopBTN.alpha = 0
+               }else{
+               backToTopBTN.alpha = 1
+               }
+    }
+ 
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if firstIndex.row == 0{
+                   backToTopBTN.alpha = 0
+        }else if  firstIndex.row != 0{
+        backToTopBTN.alpha = 1
+        }
+    }
+   
+    
+    @IBAction func searchBar(_ sender: Any) {
+        UIView.animate(withDuration: 0.3) {
+            self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
+            self.searchButton.alpha = 1
+        }
+    }
     
     @IBOutlet weak var searchImage: UIImageView!
+    
+    
     
 }
  
