@@ -32,7 +32,7 @@ queryFirestore()
                           
                         if change.type == .added{
                        let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-                        likeImage: UIImage(named: "pointRed")!,
+                        likeImage: "heart-76" ,
                         buildTime: change.document.data()["postTime"] as? String ?? "N/A",
                         subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
                         Title: change.document.data()["postCategory"] as? String ?? "N/A",

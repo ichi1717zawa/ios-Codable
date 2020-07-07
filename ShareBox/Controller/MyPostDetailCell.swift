@@ -166,7 +166,7 @@
                         guard let data = data else {return}
                         
                         let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-                                                      likeImage: UIImage(named: "pointRed")!,
+                                                      likeImage: "heart-76",
                                                       buildTime:  data.data()?["postTime"] as? String ?? "N/A",
                                                       subTitle: data.data()?["postIntroduction"] as? String ?? "N/A",
                                                       Title: data.data()?["productName"] as? String ?? "N/A",

@@ -14,7 +14,7 @@ class allPostModel : Equatable{
            return lhs === rhs
        }
     var categoryImage :UIImage
-    var likeImage:UIImage
+    var likeImage:String
     var buildTime:String
     var subTitle:String
     var Title:String
@@ -32,7 +32,7 @@ class allPostModel : Equatable{
     var posterUID:String
     
     init(categoryImage:UIImage,
-         likeImage:UIImage,
+         likeImage:String,
          buildTime:String,
          subTitle:String,
          Title:String,
