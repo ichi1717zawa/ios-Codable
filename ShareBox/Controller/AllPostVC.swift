@@ -35,22 +35,52 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
    
  
-
+    var favoriteListName : [ String] = []
     
+ 
+    func getfavoriteListName(){
+        self.db.collection("user").document("\(Auth.auth().currentUser?.uid)").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
+
+                   if let data = data?.documents  {
+
+                                   for postUUID in data{
+                                       print(postUUID.documentID)
+                                          let postUUID =  postUUID.documentID  as String
+                                        print(postUUID)
+                                       self.favoriteListName.append(postUUID)
+                                       
+                                      }
+                                  }
+                              }
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if let first = tableView.indexPathsForVisibleRows?.first  {
-            
-                firstIndex = first
-            
+        getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid)") { (data) in
+            print(data)
         }
-         
-        
+        if let first = tableView.indexPathsForVisibleRows?.first  {
+                firstIndex = first
+        }
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
+//        getCatcheFaforiteList(myUID: myUID) { (postUUID) in
+//            print("qwe")
+//        }
+       
+       
+        
+        if let perpost = self.data.filter({ (perpost) -> Bool in
+
+            perpost.postUUID == favoriteListName.first
+        }).first{
+            print("get")
+        }
+        print(favoriteListName.first)
+        
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
         allPostcell.introduction.text = data.subTitle
+        
+        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
 //        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         
@@ -138,16 +168,27 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+    
        queryFirestore()
         queryfavoriteCounts()
-//        checkDataExsist()
+        checkDataExsist()
     }
     
        
      
     func checkDataExsist(){
        
+    }
+    
+    func getCatcheFaforiteList ( myUID:String,complete:@escaping (String) -> Void ) {
+        self.db.collection("userPost").document("\(myUID)").collection("favoriteCounts").getDocuments(source: .cache) { (data, error) in
+            if let data = data?.documents {
+                for postUUID in data{
+                    let postUUID =  postUUID.documentID  as String
+                    complete(postUUID)
+                }
+            }
+        }
     }
     
     func updateCount (documentID:Any){
@@ -226,7 +267,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                          
 //                        self.data.append(postdetail)
                         self.data.insert(postdetail, at: 0)
-                        
+                        self.getfavoriteListName()
  
                             let indexPath = IndexPath(row: 0, section: 0)
                              self.tableview.insertRows(at: [indexPath], with: .left)
@@ -640,24 +681,27 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         backToTopBTN.alpha = 0
     }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-
-        if firstIndex.row == 0{
-                          backToTopBTN.alpha = 0
-               }else{
-               backToTopBTN.alpha = 1
-               }
+        if let firstIndex = firstIndex {
+            if  firstIndex.row == 0{
+                backToTopBTN.alpha = 0
+            }else if  firstIndex.row != 0{
+                backToTopBTN.alpha = 1
+            }
+        }
     }
  
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if firstIndex.row == 0{
-                   backToTopBTN.alpha = 0
-        }else if  firstIndex.row != 0{
-        backToTopBTN.alpha = 1
+        if let firstIndex = firstIndex {
+            if  firstIndex.row == 0{
+                backToTopBTN.alpha = 0
+            }else if  firstIndex.row != 0{
+                backToTopBTN.alpha = 1
+            }
         }
     }
    

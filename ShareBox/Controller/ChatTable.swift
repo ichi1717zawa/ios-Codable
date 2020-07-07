@@ -78,13 +78,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navagationBar.topItem?.title = otherNickName
-        
-                
-              
-        self.navigationController?.navigationItem
-        
-        
+//        self.navagationBar.topItem?.title = otherNickName 
         print(self.tableview.frame.origin.y)
         self.db.collection("user").document(myUID).getDocument { (data, error) in
             if let data = data {
@@ -260,7 +254,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          self.tableview.reloadData()
         self.navigationController?.isNavigationBarHidden = false
 //        let indexpath = IndexPath(row: self.data.count - 1, section: 0)
-//        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true) 
+//        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
+        self.navigationController?.navigationBar.topItem?.title = otherNickName
        viewOriginSize = self.view.frame.size.height
       clearViewCounts()
       }

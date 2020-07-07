@@ -115,7 +115,7 @@
                 self.nickname.text = "\(i.data()["nickName"] ?? "N/A")"
                 self.userPhoneNumber.text = "\(i.data()["phoneNumber"] ?? "N/A")"
                 self.googleGamil.text = "\(i.data()["Gmail"] ?? "N/A")"
-                self.userName.text = "Test"
+                self.userName.text = ""
                 
             }
         }

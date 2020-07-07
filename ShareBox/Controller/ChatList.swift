@@ -45,6 +45,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
          self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = UIColor(named: "聊天室背景色")
+        
     }
     
     required init?(coder: NSCoder) {
@@ -103,11 +105,12 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
 //                            
 //                            
 //                        }
-                        self.tableview.reloadData()
-//                        if let tableview = self.tableview{
+                       
+                        if let tableview = self.tableview{
 //                            tableview.reloadData()
 //                            tableview.reloadRows(at: [indexPath], with: .automatic)
-//                        }
+                             self.tableview.reloadData()
+                        }
 //                        self.updateTabbarItembadge()
                         print("yes")
                     }

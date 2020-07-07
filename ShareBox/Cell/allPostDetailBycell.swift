@@ -179,6 +179,7 @@ class allPostDetailBycell: UIViewController  {
             personalMessage.otherUID = self.posterUID
 //            personalMessage.otherGoogleName = self.posterUID ?? self.data.postGoolgeName
             personalMessage.otherNickName =  self.postNickName ??  self.data.postNickName
+            personalMessage.self.navigationController?.navigationBar.backgroundColor = .red
           }
           else if segue.identifier == "showImageSegue"{
             let showImage = segue.destination as! lookImage
