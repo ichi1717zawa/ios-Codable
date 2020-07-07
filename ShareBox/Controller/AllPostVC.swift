@@ -29,62 +29,59 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var tempIndex: IndexPath?
     var tableviewOringinminY :CGFloat!
     var firstIndex : IndexPath!
-    var favoriteListName : [ String] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
    
  
-    
+    var favoriteListName : [ String] = []
     
  
     func getfavoriteListName(){
-        self.db.collection("user").document("\(Auth.auth().currentUser?.uid ?? "")").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
-            for i in data!.documents{
-                self.favoriteListName.append(i.documentID)
-            }
-//            if let data = data?.documents  {
-//
-//                for postUUID in data{
-//                    print(postUUID.documentID)
-//                    let postUUID =  postUUID.documentID  as String
-//                    print(postUUID)
-//                    self.favoriteListName.append(postUUID)
-//
-//                }
-//            }
-        }
+        self.db.collection("user").document("\(Auth.auth().currentUser?.uid)").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
+
+                   if let data = data?.documents  {
+
+                                   for postUUID in data{
+                                       print(postUUID.documentID)
+                                          let postUUID =  postUUID.documentID  as String
+                                        print(postUUID)
+                                       self.favoriteListName.append(postUUID)
+                                       
+                                      }
+                                  }
+                              }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid)") { (data) in
+            print(data)
+        }
         if let first = tableView.indexPathsForVisibleRows?.first  {
-           firstIndex = first }
-         
+                firstIndex = first
+        }
           let allPostcell = tableView.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
         let data = self.data[indexPath.row]
-//
 //        getCatcheFaforiteList(myUID: myUID) { (postUUID) in
 //            print("qwe")
 //        }
        
-        if let favoriteListName = self.favoriteListName.filter({ (favoriteListName) -> Bool in
-            favoriteListName  == data.postUUID
-        }).first{                           
-            allPostcell.likeButton.setImage(UIImage(named: "heart-r-76"),for: .normal)
-            allPostcell.likeButton.setTitle("inDatabase", for: .normal)
-        }else{
-            allPostcell.likeButton.setImage(UIImage(named: "heart-76"),for: .normal)
-            allPostcell.likeButton.setTitle("notinDatabase", for: .normal)
+       
+        
+        if let perpost = self.data.filter({ (perpost) -> Bool in
+
+            perpost.postUUID == favoriteListName.first
+        }).first{
+            print("get")
         }
+        print(favoriteListName.first)
         
-        
-       
-       
-      
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
         allPostcell.introduction.text = data.subTitle
- 
+        
+        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
+//        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         
         if FileManager.default.fileExists(atPath: url.path){
@@ -94,6 +91,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             
 //            let Newimage = UIImage(data: image as! Data)
             allPostcell.postImage.image = image
+            
         }else{
            
                 let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
@@ -170,20 +168,10 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-    getCatcheFaforiteList(myUID: Auth.auth().currentUser?.uid ?? "qwe") { (data) in
-           self.favoriteListName.append(data)
-               }
-        
+    
        queryFirestore()
         queryfavoriteCounts()
         checkDataExsist()
-        
-     
-//        getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid ?? "q")") { (data) in
-//                for i in data{
-//                    print(i)
-//                }
-//            }
     }
     
        
@@ -192,21 +180,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        
     }
     
-    func getCatcheFaforiteList ( myUID:String,complete:@escaping (String) ->  ()  ) {
-        self.db.collection("user").document("\(Auth.auth().currentUser?.uid ?? "qq")").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
-            for i in data!.documents{
-                complete(i.documentID)
+    func getCatcheFaforiteList ( myUID:String,complete:@escaping (String) -> Void ) {
+        self.db.collection("userPost").document("\(myUID)").collection("favoriteCounts").getDocuments(source: .cache) { (data, error) in
+            if let data = data?.documents {
+                for postUUID in data{
+                    let postUUID =  postUUID.documentID  as String
+                    complete(postUUID)
+                }
             }
-//            let  data = data?.documents{
-//                for postUUID in data{
-//                     complete( postUUID.documentID   )
-//
-//
-//                }
-//            }
-           
         }
-
     }
     
     func updateCount (documentID:Any){
@@ -255,7 +237,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     self.updateFavoriteCount(documentID: documentID)
                     if change.type == .added{
                    let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-                    likeImage: "heart-76",
+                    likeImage: UIImage(named: "pointRed")!,
                     buildTime: change.document.data()["postTime"] as? String ?? "N/A",
                     subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
                     Title: change.document.data()["postCategory"] as? String ?? "N/A",
@@ -285,7 +267,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                          
 //                        self.data.append(postdetail)
                         self.data.insert(postdetail, at: 0)
-                       
+                        self.getfavoriteListName()
  
                             let indexPath = IndexPath(row: 0, section: 0)
                              self.tableview.insertRows(at: [indexPath], with: .left)
@@ -467,7 +449,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     func favotireCounts (uuid:String){
          db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
              self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
-            
          }
      }
     
@@ -735,62 +716,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var searchImage: UIImageView!
     
     
-    @IBAction func likeButtonAction(_ sender: UIButton) {
-       
-    let point = sender.convert(CGPoint.zero, to: self.tableview)
-    guard  let indexPath = self.tableview.indexPathForRow(at: point) else {return}
-        
-//         allPostcell.likeButton.setTitle("inDatabase", for: .normal)
-//        if sender.currentImage?.accessibilityIdentifier == "heart-r-76" {
-//              print("red")
-//
-//          }else{
-//              print("blackHeart")
-//            print(sender.currentImage?.accessibilityIdentifier!)
-//          }
-        if sender.currentTitle ==  "inDatabase" {
-          print("RRRRRRRRRRRRRRRRRRRRRRr")
-            sender.setImage( UIImage(named: "heart-76"), for: .normal)
-            sender.setTitle("notinDatabase", for: .normal)
-             self.tableview.reloadData()
-//            self.db.collection("userPost").document(self.data[indexPath.row].postUUID).collection("favoriteCounts").document(self.myUID).delete()
-//            self.db.collection("user").document(self.myUID).collection("favoriteList").document(self.data[indexPath.row].postUUID).delete()
-            
-//              sender.setImage(UIImage(named: "heart-76"), for: .normal)
-//            return
-        }else if sender.currentTitle == "notinDatabase"  {
-              print("XXXXXXXXXXXXXXXX")
-            sender.setTitle("inDatabase", for: .normal)
-              sender.setImage( UIImage(named: "heart-r-76"), for: .normal)
-//            self.db.collection("userPost").document(self.data[indexPath.row].postUUID).collection("favoriteCounts").document(self.myUID).setData(["favorite": "favorite"])
-//            self.db.collection("user").document(self.myUID).collection("favoriteList").document(self.data[indexPath.row].postUUID).setData(["Myfavorite": "Null"])
-            
-            
-//            sender.setImage(UIImage(named: "heart-r-76"), for: .normal)
-//             sender.setTitle("inDatabase", for: .normal)
-            self.tableview.reloadData()
-            
-           
-        }
-//        self.db.collection("user").document(myUID).collection("favoriteList").getDocuments(source: .cache) { (data, error) in
-//            guard let data = data?.documents else {return}
-//            for mydata in data{
-//                if self.data[indexPath.row].postUUID == mydata.documentID  {
-//                           print("same data")
-////                            sender.setImage(UIImage(named: "heart-76"), for: .normal)
-////                    sender.setTitle("notInDatabase", for: .normal)
-                           
-//
-//                      return
-//                }
-//                    print("not same")
-//                sender.setImage(UIImage(named: "heart-r-76"), for: .normal)
-////                   sender.setTitle("inDatabase", for: .normal)
-////                            print("\(mydata.documentID)not same \(self.data[indexPath.row].postUUID)")
-//                }
-//        }
-        
-    }
-    var clickfavoriteBTNindex : IndexPath?
+    
 }
  

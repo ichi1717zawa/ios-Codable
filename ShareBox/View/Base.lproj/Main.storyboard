@@ -1028,10 +1028,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="adX-Tv-KpQ"/>
                                                         <constraint firstAttribute="width" secondItem="tza-Qy-h7i" secondAttribute="height" multiplier="1:1" id="ih4-5H-FOj"/>
                                                     </constraints>
-                                                    <state key="normal" title="notinDatabase"/>
-                                                    <connections>
-                                                        <action selector="likeButtonAction:" destination="Pyf-wU-kOq" eventType="touchUpInside" id="c8e-4c-aa3"/>
-                                                    </connections>
+                                                    <state key="normal" image="heart-r-76"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nca-CT-jUG">
                                                     <rect key="frame" x="329" y="44" width="36" height="20"/>
@@ -1247,7 +1244,7 @@
             <objects>
                 <viewController id="b49-XI-dmT" customClass="lookImage" customModule="ShareBox" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yOX-i2-Fsy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="scA-3V-xlo">

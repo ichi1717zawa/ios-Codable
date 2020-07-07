@@ -169,22 +169,22 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FA521F4B248CF138002C68D4 /* AllPostVC.swift */,
-				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
-				FA96841E248613C9002301A7 /* ChatList.swift */,
-				FA96841C2485E461002301A7 /* ChatTable.swift */,
-				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
-				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
-				FA74F47624902DA40081AEA1 /* GetUserData.swift */,
-				FA45650124A108730015DEF3 /* lookImage.swift */,
-				FAB45D8B24802589005A183D /* MapVC.swift */,
-				FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */,
-				FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */,
-				FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */,
-				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
-				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
-				FA52A8EB24AE0836007D6AA9 /* testFile.swift */,
 				FA79711824B21A17005048BC /* teview.swift */,
+				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
+				FA52A8EB24AE0836007D6AA9 /* testFile.swift */,
+				FA45650124A108730015DEF3 /* lookImage.swift */,
+				FA874FCF24922EC300E22647 /* FavoriteVC.swift */,
+				FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */,
+				FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */,
+				FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */,
+				FA521F4B248CF138002C68D4 /* AllPostVC.swift */,
+				FAC560BD247A5E35000E8247 /* ChoseAction.swift */,
+				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
+				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
+				FAB45D8B24802589005A183D /* MapVC.swift */,
+				FA96841C2485E461002301A7 /* ChatTable.swift */,
+				FA96841E248613C9002301A7 /* ChatList.swift */,
+				FA74F47624902DA40081AEA1 /* GetUserData.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

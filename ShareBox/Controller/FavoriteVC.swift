@@ -124,7 +124,7 @@
 //                                        self.tableview.reloadData()
                                     }
                                        let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-                                                                     likeImage: "heart-76" ,
+                                                                     likeImage: UIImage(named: "pointRed")!,
                                                                      buildTime:  data.data()?["postTime"] as? String ?? "N/A",
                                                                      subTitle: data.data()?["userShortLocation"] as? String ?? "N/A",
                                                                      Title: data.data()?["postIntroduction"] as? String ?? "N/A",
