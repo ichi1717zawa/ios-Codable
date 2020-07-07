@@ -66,6 +66,7 @@
 		FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFF247EB49200B6A716 /* PostVC.swift */; };
 		FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB01247EBD5200B6A716 /* postInfo.swift */; };
 		FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */; };
+		FAF8F79A24B4C5B80063B509 /* newScrollview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF8F79924B4C5B80063B509 /* newScrollview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +134,7 @@
 		FAEDBAFF247EB49200B6A716 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		FAEDBB01247EBD5200B6A716 /* postInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postInfo.swift; sourceTree = "<group>"; };
 		FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreataSharePost.swift; sourceTree = "<group>"; };
+		FAF8F79924B4C5B80063B509 /* newScrollview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newScrollview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				FA79711824B21A17005048BC /* teview.swift */,
+				FAF8F79924B4C5B80063B509 /* newScrollview.swift */,
 				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
 				FA52A8EB24AE0836007D6AA9 /* testFile.swift */,
 				FA45650124A108730015DEF3 /* lookImage.swift */,
@@ -459,6 +462,7 @@
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
 				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,
 				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
+				FAF8F79A24B4C5B80063B509 /* newScrollview.swift in Sources */,
 				FA968421248614D8002301A7 /* ChatroomList.swift in Sources */,
 				FA74F47724902DA40081AEA1 /* GetUserData.swift in Sources */,
 				FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */,

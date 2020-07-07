@@ -68,19 +68,19 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
        
        
         
-        if let perpost = self.data.filter({ (perpost) -> Bool in
-
-            perpost.postUUID == favoriteListName.first
-        }).first{
-            print("get")
-        }
+//        if let perpost = self.data.filter({ (perpost) -> Bool in
+//
+//            perpost.postUUID == favoriteListName.first
+//        }).first{
+//            print("get")
+//        }
         print(favoriteListName.first)
         
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
         allPostcell.introduction.text = data.subTitle
         
-        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
+//        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
 //        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         

@@ -75,4 +75,7 @@ class teview: UIViewController, UIScrollViewDelegate {
                   self.testbutton.alpha = 0
         }
     }
+    
+    
+    
 }

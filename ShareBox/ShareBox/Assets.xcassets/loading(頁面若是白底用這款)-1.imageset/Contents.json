@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "loading(頁面若是白底用這款).pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}
