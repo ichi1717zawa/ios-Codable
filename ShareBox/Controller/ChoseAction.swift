@@ -15,19 +15,22 @@ import FBSDKLoginKit
 import CryptoKit
 import AuthenticationServices
 
-class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate, LoginButtonDelegate  {
+class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegate, LoginButtonDelegate,UIScrollViewDelegate  {
    
     
- 
-    
-    @IBOutlet weak var storeLoginBTNView: UIView!
-    
+ let facebookLoginButton = FBLoginButton(frame: .zero, permissions: [.publicProfile])
+     
+    @IBOutlet weak var myContentView: UIView!
     @IBOutlet weak var googleLoginBTN: UIButton!
     @IBOutlet weak var facebookLoginBTN: UIButton!
     @IBOutlet weak var appleLoginBTN: UIButton!
+    @IBOutlet weak var myscrollview: UIScrollView!
     
     
     
+    @IBOutlet weak var startUseApp: UIButton!
+    @IBOutlet weak var whiteView: UIView!
+    @IBOutlet weak var mypageCL: UIPageControl!
     @IBOutlet weak var maskview: UIView!
     @IBOutlet weak var activeIndicator: UIActivityIndicatorView!
     @IBOutlet weak var signInButton: GIDSignInButton?
@@ -37,13 +40,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let locationManager = CLLocationManager()
     
- 
-    
-    @IBAction func applelog(_ sender: UIButton) {
-    
-    }
-    
-    
+  
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -73,18 +70,22 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
     
     override func viewDidLoad() {
-        super.viewDidLoad() 
-//
-        print(Auth.auth().currentUser?.displayName)
+        super.viewDidLoad()
+
+mypageCL.numberOfPages = 3
+myscrollview.delegate = self
+mypageCL.currentPageIndicatorTintColor = .orange
+        facebookLoginButton.delegate = self
+        facebookLoginButton.isHidden = true
+ 
          
-         appleSigninSetupView()
-        print("user\(Auth.auth().currentUser?.uid)")
-         print(Auth.auth().currentUser?.displayName)
+        appleSigninSetupView()
+    
         locationManager.requestAlwaysAuthorization() //要求權限
         locationManager.delegate = self
 //
 //
-       
+                       
          
          let googleButton = GIDSignInButton()
         
@@ -92,7 +93,6 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         googleButton.frame.size.height = 30
         googleButton.frame.origin.y = self.bottomLine.frame.origin.y - 130
         googleButton.center.x = self.view.center.x
-      
         
         
           let loginButton = FBLoginButton()
@@ -105,13 +105,12 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         
         if #available(iOS 13.0, *) {
             let appleButton = ASAuthorizationAppleIDButton()
-            appleButton.addTarget(self, action: #selector(pressSignInWithAppleButton), for: .touchUpInside)
+//            appleButton.addTarget(self, action: #selector(pressSignInWithAppleButton), for: .touchUpInside)
             appleButton.frame.size.width = 250
                 appleButton.frame.size.height = 30
                 appleButton.center.x = self.view.center.x
                 appleButton.frame.origin.y  = self.bottomLine.frame.origin.y - 40
 //                view.addSubview(appleButton)
-              self.storeLoginBTNView.addSubview(appleButton)
         }
     
         
@@ -121,11 +120,11 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
      
 //        view.addSubview(loginButton)
 //        view.addSubview(googleButton)
-        self.storeLoginBTNView.addSubview(loginButton)
-        self.storeLoginBTNView.addSubview(googleButton)
-//        googleLoginBTN.layer.cornerRadius =
+ 
       
-//        appleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
+        googleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
+          appleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
+          facebookLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
         
 //        GIDSignIn.sharedInstance()?.presentingViewController = self
         
@@ -175,19 +174,18 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         present(doneSignUpAction,animated: true)
     }
      
+    @IBAction func FacebookLoginActionBTN(_ sender: Any) {
+        facebookLoginButton.sendActions(for: .touchUpInside)
+    }
+    @IBAction func AppleLoginActionBTN(_ sender: Any) {
+        pressSignInWithAppleButton()
+    }
     @IBAction func GoogleLoginActionBTN(_ sender: Any) {
         
 //        if GIDSignIn.sharedInstance()?.currentUser != nil{
-//
 //            performSegue(withIdentifier: "tabSegue", sender: nil)
-//
-//
 //        }else{
-//
-                
-          
             GIDSignIn.sharedInstance()?.signIn()
-            
 //             GoogleLogin.share.SignIn(whichViewVC: self)
 //            let alerController = UIAlertController(title: "登入", message: " ", preferredStyle: .alert)
 //            let okAction = UIAlertAction(title: "Google登入", style: .default) { (ok) in
@@ -205,12 +203,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //            alerController.addAction(gmail)
 //            //            alerController.isModalInPresentation = true
 //            present(alerController,animated: true)
-             
 //        }
-//
-        
 //        func getGoogleGmailDoIdentify(){
-//
 //            let db = Firestore.firestore()
 //            let filter: String! = GIDSignIn.sharedInstance()?.currentUser.profile.familyName
 //            let predicate: NSPredicate = NSPredicate(format: "user = %@", filter)
@@ -227,27 +221,42 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //        }
         
     }
-    
- //MARK: -> FACEBOOK登入
-  @objc  func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+           let pageNumber = myscrollview.contentOffset.x / scrollView.frame.size.width
+             mypageCL.currentPage = Int(pageNumber)
+           print(mypageCL.currentPage)
+             if mypageCL.currentPage == 1{
+                  
+             }
+         }
+    @IBAction func startUseAppAction(_ sender: Any) {
+        UIView.animate(withDuration: 0.5) {
+            self.mypageCL.alpha = 0
+                   self.myscrollview.alpha = 0
+                   self.whiteView.alpha = 0
+                   self.startUseApp.alpha = 0
+        }
+       
+    }
+    //MARK: -> FACEBOOK登入
+   func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
         if let error = error {  print(error.localizedDescription);  return }
+    
+    
+    let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current?.tokenString ?? " ")
+    Auth.auth().signIn(with: credential) { (authResult, error) in
+        guard let authResult = authResult else {return}
         
-        
-        let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-//            guard let authResult = authResult else {return}
-            print(Auth.auth().currentUser?.uid)
-            self.db.collection("user").whereField("uid", isEqualTo: authResult?.user.uid).getDocuments { (data, error) in
+        self.db.collection("user").whereField("uid", isEqualTo: authResult.user.uid).getDocuments { (data, error) in
             if   data?.isEmpty == true {
-                                //                        self.performSegue(withIdentifier: "FirstLoginSegue", sender: nil)
-                                //                        self.maskview.alpha = 0
-                                self.FirstSignUp()
-                                print("Not In database")
-                            }else{
-                                print(Auth.auth().currentUser?.uid)
-                                self.performSegue(withIdentifier: "tabSegue", sender: nil)
-                                print("user IN database")
-                            }
+         
+                self.FirstSignUp()
+                print("Not In database")
+            }else{
+                print(Auth.auth().currentUser?.uid)
+                self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                print("user IN database")
+            }
         }
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser == nil{
@@ -259,7 +268,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 
             }
         }
-     }
+    }
     }
     
     
@@ -310,15 +319,13 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
             
         }
     }
-    @IBAction func FacebookLoginActionBTN(_ sender: UIButton) {
-         
-    }
+  
     @IBOutlet weak var bottomLine: UIImageView!
     
     
     
     
-    //MARK: -SignInwithApple
+    //MARK: -> Apple登入
            func appleSigninSetupView() {
                if #available(iOS 13.0, *) {
                    //使用ASAuthorizationAppleIDButton創建SignInwithApple的Button
@@ -345,7 +352,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
            }
            
            // 點擊SignInwithApple按鈕後，請求授權
-           @objc func pressSignInWithAppleButton() {
+            func pressSignInWithAppleButton() {
                if #available(iOS 13.0, *) {
                    //建立取得使用者資訊的請求
                    let provider = ASAuthorizationAppleIDProvider()
