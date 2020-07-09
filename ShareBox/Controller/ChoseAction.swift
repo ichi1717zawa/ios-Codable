@@ -44,18 +44,30 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.maskview.alpha = 0
-        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
-            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-            self.maskview.alpha = 0.5
-            self.activeIndicator.startAnimating()
-        }
-        if let token = AccessToken.current, !token.isExpired{
-        self.performSegue(withIdentifier: "tabSegue", sender: nil)
-                   
-               }
         
+//        self.maskview.alpha = 0
+//        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
+//            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+//            self.maskview.alpha = 0.5
+//            self.activeIndicator.startAnimating()
+//        }
+//        if let token = AccessToken.current, !token.isExpired{
+//        self.performSegue(withIdentifier: "tabSegue", sender: nil)
+//
+//               }
+        if Auth.auth().currentUser != nil{
+         
+           
+            
+            self.maskview.alpha = 0
+            self.activeIndicator.stopAnimating()
+            self.performSegue(withIdentifier: "tabSegue", sender: nil)
+        }else{
+            self.myscrollview.alpha = 1
+        }
+            
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -71,10 +83,25 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-mypageCL.numberOfPages = 3
-myscrollview.delegate = self
- 
+        
+        if Auth.auth().currentUser != nil{
+          
+          
+            myscrollview.alpha = 0
+            self.whiteView.alpha = 0
+            self.mypageCL.alpha = 0
+          
+            self.maskview.alpha = 0.5
+            self.activeIndicator.startAnimating()
+             
+        }else{
+            myscrollview.alpha = 1
+        }
+        
+        
+        mypageCL.numberOfPages = 3
+        myscrollview.delegate = self
+         
         facebookLoginButton.delegate = self
         facebookLoginButton.isHidden = true
  
@@ -91,7 +118,7 @@ myscrollview.delegate = self
         
         googleButton.frame.size.width = 255
         googleButton.frame.size.height = 30
-        googleButton.frame.origin.y = self.bottomLine.frame.origin.y - 130
+//        googleButton.frame.origin.y = self.bottomLine.frame.origin.y - 130
         googleButton.center.x = self.view.center.x
         
         
@@ -99,7 +126,7 @@ myscrollview.delegate = self
         loginButton.delegate = self
         loginButton.frame.size.width = 250
         loginButton.frame.size.height = 35
-        loginButton.frame.origin.y = self.bottomLine.frame.origin.y - 80
+//        loginButton.frame.origin.y = self.bottomLine.frame.origin.y - 80
         loginButton.center.x = self.view.center.x
         
         
@@ -109,7 +136,7 @@ myscrollview.delegate = self
             appleButton.frame.size.width = 250
                 appleButton.frame.size.height = 30
                 appleButton.center.x = self.view.center.x
-                appleButton.frame.origin.y  = self.bottomLine.frame.origin.y - 40
+//                appleButton.frame.origin.y  = self.bottomLine.frame.origin.y - 40
 //                view.addSubview(appleButton)
         }
     
@@ -277,6 +304,23 @@ myscrollview.delegate = self
         print("登出完畢")
     }
     
+    func checkUserData(authResult:AuthDataResult){
+        self.db.collection("user").whereField("uid", isEqualTo: authResult.user.uid).getDocuments { (data, error) in
+                       if   data?.isEmpty == true {
+                           self.maskview.alpha = 0.5
+                           self.activeIndicator.startAnimating()
+                           self.FirstSignUp()
+                           print("Not In database")
+                       }else{
+                           print(Auth.auth().currentUser?.uid)
+                           self.maskview.alpha = 0.5
+                           self.activeIndicator.startAnimating()
+                           self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                           print("user IN database")
+                       }
+        }
+    }
+    
  //MARK: -> GOOGLE登入
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
          if let error = error{
@@ -295,10 +339,14 @@ myscrollview.delegate = self
             print(authResult?.user.uid)
             self.db.collection("user").whereField("uid", isEqualTo: authResult?.user.uid).getDocuments { (data, error) in
                 if   data?.isEmpty == true {
+                    self.maskview.alpha = 0.5
+                    self.activeIndicator.startAnimating()
                     self.FirstSignUp()
                     print("Not In database")
                 }else{
                     print(Auth.auth().currentUser?.uid)
+                    self.maskview.alpha = 0.5
+                    self.activeIndicator.startAnimating()
                     self.performSegue(withIdentifier: "tabSegue", sender: nil)
                     print("user IN database")
                 }
@@ -409,6 +457,8 @@ myscrollview.delegate = self
 
            @available(iOS 13, *)
            func startSignInWithAppleFlow() {
+            self.maskview.alpha = 0.5
+            self.activeIndicator.startAnimating()
              let nonce = randomNonceString()
              currentNonce = nonce
              let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -463,6 +513,7 @@ myscrollview.delegate = self
                 
                 // Sign in with Firebase.
                 Auth.auth().signIn(with: credential) { (authResult, error) in
+                    guard let authResult = authResult else {return}
                     if (error != nil) {
                         // Error. If error.code == .MissingOrInvalidNonce, make sure
                         // you're sending the SHA256-hashed nonce as a hex string with
@@ -470,9 +521,13 @@ myscrollview.delegate = self
                         print(error?.localizedDescription ?? "")
                         return
                     }
+                    self.checkUserData(authResult: authResult)
                     print("Apple登入成功")
                     // User is signed in to Firebase with Apple.
                     // ...
+//                    self.maskview.alpha = 0
+//                    self.activeIndicator.stopAnimating()
+//                    self.performSegue(withIdentifier: "tabSegue", sender: nil)
                 }
             }
         }

@@ -124,6 +124,9 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
  
 //          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (data, error) in
+            if error != nil{
+                return
+            }
             for otherID in data!.documents{
    
                 self.db.collection("user").document(self.myUID).collection("Messages").document(otherID.documentID).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
@@ -165,9 +168,11 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
         var tempInt = 0
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
-            if let error = error{
+            if  error != nil{
              print("query Faild\(error)")
+                return
             }
+           
 //            guard let documentChange = query?.documentChanges else {return}
             for i in query!.documents{
                 let readString = i.data()["unRead"] as? String

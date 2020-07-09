@@ -79,6 +79,9 @@
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
+            if let error = error{
+                print("updateCount Faild\(error)")
+            }
             for i in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
                 
@@ -90,6 +93,9 @@
     
     func updateFavoriteCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+            if let error = error{
+                           print("updateFavoriteCount Faild\(error)")
+                       }
             for i in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
                 if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
@@ -105,7 +111,7 @@
         
         db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
             if let error = error{
-                print("query Faild\(error)")
+                print("queryFirestore Faild\(error)")
             }
             
             guard let documentChange = query?.documentChanges else {return}
@@ -117,6 +123,9 @@
                                    if change.type == .added{
                                     
                                   self.db.collection("userPost").document(documentID).getDocument{ (data, error) in
+                                     if let error = error{
+                                                   print("query Faild\(error)")
+                                               }
                                     guard let data = data else {return}
                                     if ((data.data()?["productName"] as? String) == nil) {
 //                                        print("沒有資料\(documentID)")
@@ -235,6 +244,9 @@
     }
     func CountViews (){
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
+            if let error = error{
+                                    print("CountViews Faild\(error)")
+                                }
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
         }
     }
@@ -265,6 +277,9 @@
     
     func favotireCounts (uuid:String){
         db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
+            if let error = error{
+                           print("favotireCounts Faild\(error)")
+                       }
             self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
         }
     }

@@ -126,6 +126,9 @@
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
+            if error != nil{
+                return
+            }
             for i in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
                 
@@ -137,6 +140,9 @@
     
     func updateFavoriteCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+            if error != nil{
+                           return
+                       }
             for i in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
                 if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
@@ -152,6 +158,7 @@
         self.db.collection("userPost").whereField("posterUID", isEqualTo: myUID).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
+                return
             }
             
             guard let documentChange = query?.documentChanges else {return}
@@ -238,6 +245,7 @@
         db.collection("userPost").addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
+                return
             }
             
             guard let query = query else {return}
@@ -277,7 +285,11 @@
     }
     func CountViews (){
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
+            if error != nil{
+                           return
+                       }
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
+            
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -305,6 +317,9 @@
     
     func favotireCounts (uuid:String){
         db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
+            if error != nil{
+                           return
+                       }
             self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
         }
     }
@@ -313,21 +328,34 @@
     
     
     @IBAction func SignOutButton(_ sender: UIButton) {
+        
+      
         let fbLoginManager = LoginManager()
         fbLoginManager.logOut()
         
-        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
-            
-        }
-        let listener1 = self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener  { querySnapshot, error in
-            
-        }
+//        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
+//
+//        }
+//        let listener1 = self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener  { querySnapshot, error in
+//
+//        }
         
+        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
+            let query = querySnapshot!
+            for i in query.documents{
+                print(i.data()["postUUID"]!)
+            }
+            
+        }
+        let listener1 =  db.collection("user").addSnapshotListener  { querySnapshot, error in
+            
+            }
         
         listener.remove()
         listener1.remove()
         
         GIDSignIn.sharedInstance()?.signOut()
+        try? Auth.auth().signOut()
         
         //         try? Auth.auth().signOut()
 //        self.navigationController?.popToRootViewController(animated: true)

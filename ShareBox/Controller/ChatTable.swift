@@ -96,7 +96,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     func queryFirestore2(){
 //          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
-              if let error = error{ print("query Faild\(error)") }
+              if  error  != nil {
+                            print("Error:\(error)")
+                            return
+                          }
            
               guard let documentChange = query?.documents else {return}
             for change in documentChange{
@@ -124,7 +127,11 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     func queryFirestore(){
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").addSnapshotListener { (query, error) in
-            if let error = error{ print("query Faild\(error)") }
+             if  error  != nil {
+                print("Error:\(error)")
+                return
+              }
+          
             guard let documentChange = query?.documentChanges else {return}
             for change in documentChange{
                 //處理每一筆更新
@@ -145,7 +152,9 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     func clearViewCounts(){
           db.collection("user").document(myUID).collection("Messages").document(otherNickName).collection("Message").whereField("read", isEqualTo: false).getDocuments { (query, error) in
-              
+              if  error  != nil {
+                             return
+                         }
               guard let query = query?.documents else {return}
               for i in query{
                   self.db.collection("user").document(self.myUID).collection("Messages").document(self.otherNickName).collection("Message").document(i.documentID).setData(["read":""],merge: true)

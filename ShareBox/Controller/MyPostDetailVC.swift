@@ -191,6 +191,7 @@ class myPostDetailVC: UIViewController  {
                 db.collection("user").document(myUID).collection("myPost").document(postUUID).delete { (error) in
                     if let error = error {
                         print("PO文刪除失敗：\(error)")
+                         
                     }
                     self.delegate?.Update(data: self.data)
                     self.navigationController?.popViewController(animated: true)
@@ -203,9 +204,9 @@ class myPostDetailVC: UIViewController  {
         let postUUID = self.data.postUUID
               
         db.collection("userPost").document(postUUID).collection("favoriteCounts").getDocuments { (otherUserId, error) in
-            if let e = error{
-                print(e)
-            }
+            if let error = error{
+                   print("deletePost Faild\(error)")
+                   }
             guard let userID = otherUserId else {return}
             for userID in userID.documents{
                 self.db.collection("user").document(userID.documentID).collection("favoriteList").document(postUUID).delete()

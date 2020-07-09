@@ -193,6 +193,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     func updateCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
+            if error != nil{
+                return
+            }
             for i in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
               
@@ -204,6 +207,10 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     func updateFavoriteCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+            if  error  != nil {
+                return
+            }
+            
               for i in data!.documents{
                   self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
                 if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
