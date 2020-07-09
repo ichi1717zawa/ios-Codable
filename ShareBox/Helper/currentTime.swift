@@ -17,7 +17,7 @@ class currentTime    {
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "MM/dd"
     let currentTime = dateformatter.string(from: now)
-    
+
     return currentTime
     }
 }

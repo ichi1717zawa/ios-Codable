@@ -13,6 +13,7 @@
 		FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */; };
 		FA37F16D24A4921300AAF5B9 /* chatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */; };
 		FA45650224A108730015DEF3 /* lookImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA45650124A108730015DEF3 /* lookImage.swift */; };
+		FA482FF224B759E000525B82 /* checkImageExsist.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA482FF124B759DF00525B82 /* checkImageExsist.swift */; };
 		FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F47248CEE02002C68D4 /* allPostDetail.swift */; };
 		FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* AllPostVC.swift */; };
 		FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4D248CF72C002C68D4 /* allPostModel.swift */; };
@@ -78,6 +79,7 @@
 		FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Once.swift"; sourceTree = "<group>"; };
 		FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTableCell.swift; sourceTree = "<group>"; };
 		FA45650124A108730015DEF3 /* lookImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookImage.swift; sourceTree = "<group>"; };
+		FA482FF124B759DF00525B82 /* checkImageExsist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkImageExsist.swift; sourceTree = "<group>"; };
 		FA521F47248CEE02002C68D4 /* allPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetail.swift; sourceTree = "<group>"; };
 		FA521F4B248CF138002C68D4 /* AllPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostVC.swift; sourceTree = "<group>"; };
 		FA521F4D248CF72C002C68D4 /* allPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostModel.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */,
+				FA482FF124B759DF00525B82 /* checkImageExsist.swift */,
 				FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */,
 				FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */,
 				FA6F8C83248568D30051E318 /* currentTime.swift */,
@@ -452,6 +455,7 @@
 			files = (
 				FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */,
 				FA521F50248D08D5002C68D4 /* allPostDetailBycell.swift in Sources */,
+				FA482FF224B759E000525B82 /* checkImageExsist.swift in Sources */,
 				FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */,
 				FA45650224A108730015DEF3 /* lookImage.swift in Sources */,
 				FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */,

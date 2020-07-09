@@ -82,28 +82,29 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
 //        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
 //        allPostcell.likeImage.image = data.likeImage
-        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
-        
+        let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Caches").appendingPathComponent("\(data.postUUID)")
         if FileManager.default.fileExists(atPath: url.path){
 //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
 //            let deCompressData = try? NSData(contentsOf: url).decompressed(using: .lzma)
             let image = UIImage(contentsOfFile: url.path)
-            
 //            let Newimage = UIImage(data: image as! Data)
             allPostcell.postImage.image = image
             
-        }else{
-           
+        }else  {
                 let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
-                         var imageRef = ref.child("images/\(data.postUUID)")
-            
-         
-            imageRef.write(toFile: url) { (url, error) in
-                if let e = error{
-                    print("下載圖檔有錯誤\(e)")
+               var imageRef = ref.child("images/\(data.postUUID)")
+               imageRef.write(toFile: url) { (url, error) in
+                if error != nil{
+                    print("從Firebase下載圖檔有錯誤")
+                    self.getCloudKitImage(uuid: data.postUUID) { (image) in
+                        DispatchQueue.main.async {
+                            allPostcell.postImage.image = image
+                            print("成功從cloudkit下載圖片")
+                        }
+                    }
 //                    self.keepDownLoad( uuid: data.postUUID)
                 }else{
-                    print("下載成功")
+                    print("從Firebase下載成功")
                     let ciimage = CIImage(contentsOf: url!)
 //                    let image = UIImage(contentsOfFile: url!.path)
                     let image = UIImage(ciImage: ciimage!)
@@ -117,24 +118,34 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         return allPostcell
     }
     
-    func keepDownLoad(uuid:String ){
-          let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
-        
-        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(uuid)")
-        while FileManager.default.fileExists(atPath: url.path) == false {
-           var imageRef = ref.child("images/\(uuid)")
-             imageRef.write(toFile: url) { (url, error) in
-                if let e = error {
-                    print("keep error")
-                }
-                else{
-                    print("success")
-                }
-            }
-        }
-        
-    }
 
+
+    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first! .appendingPathComponent("\(uuid)")
+                  let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
+                           let query = CKQuery(recordType: "Note", predicate: predicate)
+                           self.database.perform(query, inZoneWith: nil) { (records, error) in
+                            if let error = error{
+                                print("讀取CloudKit檔案失敗\(error)")
+                            }
+                                     guard let records = records else {return}
+                                     for record in records{
+                                         let asset = record["myphoto"] as! CKAsset
+                                        let imageData = NSData(contentsOf: asset.fileURL!)
+//                                        let compressedData =  NSData(contentsOf: asset.fileURL!)
+//                                        try? compressedData?.write(to: url, options: .atomicWrite)
+                                        imageData?.write(to: url, atomically: true)
+                                         let image = UIImage(data: imageData! as Data)
+                                        complite(image!)
+    //                                    let image = UIImage(data: compressedData as! Data)
+    //                                    complite(image!)
+                                        DispatchQueue.main.async {
+                                            self.tableview.reloadData()
+                                        }
+
+                                  }
+                      }
+              }
     
 //    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
 //                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
@@ -159,6 +170,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                              }
 //                  }
 //          }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
            textField.resignFirstResponder()
            return true

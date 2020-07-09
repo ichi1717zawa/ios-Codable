@@ -83,10 +83,13 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+     
+    
+        
+        
         
         if Auth.auth().currentUser != nil{
-          
-          
             myscrollview.alpha = 0
             self.whiteView.alpha = 0
             self.mypageCL.alpha = 0

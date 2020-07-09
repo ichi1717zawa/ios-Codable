@@ -301,13 +301,34 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //        try? image.write(to: filePath2!,options: [.atomic])
             
 //            let  compressData  = try? (imageData as NSData).compressed(using: .lzma) //壓縮檔案
+            serialQueue.sync {
+                let date = Date( )
+                let dateFormatter: DateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH"
+                let dateFormatString: String = dateFormatter.string(from: date)
+                print(Int(dateFormatString)!)
+                
+               
+                
+                if Int(dateFormatString)! <= 8 {
+                    let myphoto = CKAsset(fileURL: filePath2!)
+                    self.newNote.setValue(myphoto, forKey: "myphoto")
+                    self.newNote.setValue(postUUID, forKey: "content")
+                    self.database.save(self.newNote) { (record, error) in
+                        if let error = error{
+                            print(error)
+                        }
+                        guard   record  != nil else { return }
+                        print("saved record")
+                    }
+                }else{
+                    self.pushDataToGoogle(data: imageData, uuid: postUUID)
+                     print("存到google")
+                }
+                
+            }
+         
             
-            
-           serialQueue.sync {
-                self.pushDataToGoogle(data: imageData, uuid: postUUID)
-            
-           }
-          
             
           
        
@@ -366,17 +387,17 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
           
             
 //            try? compressData?.write(to: filePath2!, options: .atomicWrite)
-//        let myphoto = CKAsset(fileURL: filePath!)
-//            let compressedData = CKAsset(fileURL: filePath2!)
-//            self.newNote.setValue(compressedData, forKey: "myphoto")
-//        self.newNote.setValue(postUUID, forKey: "content")
+//            let myphoto = CKAsset(fileURL: filePath2!)
+////            let compressedData = CKAsset(fileURL: filePath2!)
+//            self.newNote.setValue(myphoto, forKey: "myphoto")
+//            self.newNote.setValue(postUUID, forKey: "content")
 //            self.database.save(self.newNote) { (record, error) in
 //               if let error = error{
 //                   print(error)
 //               }
 //               guard   record  != nil else { return }
 //               print("saved record")
-                
+//            }
 //        var annotatiobox : CLLocationCoordinate2D?
 //            let request = NSFetchRequest<PostInfomation>(entityName: "Post")
 //
