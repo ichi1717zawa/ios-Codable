@@ -74,7 +74,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 
 mypageCL.numberOfPages = 3
 myscrollview.delegate = self
-mypageCL.currentPageIndicatorTintColor = .orange
+ 
         facebookLoginButton.delegate = self
         facebookLoginButton.isHidden = true
  
@@ -230,11 +230,11 @@ mypageCL.currentPageIndicatorTintColor = .orange
              }
          }
     @IBAction func startUseAppAction(_ sender: Any) {
-        UIView.animate(withDuration: 0.5) {
-            self.mypageCL.alpha = 0
-                   self.myscrollview.alpha = 0
-                   self.whiteView.alpha = 0
-                   self.startUseApp.alpha = 0
+        UIView.animate(withDuration: 1) {
+       self.mypageCL.alpha = 0
+       self.myscrollview.alpha = 0
+       self.whiteView.alpha = 0
+       self.startUseApp.alpha = 0
         }
        
     }
