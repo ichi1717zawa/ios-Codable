@@ -109,7 +109,7 @@ extension allPostVC {
 
                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                 //                            note.imageName = change.document.data()["imageName"] as? String
-                                if let index = self.data.index(of: perPost){
+                                if let index = self.data.firstIndex(of: perPost){
                                     let indexPath = IndexPath(row: index, section: 0)
     //                                self.mapKitView.annotations[indexPath.row]
     //                                self.data[indexPath.row]

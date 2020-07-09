@@ -186,7 +186,6 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
      
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        print(textField.text?.count)
         if textField.text!.count > 0 {
             self.MysendButton.setImage(UIImage(named: "發送按鈕"), for: .normal)
             self.MysendButton.isEnabled = true 

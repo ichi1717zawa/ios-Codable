@@ -288,7 +288,7 @@
             if error != nil{
                            return
                        }
-            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
+            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
             
         }
     }
@@ -320,7 +320,7 @@
             if error != nil{
                            return
                        }
-            self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
+            self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count ?? 0])
         }
     }
     

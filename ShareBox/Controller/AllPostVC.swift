@@ -467,7 +467,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
   
     func favotireCounts (uuid:String){
          db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
-             self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
+            self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count ?? 0])
          }
      }
     

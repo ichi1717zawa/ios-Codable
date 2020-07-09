@@ -37,7 +37,7 @@ class PostDetailVC: UIViewController      {
         let query = CKQuery(recordType: "Note", predicate: predicate)
         
         database.perform(query, inZoneWith: nil) { (records, _) in
-            guard var records = records else {return}
+            guard let records = records else {return}
             for record in records{
                 
                 let asset = record["myphoto"] as! CKAsset

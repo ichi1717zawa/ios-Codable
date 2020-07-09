@@ -55,7 +55,7 @@ class allPostDetailBycell: UIViewController  {
                     
                  
 //                let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent("\(self.postUUID).jpg" ?? "\(self.data.postUUID).jpg")
-            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
+//            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
            
                 self.SubcategoryLabel.text = data.data()["postCategory"] as? String
                 self.nickNameLabel.text = data.data()["Name"] as? String
@@ -67,8 +67,7 @@ class allPostDetailBycell: UIViewController  {
                 self.postNickName = data.data()["Name"] as? String
                 self.postGmail = data.data()["gmail"] as? String
                 self.posterUID = data.data()["posterUID"] as? String
-                self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String
-                print(data.data()["gmail"] as? String)
+                self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String 
                  
                 if data.data()["posterUID"] as? String != self.myUID{
                     print("same gmail")
