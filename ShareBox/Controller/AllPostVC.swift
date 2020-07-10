@@ -74,7 +74,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //        }).first{
 //            print("get")
 //        }
-        print(favoriteListName.first)
+        
         
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
@@ -577,7 +577,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
             self.navigationController?.isNavigationBarHidden = true
-           categoryControllButtenView.center.x = super.view.center.x
+//           categoryControllButtenView.center.x = super.view.center.x
            searchButton.alpha = 0
            initButton()
           

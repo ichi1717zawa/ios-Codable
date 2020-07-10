@@ -91,7 +91,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         
         if Auth.auth().currentUser != nil{
             myscrollview.alpha = 0
-            self.whiteView.alpha = 0
+//            self.whiteView.alpha = 0
             self.mypageCL.alpha = 0
           
             self.maskview.alpha = 0.5
@@ -263,7 +263,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         UIView.animate(withDuration: 1) {
        self.mypageCL.alpha = 0
        self.myscrollview.alpha = 0
-       self.whiteView.alpha = 0
+//       self.whiteView.alpha = 0
        self.startUseApp.alpha = 0
         }
        
