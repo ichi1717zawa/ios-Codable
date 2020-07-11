@@ -66,7 +66,7 @@ class PostDetailVC: UIViewController      {
 
     
     @IBAction func sendMessage(_ sender: Any) {
-        var myNickName :String!
+//        var myNickName :String!
          print("click sendMessageButton")
 
         
@@ -75,7 +75,7 @@ class PostDetailVC: UIViewController      {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
           if segue.identifier == "personalMessageWithMap"{
-              let personalMessage = segue.destination as! chatTable
+//              let personalMessage = segue.destination as! chatTable
 //            personalMessage.otherGoogleName = self.receiverAnnotationData?.googleName ?? "N/A"
 //            personalMessage.otherNickName = self.receiverAnnotationData?.nickName ?? "N/A"
           }

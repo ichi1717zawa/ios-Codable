@@ -283,7 +283,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 self.FirstSignUp()
                 print("Not In database")
             }else{
-                print(Auth.auth().currentUser?.uid)
+                
                 self.performSegue(withIdentifier: "tabSegue", sender: nil)
                 print("user IN database")
             }
@@ -294,7 +294,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 
             }else{
                 print("登入完畢")
-                print(user?.uid)
+                
                 
             }
         }
@@ -315,7 +315,6 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                            self.FirstSignUp()
                            print("Not In database")
                        }else{
-                           print(Auth.auth().currentUser?.uid)
                            self.maskview.alpha = 0.5
                            self.activeIndicator.startAnimating()
                            self.performSegue(withIdentifier: "tabSegue", sender: nil)
@@ -338,25 +337,21 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 return }
             
             
-            print(authResult?.user.email)
-            print(authResult?.user.uid)
-            self.db.collection("user").whereField("uid", isEqualTo: authResult?.user.uid).getDocuments { (data, error) in
+           
+            self.db.collection("user").whereField("uid", isEqualTo: authResult!.user.uid).getDocuments { (data, error) in
                 if   data?.isEmpty == true {
                     self.maskview.alpha = 0.5
                     self.activeIndicator.startAnimating()
                     self.FirstSignUp()
                     print("Not In database")
                 }else{
-                    print(Auth.auth().currentUser?.uid)
                     self.maskview.alpha = 0.5
                     self.activeIndicator.startAnimating()
                     self.performSegue(withIdentifier: "tabSegue", sender: nil)
                     print("user IN database")
                 }
                 
-                for i in data!.documents{
-                    print(i.data()["nickName"])
-                }
+               
             }
             print("身份驗證完成")
         }

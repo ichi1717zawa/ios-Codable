@@ -31,23 +31,36 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
 //     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
-    
+   
     var emptyString :String = "    "
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
- 
+         let testView = UIView()
          let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
         if var data = self.data[indexPath.row].SendMessage {
             cell.sendMessageLabel.alpha = 1
             cell.sendMessageLabel.alpha = 1
-            if data.count >= 6{
-                    data = "  \(data)  "
-            }
-           data += emptyString
+//            if data.count >= 6{
+//                    data = "  \(data)  "
+//            }
+//           data += emptyString
             cell.sendMessageLabel.text = data
             cell.messageTitle.alpha = 0
             cell.userImage.alpha = 0
+//            testView.frame.size.height = cell.sendMessageLabel.frame.height
+//            testView.frame.size.width = cell.sendMessageLabel.frame.width
+//            testView.backgroundColor = .red
+//            testView.alpha = 0.6
+            testView.frame.origin.x = cell.sendMessageLabel.frame.origin.x
+            testView.frame.origin.y = cell.sendMessageLabel.frame.origin.y
+         
+           
             
-            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
+            print("height\(cell.sendMessageLabel.frame.height)")
+            print("width\(cell.sendMessageLabel.frame.width)")
+            print("x\(cell.sendMessageLabel.frame.origin.x)")
+            print("y\(cell.sendMessageLabel.frame.origin.y)")
+           
+//            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
         }else{
         if var data = self.data[indexPath.row].ReceiveMessage{
             cell.messageTitle.alpha = 1
@@ -55,17 +68,23 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             cell.sendMessageLabel.alpha = 0
             cell.sendMessageLabel.alpha = 0
             cell.userImage.image = UIImage(named: "avataaars")
-            if data.count >= 6{
-                data = "  \(data)  "
-            }
-            data += emptyString
+//            if data.count >= 6{
+//                data = "  \(data)  "
+//            }
+//            data += emptyString
             cell.messageTitle.text = data
             
-            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
-            
+//            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
+          
         }
     }
         cell.contentView.transform = CGAffineTransform(rotationAngle: .pi)
+        cell.backGroundImage.frame.size.height = cell.messageTitle.frame.size.height
+        cell.backGroundImage.frame.size.width = cell.messageTitle.frame.size.width
+                   cell.backGroundImage.backgroundColor = .red
+                   cell.backGroundImage.alpha = 0.2
+//                   cell.backGroundImage.frame.origin.x = cell.sendMessageLabel.frame.origin.x
+//                   cell.backGroundImage.frame.origin.y = cell.sendMessageLabel.frame.origin.y
         return cell
     }
     
@@ -96,15 +115,15 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     func queryFirestore2(){
 //          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
-              if  error  != nil {
+              if  let error   = error {
                             print("Error:\(error)")
                             return
                           }
            
               guard let documentChange = query?.documents else {return}
-            for change in documentChange{
+            for _ in documentChange{
                   //處理每一筆更新
-                self.tabBarItem.badgeValue = "\(query?.count)"
+//                self.tabBarItem.badgeValue = "\(query?.count)"
                     
 //                 self.db.collection("user").document(myGoogleName).collection("Messages").document(self.otherNickName).collection("Message").document(change.documentID).setData(["read":true], merge: true) { (error) in
 //                    if let e = error{
@@ -127,7 +146,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     func queryFirestore(){
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").addSnapshotListener { (query, error) in
-             if  error  != nil {
+             if  let error = error {
                 print("Error:\(error)")
                 return
               }

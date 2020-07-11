@@ -181,7 +181,7 @@ class allPostDetailBycell: UIViewController  {
 //    }
     
     @IBAction func favoriteButtonClick(_ sender: UIButton) {
-        print(self.favoriteButton.currentImage?.accessibilityIdentifier)
+        
 //         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         if self.favoriteButton.currentTitle == "inDatabase" || self.favoriteButton.currentImage?.accessibilityIdentifier == "heart-r"{
             self.favoriteButton.setImage(UIImage(named:"heart"), for: .normal)

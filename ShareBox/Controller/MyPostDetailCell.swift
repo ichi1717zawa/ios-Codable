@@ -39,7 +39,7 @@
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let allPostcell = tableview.dequeueReusableCell(withIdentifier: "allPostCell", for: indexPath) as! allPostDetail
-        var data = self.data[indexPath.row]
+        let data = self.data[indexPath.row]
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
         allPostcell.postImage.image = data.categoryImage
@@ -61,7 +61,7 @@
             let imageRef = ref.child("images/\(data.postUUID)")
             imageRef.write(toFile: url) { (url, error) in
                 if let e = error{
-                    print("下載圖檔有錯誤\(e)")
+                    print("從Firebase下載圖檔有錯誤\(e)")
                 }else{
                     print("下載成功")
                     
@@ -109,7 +109,7 @@
         
         
         //  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-        db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid).getDocuments { (data, error) in
+        db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid ?? "N/A").getDocuments { (data, error) in
             guard let data = data else {return}
             for i in data.documents{
                 self.nickname.text = "\(i.data()["nickName"] ?? "N/A")"
@@ -129,7 +129,7 @@
             if error != nil{
                 return
             }
-            for i in data!.documents{
+            for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
                 
                 self.tableview.reloadData()
@@ -141,13 +141,13 @@
     func updateFavoriteCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
             if error != nil{
-                           return
-                       }
-            for i in data!.documents{
+                return
+            }
+            for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
-                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
-                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
-                }
+//                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
+//                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
+//                }
                 self.tableview.reloadData()
             }
         }
@@ -155,7 +155,7 @@
     
     func queryFirestore(){
         //        guard let myGoogleName = self.myGoogleName else {return}
-        self.db.collection("userPost").whereField("posterUID", isEqualTo: myUID).addSnapshotListener { (query, error) in
+        self.db.collection("userPost").whereField("posterUID", isEqualTo: myUID!).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
                 return
@@ -221,7 +221,7 @@
                         
                         //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                         //                            note.imageName = change.document.data()["imageName"] as? String
-                        if let index = self.data.index(of: perPost){
+                        if let index = self.data.firstIndex(of: perPost){
                             let indexPath = IndexPath(row: index, section: 0)
                             //                                self.mapKitView.annotations[indexPath.row]
                             //                                self.data[indexPath.row]
@@ -264,8 +264,8 @@
                                 self.updateFavoriteCount(documentID: perPost.postUUID)
                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                 //                            note.imageName = change.document.data()["imageName"] as? String
-                                if let index = self.data.index(of: perPost){
-                                    let indexPath = IndexPath(row: index, section: 0)
+                                if self.data.firstIndex(of: perPost) != nil{
+//                                    let indexPath = IndexPath(row: index, section: 0)
                                     //                                self.mapKitView.annotations[indexPath.row]
                                     //                                self.data[indexPath.row]
                                     //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)

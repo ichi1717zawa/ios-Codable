@@ -39,14 +39,14 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
  
     func getfavoriteListName(){
-        self.db.collection("user").document("\(Auth.auth().currentUser?.uid)").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
+        self.db.collection("user").document("\(Auth.auth().currentUser?.uid ?? "N/A")").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
 
                    if let data = data?.documents  {
 
                                    for postUUID in data{
-                                       print(postUUID.documentID)
+//                                       print(postUUID.documentID)
                                           let postUUID =  postUUID.documentID  as String
-                                        print(postUUID)
+//                                        print(postUUID)
                                        self.favoriteListName.append(postUUID)
                                        
                                       }
@@ -54,7 +54,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                               }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid)") { (data) in
+        getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid ?? "N/A")") { (data) in
             print(data)
         }
         if let first = tableView.indexPathsForVisibleRows?.first  {
@@ -92,7 +92,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             
         }else  {
                 let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
-               var imageRef = ref.child("images/\(data.postUUID)")
+            let imageRef = ref.child("images/\(data.postUUID)")
                imageRef.write(toFile: url) { (url, error) in
                 if error != nil{
                     print("從Firebase下載圖檔有錯誤")
@@ -208,7 +208,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             if error != nil{
                 return
             }
-            for i in data!.documents{
+            for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
               
                 self.tableview.reloadData()
@@ -223,11 +223,11 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 return
             }
             
-              for i in data!.documents{
+            for _ in data!.documents{
                   self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
-                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
-                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
-                }
+//                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
+//                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
+//                }
                   self.tableview.reloadData()
               }
           }
@@ -325,7 +325,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             
                             //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                             //                            note.imageName = change.document.data()["imageName"] as? String
-                            if let index = self.data.index(of: perPost){
+                            if let index = self.data.firstIndex(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
 //                                self.mapKitView.annotations[indexPath.row]
 //                                self.data[indexPath.row]
@@ -368,8 +368,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                                                                 self.updateFavoriteCount(documentID: perPost.postUUID)
                                                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                                                 //                            note.imageName = change.document.data()["imageName"] as? String
-                                                                if let index = self.data.index(of: perPost){
-                                                                    let indexPath = IndexPath(row: index, section: 0)
+                                        if self.data.firstIndex(of: perPost) != nil{
+//                                                                    let indexPath = IndexPath(row: index, section: 0)
                                     //                                self.mapKitView.annotations[indexPath.row]
                                     //                                self.data[indexPath.row]
                                     //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
@@ -431,7 +431,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
             
-            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
+            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

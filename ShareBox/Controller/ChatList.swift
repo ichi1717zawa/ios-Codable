@@ -84,7 +84,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                     chatlist.unreadCount = change.document.data()["unRead"] as? String
                     chatlist.otherUID = change.document.data()["otherUID"] as? String
                     self.chatData.insert(chatlist, at: 0)
-                    let indexPath = IndexPath(row: 0, section: 0)
+//                    let indexPath = IndexPath(row: 0, section: 0)
 //                    self.allUnreadCounts += Int(self.chatData.first!.unreadCount!)!
 //                    self.tabBarItem.badgeValue = String(self.allUnreadCounts)
                 }
@@ -106,7 +106,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
 //                            
 //                        }
                        
-                        if let tableview = self.tableview{
+                        if self.tableview != nil{
 //                            tableview.reloadData()
 //                            tableview.reloadRows(at: [indexPath], with: .automatic)
                              self.tableview.reloadData()
@@ -165,10 +165,10 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     
     
     func updateTabbarItembadge (){
-        var tempInt = 0
+//        var tempInt = 0
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("user").document(myUID).collection("Messages").addSnapshotListener { (query, error) in
-            if  error != nil{
+             if  let error   = error {
              print("query Faild\(error)")
                 return
             }

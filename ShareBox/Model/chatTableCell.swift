@@ -19,6 +19,7 @@ class chatTableCell: UITableViewCell {
     @IBOutlet var myLeftAnchor: NSLayoutConstraint!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var messageTitle: UILabel!
+    @IBOutlet weak var backGroundImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

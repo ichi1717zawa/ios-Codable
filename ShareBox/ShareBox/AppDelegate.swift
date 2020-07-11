@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import GoogleSignIn
-
+ 
 
 import FBSDKCoreKit
 //@UIApplicationMain
@@ -28,7 +28,7 @@ import FBSDKCoreKit
 //}
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, MessagingDelegate, UNUserNotificationCenterDelegate      {
      
      
   
@@ -61,13 +61,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate      {
         print(NSHomeDirectory())
         FirebaseApp.configure() 
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+         Messaging.messaging().delegate = self
+//        DispatchQueue.global().async {
+//
+//            UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert]) { (granted, error) in
+//                DispatchQueue.main.async {
+//                             application.registerForRemoteNotifications()
+//
+//                     }
+//        }
+//
+//        }
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        } else {
+          let settings: UIUserNotificationSettings =
+          UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
+        }
+
+        application.registerForRemoteNotifications()
+        
 //        ChatList.share.queryFirestore()
 //        ChatList.share.queryFirestore2()
        
-       
+      
         return true
         
     }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase get messageing")
+       
+       let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        
+        
+    }
+    
+    
      
 
     

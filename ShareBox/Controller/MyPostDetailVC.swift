@@ -22,7 +22,7 @@ class myPostDetailVC: UIViewController  {
     @IBOutlet weak var productName: UITextField!
     @IBOutlet weak var MaincategoryLabel: UILabel!
     @IBOutlet weak var SubcategoryLabel: UILabel!
-    @IBOutlet weak var nickNameLabel: UITextField!
+    @IBOutlet weak var nickNameLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UITextField!
     @IBOutlet weak var discriptionLabel: UITextView!
     var image : UIImage!
@@ -41,7 +41,7 @@ class myPostDetailVC: UIViewController  {
         super.viewDidLoad()
         
         
-        let filter: String! = self.data.postUUID
+//        let filter: String! = self.data.postUUID
         
 //        let e :[String:Any] = ["viewcCount":12]
 //        db.collection("userPost").document("\(self.data.postUUID)").getDocument{ (data, error) in
@@ -87,7 +87,7 @@ class myPostDetailVC: UIViewController  {
                            let imageRef = ref.child("images/\(data.postUUID)")
                            imageRef.write(toFile: url) { (url, error) in
                                if let e = error{
-                                   print("下載圖檔有錯誤\(e)")
+                                   print("從Firebase下載圖檔有錯誤\(e)")
                                }else{
                                    print("下載成功")
                                    

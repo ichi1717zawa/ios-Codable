@@ -82,7 +82,7 @@
             if let error = error{
                 print("updateCount Faild\(error)")
             }
-            for i in data!.documents{
+            for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
                 
                 self.tableview.reloadData()
@@ -96,11 +96,11 @@
             if let error = error{
                            print("updateFavoriteCount Faild\(error)")
                        }
-            for i in data!.documents{
+            for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
-                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
-                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
-                }
+//                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
+//                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
+//                }
                 self.tableview.reloadData()
             }
         }
@@ -223,8 +223,8 @@
                                 self.updateFavoriteCount(documentID: perPost.postUUID)
                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                 //                            note.imageName = change.document.data()["imageName"] as? String
-                                if let index = self.data.index(of: perPost){
-                                    let indexPath = IndexPath(row: index, section: 0)
+                                if self.data.firstIndex(of: perPost) != nil{
+//                                    let indexPath = IndexPath(row: index, section: 0)
                                     //                                self.mapKitView.annotations[indexPath.row]
                                     //                                self.data[indexPath.row]
                                     //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
@@ -247,7 +247,7 @@
             if let error = error{
                                     print("CountViews Faild\(error)")
                                 }
-            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count])
+            self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -280,7 +280,7 @@
             if let error = error{
                            print("favotireCounts Faild\(error)")
                        }
-            self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count])
+            self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count ?? 0])
         }
     }
   

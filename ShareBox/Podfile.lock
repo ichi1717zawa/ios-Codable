@@ -241,9 +241,13 @@ PODS:
   - Firebase/Firestore (6.24.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.13.0)
+  - Firebase/Messaging (6.24.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 4.4.0)
   - Firebase/Storage (6.24.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.6.1)
+  - FirebaseAnalyticsInterop (1.5.0)
   - FirebaseAuth (6.5.3):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.6)
@@ -278,6 +282,25 @@ PODS:
     - nanopb (~> 1.30905.0)
   - FirebaseFirestoreSwift (0.2):
     - FirebaseFirestore (>= 1.6.1, ~> 1.6)
+  - FirebaseInstallations (1.2.0):
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/Environment (~> 6.6)
+    - GoogleUtilities/UserDefaults (~> 6.6)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.3.4):
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+  - FirebaseMessaging (4.4.1):
+    - FirebaseAnalyticsInterop (~> 1.5)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstanceID (~> 4.3)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Reachability (~> 6.5)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseStorage (3.6.1):
     - FirebaseAuthInterop (~> 1.1)
     - FirebaseCore (~> 6.6)
@@ -304,6 +327,8 @@ PODS:
     - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (6.6.0)"
   - GoogleUtilities/Reachability (6.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.28.0)":
     - "gRPC-C++/Implementation (= 1.28.0)"
@@ -344,11 +369,13 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.8)
+  - Protobuf (3.12.0)
 
 DEPENDENCIES:
   - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Firestore
+  - Firebase/Messaging
   - Firebase/Storage
   - FirebaseFirestoreSwift
   - GoogleSignIn
@@ -361,6 +388,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
+    - FirebaseAnalyticsInterop
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
@@ -368,6 +396,9 @@ SPEC REPOS:
     - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
     - FirebaseFirestoreSwift
+    - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseStorage
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
@@ -380,6 +411,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - Protobuf
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -388,6 +420,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 8ad31cd09f793d1d7e84cf20fd6cebfe80ad318d
   FBSDKLoginKit: 5d1e321dc45ab1fa09198b77fc17c32a06f008c0
   Firebase: b28e55c60efd98963cd9011fe2fac5a10c2ba124
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
   FirebaseAuth: 7047aec89c0b17ecd924a550c853f0c27ac6015e
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
   FirebaseCore: e610482f64097b0e9f056cd97bc6b33dfabcbb6a
@@ -395,6 +428,9 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseFirestore: 35f8f67d7b25e4743c62ea6e46c38cafa8dc32b5
   FirebaseFirestoreSwift: 0437bb10d83f8161a9131da1739998254c78fdf5
+  FirebaseInstallations: 2119fb3e46b0a88bfdbf12562f855ee3252462fa
+  FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
+  FirebaseMessaging: 29543feb343b09546ab3aa04d008ee8595b43c44
   FirebaseStorage: f4f39ae834a7145963b913f54e2f24a9db1d8fac
   GoogleDataTransport: f6f8eba931df03ebd2232ff4645aa85f8f47b5ab
   GoogleDataTransportCCTSupport: d70a561f7d236af529fee598835caad5e25f6d3d
@@ -407,7 +443,8 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
 
-PODFILE CHECKSUM: 86c4caf9937b2bedc4a3e4385d85fe06b71b6597
+PODFILE CHECKSUM: 7cdb09318baf32a66f339b2bf52f8c7988049a8e
 
 COCOAPODS: 1.9.1

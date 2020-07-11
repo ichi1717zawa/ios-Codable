@@ -12,12 +12,12 @@ import Firebase
 extension PostVC : UINavigationControllerDelegate,UIImagePickerControllerDelegate{
     
     func saveToCloud( ) {
-        let image = self.imageview.image?.jpegData(compressionQuality: 0.1)
+//        let image = self.imageview.image?.jpegData(compressionQuality: 0.1)
         let fileName = "123.jpg" 
        let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)
         
          let imageData = imageview.image?.jpegData(compressionQuality: 0.1)
-         let url = URL(dataRepresentation: image!, relativeTo: nil)
+//         let url = URL(dataRepresentation: image!, relativeTo: nil)
         try? imageData?.write(to: filePath!,options: [.atomic])
         let myphoto = CKAsset(fileURL: filePath!)
         
@@ -28,7 +28,7 @@ extension PostVC : UINavigationControllerDelegate,UIImagePickerControllerDelegat
                 print(error)
             }
             guard record != nil else { return }
-            var parameters = ["recordID":"\(record?.recordID)"]
+            let parameters = ["recordID":"\(String(describing: record?.recordID))"]
                           self.db.collection("userPost").document("\(UUID().uuidString)").setData(parameters) { (error) in
                               if let e = error{
                                   print("Error=\(e)")
@@ -59,16 +59,16 @@ extension PostVC : UINavigationControllerDelegate,UIImagePickerControllerDelegat
                         if let e = error{
                             print(e)
                         }else{
-                            var file : CKAsset?
+//                            var file : CKAsset?
                             let asset = record!["myphoto"] as! CKAsset
-                            var imageData = NSData(contentsOf: asset.fileURL!)
+                            let imageData = NSData(contentsOf: asset.fileURL!)
                             
-                            let image = UIImage(data: imageData as! Data)
+                            let image = UIImage(data: imageData! as Data)
                             DispatchQueue.main.async {
                                  self.imageview.image = image
                             }
                         
-                            let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs: [record!.recordID])
+//                            let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs: [record!.recordID])
                          
     //                         fetchRecordsImageOperation.desiredKeys = ["myphotoq"]
     //                        fetchRecordsImageOperation.queuePriority = .veryHigh

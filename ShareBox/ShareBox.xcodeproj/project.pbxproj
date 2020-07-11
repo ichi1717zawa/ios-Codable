@@ -52,6 +52,7 @@
 		FA96841D2485E461002301A7 /* ChatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* ChatTable.swift */; };
 		FA96841F248613C9002301A7 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841E248613C9002301A7 /* ChatList.swift */; };
 		FA968421248614D8002301A7 /* ChatroomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA968420248614D7002301A7 /* ChatroomList.swift */; };
+		FAAE62D024B9BCEC0037B5DE /* PhoneAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */; };
 		FAAED45A248FA219006EA3FD /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAAED459248FA219006EA3FD /* chatIcon.png */; };
 		FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAEEA062493742B004F5B97 /* getChatListUnread.swift */; };
 		FAB45D8C24802589005A183D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB45D8B24802589005A183D /* MapVC.swift */; };
@@ -121,6 +122,7 @@
 		FA96841C2485E461002301A7 /* ChatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTable.swift; sourceTree = "<group>"; };
 		FA96841E248613C9002301A7 /* ChatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		FA968420248614D7002301A7 /* ChatroomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomList.swift; sourceTree = "<group>"; };
+		FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthentication.swift; sourceTree = "<group>"; };
 		FAAED459248FA219006EA3FD /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
 		FAAEEA062493742B004F5B97 /* getChatListUnread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getChatListUnread.swift; sourceTree = "<group>"; };
 		FAB45D8B24802589005A183D /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */,
 				FA79711824B21A17005048BC /* teview.swift */,
 				FAF8F79924B4C5B80063B509 /* newScrollview.swift */,
 				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
@@ -491,6 +494,7 @@
 				FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */,
 				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
 				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
+				FAAE62D024B9BCEC0037B5DE /* PhoneAuthentication.swift in Sources */,
 				FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */,
 				FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */,
 				FA96841D2485E461002301A7 /* ChatTable.swift in Sources */,
@@ -657,7 +661,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -678,7 +682,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -99,7 +99,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             default:
                 didselect = tempCategoryDetail[row]
                  caterogyTextField.text = didselect
-                print(didselect)
+                
                
     //            self.PostCategory.frame.origin.x = 10
     //             self.PostCategory.center.x = super.view.center.x
@@ -117,7 +117,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //                        caterogyTextField.text = didselect
 //        caterogyTextField.placeholder = didselect
         mainCategoryTextField.text = didselect
-        print(caterogyTextField.placeholder)
+        
                         UIView.animate(withDuration: 0.3) {
                         self.PostCategory.frame.origin.x = 0
                         }
@@ -272,10 +272,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         self.activityIndicator.startAnimating()
         let serialQueue: DispatchQueue = DispatchQueue(label: "serialQueue")
           let delayQueue = DispatchQueue(label: "delayQueue")
-         let ctx = CIContext()
+//         let ctx = CIContext()
         adressToCoreLocation(adress: self.locationTextField.text ?? "N/A") { (adressdata) in
 //            
-        let image = self.imageview.image
+//        let image = self.imageview.image
       
             let postUUID =  UUID().uuidString
             let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent(postUUID)
@@ -599,10 +599,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
                                //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill
                                //最小值MIN會變成UIViewContentModeScaleAspectFit
-                               let widthRatio = thumbnailSize.width / image.size.width;
-                               let heightRadio = thumbnailSize.height / image.size.height;
+//                               let widthRatio = thumbnailSize.width / image.size.width;
+//                               let heightRadio = thumbnailSize.height / image.size.height;
 
-                               let ratio = min(widthRatio,heightRadio);
+//                               let ratio = min(widthRatio,heightRadio);
 
             //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
                    
@@ -627,10 +627,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 
                                           //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill
                                           //最小值MIN會變成UIViewContentModeScaleAspectFit
-                                          let widthRatio = thumbnailSize.width / image.size.width;
-                                          let heightRadio = thumbnailSize.height / image.size.height;
+//                                          let widthRatio = thumbnailSize.width / image.size.width;
+//                                          let heightRadio = thumbnailSize.height / image.size.height;
 
-                                          let ratio = min(widthRatio,heightRadio);
+//                                          let ratio = min(widthRatio,heightRadio);
 
                        //                   let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio);
                               
@@ -745,15 +745,14 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
     @objc func keyBoardWillShow ( notification : Notification ){
          
          if let userInfo = notification.userInfo,
-             let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
+            let _ = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
         
 //            self.view.transform = CGAffineTransform(translationX: 0, y:
 //                -(keyboardRectangle.height - tabarItemHeight - productName.frame.size.height  )
 //
 //            )
             
-            print( self.tabBarController?.tabBar.frame.height)
-            self.tabBarController?.tabBar.frame.height
+            
 
          } 
     }

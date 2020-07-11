@@ -70,7 +70,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                    }
                    
                    guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
-                   var gotoAdress  = cordinate
+                let gotoAdress  = cordinate
                    self.moveRegion(coodinate: gotoAdress)
            }
            }
@@ -244,7 +244,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                     }).first{
                         //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                         //                            note.imageName = change.document.data()["imageName"] as? String
-                        if let index = self.data.index(of: perAnnotation){
+                        if let index = self.data.firstIndex(of: perAnnotation){
                             let indexPath = IndexPath(row: index, section: 0)
                             self.mapKitView.removeAnnotation(self.data[indexPath.row])
                             //                                self.mapKitView.reloadInputViews()
@@ -384,7 +384,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         }).first{
                             //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                             //                            note.imageName = change.document.data()["imageName"] as? String
-                            if let index = self.data.index(of: perAnnotation){
+                            if let index = self.data.firstIndex(of: perAnnotation){
                                 let indexPath = IndexPath(row: index, section: 0)
                                 self.mapKitView.removeAnnotation(self.data[indexPath.row])
                                 //                                self.mapKitView.reloadInputViews()

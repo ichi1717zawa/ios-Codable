@@ -25,11 +25,23 @@
 				<string>com.googleusercontent.apps.622689241410-pq9dsvvfrie7gvr87od49vsn63hibdap</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.622689241410-pq9dsvvfrie7gvr87od49vsn63hibdap</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookAppID</key>
 	<string>388085492151651</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookDisplayName</key>
 	<string>ShareBox</string>
 	<key>LSApplicationCategoryType</key>
@@ -98,6 +110,7 @@
 	<array>
 		<string>audio</string>
 		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
