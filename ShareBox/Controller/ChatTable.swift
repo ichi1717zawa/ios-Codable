@@ -37,15 +37,20 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
           
          let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
         if var data = self.data[indexPath.row].SendMessage {
-            cell.sendMessageLabel.alpha = 1
-            cell.sendMessageLabel.alpha = 1
-            if data.count >= 6{
-                    data = "  \(data)  "
-            }
-           data += emptyString
-            cell.sendMessageLabel.text = data
-            cell.messageTitle.alpha = 0
+//            cell.sendMessageLabel.alpha = 1
+//            cell.sendMessageLabel.alpha = 1
+             cell.sendTextview.alpha = 1 
+//            if data.count >= 6{
+//                    data = "  \(data)  "
+//            }
+//           data += emptyString
+//            cell.sendMessageLabel.text = data
+//            cell.sendTextview.text = data
+//            cell.messageTitle.alpha = 0
+            cell.sendTextview.text = data
+            cell.receiveTextview.alpha = 0
             cell.userImage.alpha = 0
+            
 //            testView.frame.size.height = cell.sendMessageLabel.frame.height
 //            testView.frame.size.width = cell.sendMessageLabel.frame.width
 //            testView.backgroundColor = .red
@@ -55,27 +60,30 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
          
            
             
-            print("height\(cell.sendMessageLabel.frame.height)")
-            print("width\(cell.sendMessageLabel.frame.width)")
-            print("x\(cell.sendMessageLabel.frame.origin.x)")
-            print("y\(cell.sendMessageLabel.frame.origin.y)")
-           
-            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
+//            print("height\(cell.sendMessageLabel.frame.height)")
+//            print("width\(cell.sendMessageLabel.frame.width)")
+//            print("x\(cell.sendMessageLabel.frame.origin.x)")
+//            print("y\(cell.sendMessageLabel.frame.origin.y)")
+//
+//            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
                
         }else{
         if var data = self.data[indexPath.row].ReceiveMessage{
-            cell.messageTitle.alpha = 1
+//            cell.messageTitle.alpha = 1
             cell.userImage.alpha = 1
-            cell.sendMessageLabel.alpha = 0
-            cell.sendMessageLabel.alpha = 0
+//            cell.sendMessageLabel.alpha = 0
+//            cell.sendMessageLabel.alpha = 0
+            cell.receiveTextview.alpha = 1
+            cell.sendTextview.alpha = 0
+            cell.sendTextview.alpha = 0
             cell.userImage.image = UIImage(named: "avataaars")
-            if data.count >= 6{
-                data = "  \(data)  "
-            }
-            data += emptyString
-            cell.messageTitle.text = data
-            
-            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
+//            if data.count >= 6{
+//                data = "  \(data)  "
+//            }
+//            data += emptyString
+//            cell.messageTitle.text = data
+            cell.receiveTextview.text = data
+//            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
                
           
         }
@@ -290,6 +298,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
         self.navigationController?.navigationBar.topItem?.title = otherNickName
        viewOriginSize = self.view.frame.size.height
+        print("e")
       clearViewCounts()
       }
 
@@ -303,6 +312,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
+        print("Qwe")
         self.navigationController?.isNavigationBarHidden = true
          clearViewCounts()
          NotificationCenter.default.removeObserver(self)

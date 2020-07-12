@@ -13,7 +13,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
+     func applicationDidEnterBackground(_ application: UIApplication) {
+            print("離開背景")
+        }
      
+        func applicationWillEnterForeground(_ application: UIApplication) {
+            print("進入背景")
+        }
+    
+   
 
 }
 

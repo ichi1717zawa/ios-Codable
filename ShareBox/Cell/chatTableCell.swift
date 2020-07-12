@@ -24,9 +24,13 @@ class chatTableCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-//         receiveTextview.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-//        messageTitle.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-//               textView.layer.cornerRadius = 10
+        
+        receiveTextview.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+         receiveTextview.layer.cornerRadius = 10
+//
+        sendTextview.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+        sendTextview.layer.cornerRadius = 10
+ 
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

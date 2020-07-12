@@ -48,11 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
             }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        print("離開")
+        print("離開背景")
     }
  
     func applicationWillEnterForeground(_ application: UIApplication) {
-        print("進入")
+        print("進入背景")
     }
  
 
