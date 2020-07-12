@@ -22,8 +22,9 @@ extension allPostVC {
 
        @IBAction func oderByTimeStamp(_ sender: Any) {
         self.data.removeAll()
-        tableview.reloadData()
-        queryData(by: "timeStamp")
+       
+        self.tableview.reloadData()
+         self.queryData(by: "timeStamp")
 
        }
        @IBAction func oderByFavorteCounts(_ sender: Any) {
@@ -32,8 +33,17 @@ extension allPostVC {
         queryData(by: "favoriteCounts")
        }
 
-
+    func animate(){
+        UIView.animate(withDuration: 1) {
+            self.tableview.alpha = 0.1
+        }
+        UIView.animate(withDuration: 2) {
+            self.tableview.alpha = 1
+            
+        }
+    }
     func queryData(by oderby:String){
+        animate()
 //        db.collection("userPost").order(by: oderby).addSnapshotListener { (query, error) in
             db.collection("userPost").order(by: oderby).getDocuments(source: .cache){ (query, error) in
               

@@ -28,7 +28,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     @IBOutlet weak var MysendButton: UIButton!
     
  
-    
+    static let share = chatTable()
 //     let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { self.data.count }
    
@@ -110,8 +110,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navagationBar.topItem?.title = otherNickName 
-        print(self.tableview.frame.origin.y)
+        print("diewdidload")
+//        self.navagationBar.topItem?.title = otherNickName
         self.db.collection("user").document(myUID).getDocument { (data, error) in
             if let data = data {
                 self.myNickName = data["nickName"] as? String ?? "N/A"
@@ -124,7 +124,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        queryFirestore2()
     }
     
- 
+    
     func queryFirestore2(){
 //          let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).collection("Message").whereField("read", isEqualTo: false).addSnapshotListener { (query, error) in
@@ -278,7 +278,11 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     }
     
 //
-
+    func testfunction(){
+        if let view = self.view{
+            view.endEditing(true)
+        }
+    }
 
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -298,21 +302,19 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
         self.navigationController?.navigationBar.topItem?.title = otherNickName
        viewOriginSize = self.view.frame.size.height
-        print("e")
+        print("進入前台")
       clearViewCounts()
       }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print(self.view.frame.size.height)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-        print("Qwe")
+         super.viewWillDisappear(animated) 
         self.navigationController?.isNavigationBarHidden = true
          clearViewCounts()
          NotificationCenter.default.removeObserver(self)
@@ -320,6 +322,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
+        print("進入喉台")
          
     }
     
@@ -330,7 +333,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
 
     
- 
+    @objc func 收起鍵盤(){
+              print("testPinrt")
+        self.view.endEditing(true)
+          }
     
     @objc func keyBoardWillShow ( notification : Notification ){
         self.navigationController?.isNavigationBarHidden = false
@@ -339,7 +345,9 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
         if let userInfo = notification.userInfo,
             let keyboardRectangle = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect{
 //            self.tableview.frame = self.tableview.frame.offsetBy(dx: 0, dy: -200)
+           
             self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height + 34  )
+            NotificationCenter.default.addObserver(self, selector: #selector(收起鍵盤), name: NSNotification.Name(rawValue: "通知收鍵盤"), object: nil)
 //
 //             print( self.tableview.frame.size.height)
 //            self.tableview.frame.size.height =  (self.view.frame.size.height - keyboardRectangle.height + self.textField.frame.size.height)
@@ -348,10 +356,10 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             
         }
            
-            
+      
            
        
- 
+
     }
     @IBAction func backToRoot(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)

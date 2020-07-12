@@ -435,7 +435,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         tableView.deselectRow(at: indexPath, animated: false)
+        self.tableview.deselectRow(at: indexPath, animated: false)
         let postUUID = self.data[indexPath.row].postUUID
         
 //      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
@@ -528,6 +528,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
          
         if self.serchMap.text?.isEmpty == false && selectCategoryLabel.text?.isEmpty == false {
            performSegue(withIdentifier: "tappMapByAllpostButton", sender: nil)
+            self.selectCategoryLabel.text = ""
+            self.serchMap.text = ""
             
         } else if self.serchMap.text?.isEmpty == true && selectCategoryLabel.text?.isEmpty == false  {
             AlertMessage = "地址尚未填寫"
@@ -577,9 +579,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
             self.navigationController?.isNavigationBarHidden = true
-           categoryControllButtenView.center.x = super.view.center.x
-           searchButton.alpha = 0
-           initButton()
+        UIView.animate(withDuration: 0.3) {
+            
+            self.categoryControllButtenView.center.x = super.view.center.x
+            self.searchButton.alpha = 0
+        }
+        initButton()
           
        }
     override func viewWillDisappear(_ animated: Bool) {
@@ -611,53 +616,53 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
  
         selectCategoryLabel.text = "ALL" 
-        pressCategoryButton(button:btn1, categoryName: "ALL彩")
+        pressCategoryButton(button:btn1, categoryName: "ALL黑")
         
     }
     @IBAction func btn2(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "書籍文具票券"
-        pressCategoryButton(button:btn2, categoryName: "書籍文具票券彩")
+        pressCategoryButton(button:btn2, categoryName: "書籍文具票券黑")
     }
     @IBAction func btn3(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "3c產品"
-        pressCategoryButton(button: btn3, categoryName: "3c產品彩")
+        pressCategoryButton(button: btn3, categoryName: "3C黑")
     }
     @IBAction func btn4(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "玩具電玩"
-        pressCategoryButton(button: btn4, categoryName: "玩具電玩彩")
+        pressCategoryButton(button: btn4, categoryName: "玩具電玩黑")
     }
     @IBAction func btn5(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "生活居家與家電"
-        pressCategoryButton(button: btn5, categoryName: "生活居家與家電彩")
+        pressCategoryButton(button: btn5, categoryName: "生活居家與家電黑")
     }
     @IBAction func btn6(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "影視音娛樂"
-        pressCategoryButton(button: btn6, categoryName: "影視音娛樂彩")
+        pressCategoryButton(button: btn6, categoryName: "影視音娛樂黑")
     }
     @IBAction func btn7(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text =  "飲品食品"
-        pressCategoryButton(button: btn7, categoryName: "飲品食品彩")
+        pressCategoryButton(button: btn7, categoryName: "飲品食品黑")
     }
     @IBAction func btn8(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "保養彩妝"
-        pressCategoryButton(button: btn8, categoryName: "保養彩妝彩")
+        pressCategoryButton(button: btn8, categoryName: "保養彩妝黑")
     }
     @IBAction func btn9(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "男裝配件"
-        pressCategoryButton(button: btn9, categoryName: "男裝配件彩")
+        pressCategoryButton(button: btn9, categoryName: "男裝配件黑")
     }
     @IBAction func btn10(_ sender: Any) {
 //        initButton()
         selectCategoryLabel.text = "女裝婦幼"
-        pressCategoryButton(button: btn10, categoryName: "女裝婦幼彩")
+        pressCategoryButton(button: btn10, categoryName: "女裝婦幼黑")
     }
     
     func initButton(){
@@ -737,5 +742,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     
     
+    @IBAction func searchMapAction(_ sender: Any) {
+        UIView.animate(withDuration: 0.3) {
+            
+            self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
+            self.searchButton.alpha = 1
+        }
+    }
 }
  

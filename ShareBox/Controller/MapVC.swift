@@ -66,7 +66,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                geoLocation.geocodeAddressString(Adress
                ) { (placemarks, error) in
                    if let error = error{
-                       print(error)
+                    print("輸入地址無法辨識\(error.localizedDescription)")
                    }
                    
                    guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}

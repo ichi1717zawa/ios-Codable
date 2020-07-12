@@ -281,6 +281,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
         }
     
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+             self.tableview.deselectRow(at: indexPath, animated: false)
     //        let receiveMessageNickname = tableView.cellForRow(at: indexPath)?.textLabel?.text ?? "N/A"
     //         let OtherGoogleName = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text ?? "N/A"
             let receiveMessageNickname = self.chatData[indexPath.row].chatRoomName

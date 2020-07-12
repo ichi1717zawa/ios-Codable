@@ -293,6 +293,7 @@
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         self.tableview.deselectRow(at: indexPath, animated: false)
         let postUUID = self.data[indexPath.row].postUUID
 //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
