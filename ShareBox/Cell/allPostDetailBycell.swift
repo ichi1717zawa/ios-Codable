@@ -36,8 +36,9 @@ class allPostDetailBycell: UIViewController  {
 //    let myGmail = GIDSignIn.sharedInstance()?.currentUser.profile.email
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkImageExsist.share.checkImage(postUUID: self.postUUID ?? self.data.postUUID, postimage: postimage, maskView: self.maskView  , activityIndicator: self.activityIndicator)
         
+        checkImageExsist.share.checkImage(postUUID: self.postUUID ?? self.data.postUUID, postimage: postimage, maskView: self.maskView  , activityIndicator: self.activityIndicator)
+        confirmMyPost()
         queryData()
        
         let filter: String! =  self.postUUID ?? self.data.postUUID
@@ -200,11 +201,26 @@ class allPostDetailBycell: UIViewController  {
 //                favotireCounts(uuid: self.data[indexPath.row].postUUID)
     }
     
+    func confirmMyPost(){
+          self.db.collection("user").document(myUID!).collection("myPost").getDocuments(source: .cache) { (query, error) in
+            if let query = query?.documents {
+                for mypostID in query{
+                    print("mypostID\(mypostID)")
+                    if mypostID.documentID == self.postUUID ?? self.data.postUUID{
+                        print("是我的貼文")
+                        self.sendMessageOutlet.alpha = 0
+                        self.favoriteButton.alpha = 0
+                        self.postTitle.text = "我的PO文"
+                    }
+                }
+            }
+        }
+    }
     
     func queryData(){
 //         let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
 //        guard let myuid = Auth.auth().currentUser?.uid else {return}
-        self.db.collection("user").document(myUID!).collection("favoriteList").addSnapshotListener { (query, error) in
+        self.db.collection("user").document(myUID!).collection("favoriteList").getDocuments(source: .cache) { (query, error) in
             guard let query = query else {return}
             for i in query.documents{
                 print(i.documentID)
@@ -229,4 +245,5 @@ class allPostDetailBycell: UIViewController  {
   
    
     
+    @IBOutlet weak var postTitle: UILabel!
  }

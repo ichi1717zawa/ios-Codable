@@ -234,6 +234,7 @@
 				FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */,
 				FA521F47248CEE02002C68D4 /* allPostDetail.swift */,
 				FA521F4F248D08D5002C68D4 /* allPostDetailBycell.swift */,
+				FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -297,7 +298,6 @@
 			children = (
 				FA961CDC2470285A000F5C59 /* userInfo.swift */,
 				FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */,
-				FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */,
 				FA521F4D248CF72C002C68D4 /* allPostModel.swift */,
 				FAEDBB01247EBD5200B6A716 /* postInfo.swift */,
 				FA6F8C7F248403030051E318 /* AnnotationDetail.swift */,

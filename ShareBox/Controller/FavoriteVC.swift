@@ -81,6 +81,7 @@
         self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
             if let error = error{
                 print("updateCount Faild\(error)")
+                return
             }
             for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])

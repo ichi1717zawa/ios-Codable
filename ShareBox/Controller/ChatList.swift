@@ -44,6 +44,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+       
          self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = UIColor(named: "聊天室背景色")
         
@@ -247,6 +248,7 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             cell.userSubtitle.alpha = 0
             cell.userSubtitle.text = self.chatData[indexPath.row].otherUID
             cell.userImage.image = UIImage(named: "avataaars")
+            
             cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
              
             db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(source: .cache, completion: { (query, error)  in
@@ -261,18 +263,18 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
                           })
             
             if cell.unreadMessageCount.text != "0"{
-//                cell.countMessageView.alpha = 0
-//                cell.unreadMessageCount.alpha = 0
-//                cell.countMessageView.alpha = 1
-//                                  cell.unreadMessageCount.alpha = 1
-//                cell.countMessageView.backgroundColor =  UIColor(named: "newOrangeColor")
-//                               cell.unreadMessageCount.textColor = .black
+                cell.countMessageView.alpha = 0
+                cell.unreadMessageCount.alpha = 0
+                cell.countMessageView.alpha = 1
+                                  cell.unreadMessageCount.alpha = 1
+                cell.countMessageView.backgroundColor =  UIColor(named: "newOrangeColor")
+                               cell.unreadMessageCount.textColor = .black
                
             }else{
-//                cell.countMessageView.backgroundColor = . white
-//                cell.unreadMessageCount.textColor = .white
-//                cell.countMessageView.alpha = 1
-//                    cell.unreadMessageCount.alpha = 1
+                cell.countMessageView.backgroundColor = . white
+                cell.unreadMessageCount.textColor = .white
+                cell.countMessageView.alpha = 1
+                    cell.unreadMessageCount.alpha = 1
             }
            
             return cell

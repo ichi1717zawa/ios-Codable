@@ -34,15 +34,15 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
    
     var emptyString :String = "    "
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let testView = UIView()
+          
          let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! chatTableCell
         if var data = self.data[indexPath.row].SendMessage {
             cell.sendMessageLabel.alpha = 1
             cell.sendMessageLabel.alpha = 1
-//            if data.count >= 6{
-//                    data = "  \(data)  "
-//            }
-//           data += emptyString
+            if data.count >= 6{
+                    data = "  \(data)  "
+            }
+           data += emptyString
             cell.sendMessageLabel.text = data
             cell.messageTitle.alpha = 0
             cell.userImage.alpha = 0
@@ -50,8 +50,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //            testView.frame.size.width = cell.sendMessageLabel.frame.width
 //            testView.backgroundColor = .red
 //            testView.alpha = 0.6
-            testView.frame.origin.x = cell.sendMessageLabel.frame.origin.x
-            testView.frame.origin.y = cell.sendMessageLabel.frame.origin.y
+//            testView.frame.origin.x = cell.sendMessageLabel.frame.origin.x
+//            testView.frame.origin.y = cell.sendMessageLabel.frame.origin.y
          
            
             
@@ -60,7 +60,8 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             print("x\(cell.sendMessageLabel.frame.origin.x)")
             print("y\(cell.sendMessageLabel.frame.origin.y)")
            
-//            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
+            cell.sendMessageLabel.layer.cornerRadius = cell.sendMessageLabel.frame.size.height   / 2
+               
         }else{
         if var data = self.data[indexPath.row].ReceiveMessage{
             cell.messageTitle.alpha = 1
@@ -68,24 +69,28 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             cell.sendMessageLabel.alpha = 0
             cell.sendMessageLabel.alpha = 0
             cell.userImage.image = UIImage(named: "avataaars")
-//            if data.count >= 6{
-//                data = "  \(data)  "
-//            }
-//            data += emptyString
+            if data.count >= 6{
+                data = "  \(data)  "
+            }
+            data += emptyString
             cell.messageTitle.text = data
             
-//            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
+            cell.messageTitle.layer.cornerRadius = cell.messageTitle.frame.size.height / 2
+               
           
         }
+        
     }
         cell.contentView.transform = CGAffineTransform(rotationAngle: .pi)
-        cell.backGroundImage.frame.size.height = cell.messageTitle.frame.size.height
-        cell.backGroundImage.frame.size.width = cell.messageTitle.frame.size.width
-                   cell.backGroundImage.backgroundColor = .red
-                   cell.backGroundImage.alpha = 0.2
+//        cell.backGroundImage.frame.size.height = cell.messageTitle.frame.size.height
+//        cell.backGroundImage.frame.size.width = cell.messageTitle.frame.size.width
+//                   cell.backGroundImage.backgroundColor = .red
+//                   cell.backGroundImage.alpha = 0.2
 //                   cell.backGroundImage.frame.origin.x = cell.sendMessageLabel.frame.origin.x
 //                   cell.backGroundImage.frame.origin.y = cell.sendMessageLabel.frame.origin.y
+          
         return cell
+        
     }
     
   
@@ -278,6 +283,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     var viewOriginSize : CGFloat!
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(true)
+         self.view.endEditing(true)
          self.tableview.reloadData()
         self.navigationController?.isNavigationBarHidden = false
 //        let indexpath = IndexPath(row: self.data.count - 1, section: 0)

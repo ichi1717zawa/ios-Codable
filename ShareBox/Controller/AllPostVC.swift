@@ -540,7 +540,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             AlertMessage = "請填寫地址並選擇種類"
               saveTextfield(ShowAlertMessage: AlertMessage)
             } 
-         
+          self.view.endEditing(true)
        }
     
     func saveTextfield(ShowAlertMessage show:String ) {
@@ -577,7 +577,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
             self.navigationController?.isNavigationBarHidden = true
-//           categoryControllButtenView.center.x = super.view.center.x
+           categoryControllButtenView.center.x = super.view.center.x
            searchButton.alpha = 0
            initButton()
           
@@ -596,12 +596,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         
         UIView.animate(withDuration: 0.3) {
             self.initButton()
-                     self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
-                
+             self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
                  self.searchButton.alpha = 1
+            
            
             button.setImage(UIImage(named: categoryName), for: .normal)
-//                 button.alpha = 0.6
+               
             
              }
     }
@@ -729,6 +729,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         UIView.animate(withDuration: 0.3) {
             self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
             self.searchButton.alpha = 1
+            
         }
     }
     
