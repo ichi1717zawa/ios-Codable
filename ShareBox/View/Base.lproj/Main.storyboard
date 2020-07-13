@@ -1296,7 +1296,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
             <objects>
                 <viewController id="b49-XI-dmT" customClass="lookImage" customModule="ShareBox" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yOX-i2-Fsy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="scA-3V-xlo">
@@ -2919,6 +2919,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aoi-dh-S7D"/>
                     </view>
+                    <navigationItem key="navigationItem" id="OoI-2s-yUF"/>
                     <connections>
                         <outlet property="MaincategoryLabel" destination="N3n-bK-Kpr" id="zBg-np-mdy"/>
                         <outlet property="SubcategoryLabel" destination="jHz-bb-mjA" id="v5D-pn-t6O"/>

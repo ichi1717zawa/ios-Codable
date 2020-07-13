@@ -202,11 +202,13 @@ class allPostDetailBycell: UIViewController  {
     }
     
     func confirmMyPost(){
-          self.db.collection("user").document(myUID!).collection("myPost").getDocuments(source: .cache) { (query, error) in
+          self.db.collection("user").document(myUID!).collection("myPost").getDocuments { (query, error) in
             if let query = query?.documents {
                 for mypostID in query{
                     print("mypostID\(mypostID)")
                     if mypostID.documentID == self.postUUID ?? self.data.postUUID{
+                        
+                        
                         print("是我的貼文")
                         self.sendMessageOutlet.alpha = 0
                         self.favoriteButton.alpha = 0

@@ -14,6 +14,8 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 import FirebaseStorage
+import Vision
+import CoreML
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -546,22 +548,25 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
         }
      
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let filePath2 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("testData")
          
-       
-        
-      
+        let filePath2 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("testData")
+          
         if let image = info[.originalImage] as? UIImage{
            
-            
-           
+             
 //            try! data?.write(to: filePath2!)
             self.imageview.image = image
+            detectPhoto { (result) in
+                if result == "有問題"{
+                    print("有問題")
+                }else{
+                    print("ok沒問題")
+                }
+            }
             
             guard let transImage = self.imageview.image,let thumbImage = self.thumbnailImage(image: transImage),
                 let imageData = thumbImage.jpegData(compressionQuality: 0.1) else {return}
-            print(thumbImage.size.width)
-            print(thumbImage.size.height)
+             
             
             try? imageData.write(to: filePath2!, options: .atomicWrite)
 //             do {
@@ -582,8 +587,9 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
 //                        print("ERROR", error.localizedDescription)
 //                    }
         }
+       
         
-          self.dismiss(animated: true, completion: nil)
+          picker.dismiss(animated: true, completion: nil)
     }
     
     
@@ -807,6 +813,43 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                   self.removeTextViewBTN.alpha = 0
                   self.dismissKeyboardBTN.alpha = 0
               }
+    }
+    
+    
+    func detectPhoto(complite:@escaping (String) -> Void){
+        guard let MLdata = try? VNCoreMLModel(for: mydata().model) else {return }
+       
+                let request = VNCoreMLRequest(model: MLdata) { (request, _) in
+                    guard let results = request.results as? [VNClassificationObservation] else {return}
+                    guard let mostConfidentResult = results.first else {return}
+
+
+                    if mostConfidentResult.confidence >= 0.5 {
+                        DispatchQueue.main.async {
+                            switch mostConfidentResult.identifier{
+                            case "有問題":
+                                complite("有問題")
+                                
+                            case "沒問題":
+                                complite("沒問題")
+                            default:
+                                print("error")
+                               return
+                            }
+                            print("\(Int(mostConfidentResult.confidence * 100))%")
+                        }
+                    }else{
+                        print("not my data")
+                    }
+                }
+                guard let ciimage = CIImage(image: self.imageview.image!) else { return  }
+
+                let requestHandler = VNImageRequestHandler(ciImage: ciimage, options: [:])
+                do {
+                    try requestHandler.perform([request])
+                } catch   {
+                     print("error")
+         }
     }
 }
 

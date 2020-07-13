@@ -5,6 +5,7 @@ import MapKit
 import Firebase
 import GoogleSignIn
 import CloudKit
+
  import FirebaseStorage
  protocol myPostDetailDeleate: class {
     func Update(data:allPostModel)
@@ -125,14 +126,18 @@ class myPostDetailVC: UIViewController  {
         userLocationLabel.text = self.data.userLocation
         discriptionLabel.text = self.data.subTitle
         productName.text = self.data.productName
-        mainCategoryTextView.text = self.data.mainCategory
-        subCategoryTextView.text = self.data.subCategory
         
-          mainCategoryTextView.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-          mainCategoryTextView.layer.cornerRadius = 10
-        
-           subCategoryTextView.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-                subCategoryTextView.layer.cornerRadius = 10
+//        mainCategoryTextView.textAlignment = .center
+//        mainCategoryTextView.text = self.data.mainCategory
+//        subCategoryTextView.text = self.data.subCategory
+////
+//
+//          mainCategoryTextView.textContainerInset = UIEdgeInsets(top: 0, left: 5, bottom: 5, right: 5)
+//        mainCategoryTextView.layer.cornerRadius = 10
+//
+////
+//           subCategoryTextView.textContainerInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+//                subCategoryTextView.layer.cornerRadius = 10
         
 //        self.receiverAnnotationData = receiveAnnotation
     }

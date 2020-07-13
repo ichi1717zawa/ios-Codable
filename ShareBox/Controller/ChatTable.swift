@@ -110,7 +110,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("diewdidload")
+      
 //        self.navagationBar.topItem?.title = otherNickName
         self.db.collection("user").document(myUID).getDocument { (data, error) in
             if let data = data {
@@ -240,11 +240,17 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //
         self.db.collection("user").document(myUID).collection("Messages").document(self.otherNickName).setData(["otherUID":self.otherUID ?? "N/A"
         ]) { (error) in
+            if let error = error{
+                           print("error\(error.localizedDescription)")
+                       }
             self.db.collection("user").document(self.myUID).collection("Messages").document(self.otherNickName).collection("Message").document(self.currentTime ()).setData(sendParameter)
         }
 
       
         self.db.collection("user").document(self.otherUID).collection("Messages").document( self.myNickName).setData(["otherUID":myUID!]) { (error) in
+            if let error = error{
+                print("error\(error.localizedDescription)")
+            }
             self.db.collection("user").document(self.otherUID).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
         }
         
@@ -302,7 +308,6 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
 //        self.tableview.scrollToRow(at: indexpath, at: .bottom, animated: true)
         self.navigationController?.navigationBar.topItem?.title = otherNickName
        viewOriginSize = self.view.frame.size.height
-        print("進入前台")
       clearViewCounts()
       }
 
@@ -322,7 +327,7 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
      }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        print("進入喉台")
+      
          
     }
     

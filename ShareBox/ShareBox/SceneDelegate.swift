@@ -22,14 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
     @available(iOS 13.0, *)
-    func sceneWillEnterForeground(_ scene: UIScene) { 
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        print("準備進入背景")
     }
    
     func sceneDidDisconnect(_ scene: UIScene) {
-        print("ewqeqwe")
+        print("切斷連接")
     }
     func sceneDidBecomeActive(_ scene: UIScene) {
-     
+      print("重新活動")
  
     }
 
