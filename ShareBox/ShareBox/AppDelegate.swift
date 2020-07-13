@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
           ApplicationDelegate.shared.application( application, didFinishLaunchingWithOptions: launchOptions )
         print(NSHomeDirectory())
         FirebaseApp.configure()
-//        application.registerForRemoteNotifications()
+        application.registerForRemoteNotifications()
           Messaging.messaging().delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
        
