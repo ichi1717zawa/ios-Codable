@@ -251,16 +251,18 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             
             cell.unreadMessageCount.text =  self.chatData[indexPath.row].unreadCount
              
-            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(source: .cache, completion: { (query, error)  in
-           if let query = query{
-          cell.messageTime.text =   query.documents.first?.data()["time"] as? String ?? "??"
+            
+            
+            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(completion: { (query, error)  in
+                if let query = query{
+                    cell.messageTime.text =   query.documents.first?.data()["time"] as? String ?? "??"
                 }
-               })
-            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments(source: .cache, completion: { (query, error)  in
-                      if let query = query{
-                     cell.lastMessage.text =   query.documents.first?.data()["send"] as? String ?? query.documents.first?.data()["receive"] as? String
-                           }
-                          })
+            })
+            db.collection("user").document(myUID).collection("Messages").document("\(self.chatData[indexPath.row].chatRoomName ?? "??")").collection("Message").order(by: "time", descending: true).limit(to: 1).getDocuments( completion: { (query, error)  in
+                if let query = query{
+                    cell.lastMessage.text =   query.documents.first?.data()["send"] as? String ?? query.documents.first?.data()["receive"] as? String
+                }
+            })
             
             if cell.unreadMessageCount.text != "0"{
                 cell.countMessageView.alpha = 0

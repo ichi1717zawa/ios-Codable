@@ -16,7 +16,6 @@ import CloudKit
 import FirebaseStorage
 class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UITextViewDelegate   {
     @IBOutlet weak var maskView: UIView!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var sendmaskView: UIView!
     @IBOutlet weak var imageview: UIImageView!

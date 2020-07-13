@@ -59,8 +59,6 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         //        addAnnotation()
         
     }
-    
-    
        func transAdressAndMoveThere(Adress:String){
                let geoLocation = CLGeocoder()
                geoLocation.geocodeAddressString(Adress

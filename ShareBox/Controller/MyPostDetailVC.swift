@@ -25,6 +25,9 @@ class myPostDetailVC: UIViewController  {
     @IBOutlet weak var nickNameLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UITextField!
     @IBOutlet weak var discriptionLabel: UITextView!
+ 
+    @IBOutlet weak var mainCategoryTextView: UITextView!
+    @IBOutlet weak var subCategoryTextView: UITextView!
     var image : UIImage!
     let database = CKContainer.default().publicCloudDatabase
     var receiverAnnotationData : AnnotationDetail?
@@ -122,6 +125,15 @@ class myPostDetailVC: UIViewController  {
         userLocationLabel.text = self.data.userLocation
         discriptionLabel.text = self.data.subTitle
         productName.text = self.data.productName
+        mainCategoryTextView.text = self.data.mainCategory
+        subCategoryTextView.text = self.data.subCategory
+        
+          mainCategoryTextView.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+          mainCategoryTextView.layer.cornerRadius = 10
+        
+           subCategoryTextView.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+                subCategoryTextView.layer.cornerRadius = 10
+        
 //        self.receiverAnnotationData = receiveAnnotation
     }
      
