@@ -44,7 +44,11 @@
 		FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */; };
 		FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */; };
 		FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8E36E5248A93EF00A19695 /* CloudKit.framework */; };
+		FA8FEA0D24BEF59D00EA8F9C /* CoredataShareMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8FEA0C24BEF59D00EA8F9C /* CoredataShareMessage.swift */; };
+		FA8FEA0F24BEF5F400EA8F9C /* ChatMessageKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8FEA0E24BEF5F400EA8F9C /* ChatMessageKit.swift */; };
 		FA90D1DC2496A29800DC4168 /* categoryButtionInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */; };
+		FA95226E24BE427900191D62 /* messageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95226D24BE427900191D62 /* messageVC.swift */; };
+		FA95227024BE46E400191D62 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95226F24BE46E400191D62 /* ChatViewController.swift */; };
 		FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */; };
 		FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA961CDC2470285A000F5C59 /* userInfo.swift */; };
 		FA96841D2485E461002301A7 /* ChatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96841C2485E461002301A7 /* ChatTable.swift */; };
@@ -64,6 +68,7 @@
 		FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB01247EBD5200B6A716 /* postInfo.swift */; };
 		FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */; };
 		FAF8F79A24B4C5B80063B509 /* newScrollview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF8F79924B4C5B80063B509 /* newScrollview.swift */; };
+		FAFC405624BE663400A8D0FF /* myview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC405524BE663400A8D0FF /* myview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +114,11 @@
 		FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
 		FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostVC + cloudkit.swift"; sourceTree = "<group>"; };
 		FA8E36E5248A93EF00A19695 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		FA8FEA0C24BEF59D00EA8F9C /* CoredataShareMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataShareMessage.swift; sourceTree = "<group>"; };
+		FA8FEA0E24BEF5F400EA8F9C /* ChatMessageKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageKit.swift; sourceTree = "<group>"; };
 		FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryButtionInit.swift; sourceTree = "<group>"; };
+		FA95226D24BE427900191D62 /* messageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageVC.swift; sourceTree = "<group>"; };
+		FA95226F24BE46E400191D62 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIreBaseStore.swift; sourceTree = "<group>"; };
 		FA961CDC2470285A000F5C59 /* userInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
 		FA96841C2485E461002301A7 /* ChatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTable.swift; sourceTree = "<group>"; };
@@ -129,6 +138,7 @@
 		FAEDBB01247EBD5200B6A716 /* postInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postInfo.swift; sourceTree = "<group>"; };
 		FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreataSharePost.swift; sourceTree = "<group>"; };
 		FAF8F79924B4C5B80063B509 /* newScrollview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newScrollview.swift; sourceTree = "<group>"; };
+		FAFC405524BE663400A8D0FF /* myview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +175,10 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FA95226F24BE46E400191D62 /* ChatViewController.swift */,
 				FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */,
+				FAFC405524BE663400A8D0FF /* myview.swift */,
+				FA95226D24BE427900191D62 /* messageVC.swift */,
 				FA79711824B21A17005048BC /* teview.swift */,
 				FAF8F79924B4C5B80063B509 /* newScrollview.swift */,
 				FAD8455624AB76D600243F0B /* categoryViewVC.swift */,
@@ -209,6 +222,7 @@
 				FA66AD13246E306A00C9F31F /* ShareBox.xcdatamodeld */,
 				FAEDBAFD247E93A000B6A716 /* CoredataShare.swift */,
 				FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */,
+				FA8FEA0C24BEF59D00EA8F9C /* CoredataShareMessage.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -281,6 +295,7 @@
 		FAA73C6724711C8900C09AAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FA8FEA0E24BEF5F400EA8F9C /* ChatMessageKit.swift */,
 				FA961CDC2470285A000F5C59 /* userInfo.swift */,
 				FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */,
 				FA521F4D248CF72C002C68D4 /* allPostModel.swift */,
@@ -449,11 +464,13 @@
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
 				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,
 				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
+				FA95227024BE46E400191D62 /* ChatViewController.swift in Sources */,
 				FAF8F79A24B4C5B80063B509 /* newScrollview.swift in Sources */,
 				FA968421248614D8002301A7 /* ChatroomList.swift in Sources */,
 				FA74F47724902DA40081AEA1 /* GetUserData.swift in Sources */,
 				FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */,
 				FAD8455724AB76D600243F0B /* categoryViewVC.swift in Sources */,
+				FA8FEA0D24BEF59D00EA8F9C /* CoredataShareMessage.swift in Sources */,
 				FA6F8C80248403030051E318 /* AnnotationDetail.swift in Sources */,
 				FAB45D8C24802589005A183D /* MapVC.swift in Sources */,
 				FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */,
@@ -464,8 +481,10 @@
 				FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */,
 				FA19045A247966D5009B9B3C /* Map.swift in Sources */,
 				FA37F16D24A4921300AAF5B9 /* chatTableCell.swift in Sources */,
+				FA8FEA0F24BEF5F400EA8F9C /* ChatMessageKit.swift in Sources */,
 				FA66AD0F246E306A00C9F31F /* ViewController.swift in Sources */,
 				FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */,
+				FA95226E24BE427900191D62 /* messageVC.swift in Sources */,
 				FA66AD15246E306A00C9F31F /* ShareBox.xcdatamodeld in Sources */,
 				FA6F8C8224853A500051E318 /* FirebaseFetch.swift in Sources */,
 				FAEDBAFC247E8B8400B6A716 /* FirstLoginInit.swift in Sources */,
@@ -474,6 +493,7 @@
 				FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */,
 				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
 				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
+				FAFC405624BE663400A8D0FF /* myview.swift in Sources */,
 				FAAE62D024B9BCEC0037B5DE /* PhoneAuthentication.swift in Sources */,
 				FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */,
 				FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */,

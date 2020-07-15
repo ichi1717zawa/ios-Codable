@@ -105,9 +105,10 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                    self.keepDownLoad( uuid: data.postUUID)
                 }else{
                     print("從Firebase下載成功")
-                    let ciimage = CIImage(contentsOf: url!)
+//                    let ciimage = CIImage(contentsOf: url!)
 //                    let image = UIImage(contentsOfFile: url!.path)
-                    let image = UIImage(ciImage: ciimage!)
+                    guard let ciimage = CIImage(contentsOf: url!) else {return}
+                    let image = UIImage(ciImage: ciimage)
                     allPostcell.postImage.image = image
                 }
             }
@@ -180,7 +181,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        selectCategoryLabel.text = ""
        queryFirestore()
         queryfavoriteCounts()
         checkDataExsist()
@@ -234,7 +235,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
       }
    
   func queryFirestore(){
-    db.collection("userPost").order(by: "timeStamp",descending: true).addSnapshotListener { (query, error) in
+    db.collection("userPost").order(by: "timeStamp",descending: false).addSnapshotListener { (query, error) in
 ////        db.collection("userPost").order(by: "timeStamp").addSnapshotListener(includeMetadataChanges: true) { (query, error) in
             
         

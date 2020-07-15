@@ -36,6 +36,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     @IBOutlet weak var signInButton: GIDSignInButton?
     @IBOutlet weak var PostResources: UIButton!
     
+    @IBOutlet weak var logInAuthtecationingLabel: UILabel!
     let db = Firestore.firestore()
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let locationManager = CLLocationManager()
@@ -44,7 +45,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
+        print("viewdidappear")
 //        self.maskview.alpha = 0
 //        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() == true {
 //            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
@@ -55,16 +56,18 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //        self.performSegue(withIdentifier: "tabSegue", sender: nil)
 //
 //               }
-        if Auth.auth().currentUser != nil{
-         
-           
-            
-            self.maskview.alpha = 0
-            self.activeIndicator.stopAnimating()
-            self.performSegue(withIdentifier: "tabSegue", sender: nil)
-        }else{
-            self.myscrollview.alpha = 1
-        }
+        
+        
+//        if Auth.auth().currentUser != nil{
+//
+//
+//
+//            self.maskview.alpha = 0
+//            self.activeIndicator.stopAnimating()
+//            self.performSegue(withIdentifier: "tabSegue", sender: nil)
+//        }else{
+//            self.myscrollview.alpha = 1
+//        }
             
     }
     
@@ -85,17 +88,17 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         super.viewDidLoad()
        
      
-    
+    print("第一次登入")
         
         
         
         if Auth.auth().currentUser != nil{
+            self.activeIndicator.startAnimating()
             myscrollview.alpha = 0
 //            self.whiteView.alpha = 0
             self.mypageCL.alpha = 0
-          
             self.maskview.alpha = 0.5
-            self.activeIndicator.startAnimating()
+            self.performSegue(withIdentifier: "tabSegue", sender: nil)
              
         }else{
             myscrollview.alpha = 1
@@ -152,17 +155,17 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //        view.addSubview(googleButton)
  
       
-        googleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
+          googleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
           appleLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
           facebookLoginBTN .layer.cornerRadius = appleLoginBTN.frame.height / 2
         
 //        GIDSignIn.sharedInstance()?.presentingViewController = self
         
         //檢查FB登入狀態
-        if let token = AccessToken.current, !token.isExpired{
- self.performSegue(withIdentifier: "tabSegue", sender: nil)
-            
-        }
+//        if let token = AccessToken.current, !token.isExpired{
+//        self.performSegue(withIdentifier: "tabSegue", sender: nil)
+//
+//        }
       
        
        
@@ -206,9 +209,13 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
      
     @IBAction func FacebookLoginActionBTN(_ sender: Any) {
         facebookLoginButton.sendActions(for: .touchUpInside)
+        self.maskview.alpha = 0.5
+        self.activeIndicator.startAnimating()
     }
     @IBAction func AppleLoginActionBTN(_ sender: Any) {
         pressSignInWithAppleButton()
+        self.maskview.alpha = 0.5
+        self.activeIndicator.startAnimating()
     }
     @IBAction func GoogleLoginActionBTN(_ sender: Any) {
         
@@ -216,6 +223,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 //            performSegue(withIdentifier: "tabSegue", sender: nil)
 //        }else{
             GIDSignIn.sharedInstance()?.signIn()
+        self.maskview.alpha = 0.5
+        self.activeIndicator.startAnimating()
 //             GoogleLogin.share.SignIn(whichViewVC: self)
 //            let alerController = UIAlertController(title: "登入", message: " ", preferredStyle: .alert)
 //            let okAction = UIAlertAction(title: "Google登入", style: .default) { (ok) in
@@ -270,14 +279,21 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     }
     //MARK: -> FACEBOOK登入
    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-        if let error = error {  print(error.localizedDescription);  return }
+        if let error = error {  print(error.localizedDescription);
+            return }
     
     
     let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current?.tokenString ?? " ")
     Auth.auth().signIn(with: credential) { (authResult, error) in
+        if let error = error {
+            print("取消Facebook登入")
+            self.maskview.alpha = 0
+            self.activeIndicator.stopAnimating()
+        }
         guard let authResult = authResult else {return}
         
         self.db.collection("user").whereField("uid", isEqualTo: authResult.user.uid).getDocuments { (data, error) in
+            
             if   data?.isEmpty == true {
          
                 self.FirstSignUp()
@@ -327,6 +343,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
          if let error = error{
             print("登入錯誤\(error)")
+            self.maskview.alpha = 0
+            self.activeIndicator.stopAnimating()
         ; return  }
         
          guard let authentication = user.authentication else { return }
@@ -340,8 +358,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
            
             self.db.collection("user").whereField("uid", isEqualTo: authResult!.user.uid).getDocuments { (data, error) in
                 if   data?.isEmpty == true {
-                    self.maskview.alpha = 0.5
-                    self.activeIndicator.startAnimating()
+//                    self.maskview.alpha = 0.5
+//                    self.activeIndicator.startAnimating()
                     self.FirstSignUp()
                     print("Not In database")
                 }else{
@@ -429,6 +447,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                  let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
                  if errorCode != errSecSuccess {
                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+                    
                  }
                  return random
                }
@@ -455,8 +474,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 
            @available(iOS 13, *)
            func startSignInWithAppleFlow() {
-            self.maskview.alpha = 0.5
-            self.activeIndicator.startAnimating()
+            
              let nonce = randomNonceString()
              currentNonce = nonce
              let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -511,7 +529,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 
                 // Sign in with Firebase.
                 Auth.auth().signIn(with: credential) { (authResult, error) in
-                    guard let authResult = authResult else {return}
+                    
                     if (error != nil) {
                         // Error. If error.code == .MissingOrInvalidNonce, make sure
                         // you're sending the SHA256-hashed nonce as a hex string with
@@ -519,6 +537,19 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                         print(error?.localizedDescription ?? "")
                         return
                     }
+                    guard let authResult = authResult else {return}
+                    
+                    self.db.collection("user").whereField("uid", isEqualTo: authResult.user.uid).getDocuments { (data, error) in
+                        
+                        if   data?.isEmpty == true {
+                     
+                            self.FirstSignUp()
+                            print("Not In database")
+                        }else{
+                            
+                            self.performSegue(withIdentifier: "tabSegue", sender: nil)
+                            print("user IN database")
+                        }
                     self.checkUserData(authResult: authResult)
                     print("Apple登入成功")
                     // User is signed in to Firebase with Apple.
@@ -534,8 +565,15 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
         @available(iOS 13.0, *)
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
             print("something  happened", error .localizedDescription)
+            if error.localizedDescription == "The operation couldn’t be completed. (com.apple.AuthenticationServices.AuthorizationError error 1001.)" {
+                print("取消")
+                self.maskview.alpha = 0
+                self.activeIndicator.stopAnimating()
+            }
+            
         }
     }
+}
 
     //告知 ASAuthorizationController 該呈現在哪個 Window 上
     extension ChoseAction: ASAuthorizationControllerPresentationContextProviding {
@@ -546,5 +584,8 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     }
 
 
+
+
  
  
+

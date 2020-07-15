@@ -845,6 +845,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                 guard let ciimage = CIImage(image: self.imageview.image!) else { return  }
 
                 let requestHandler = VNImageRequestHandler(ciImage: ciimage, options: [:])
+        
                 do {
                     try requestHandler.perform([request])
                 } catch   {

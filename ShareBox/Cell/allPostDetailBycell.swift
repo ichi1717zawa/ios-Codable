@@ -37,50 +37,69 @@ class allPostDetailBycell: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         checkImageExsist.share.checkImage(postUUID: self.postUUID ?? self.data.postUUID, postimage: postimage, maskView: self.maskView  , activityIndicator: self.activityIndicator)
-        confirmMyPost()
+//        confirmMyPost()
         queryData()
        
-        let filter: String! =  self.postUUID ?? self.data.postUUID
-        print(filter!)
+        if self.data.posterUID  != self.myUID{
+                         print("same gmail")
+                         UIView.animate(withDuration: 0.3) {
+                             self.favoriteButton.alpha = 1
+                             self.sendMessageOutlet.alpha = 1
+                         }
+                     }else{
+                                 self.postTitle.text = "我的貼文"
+                             }
+                     self.SubcategoryLabel.text = self.data.mainCategory
+                             self.userLocationLabel.text = self.data.userLocation
+                             self.discriptionLabel.text = self.data.subTitle
+                     //        self.discriptionLabel.text = data.
+                             self.productName.text = self.data.productName
+                     //                        self.postGoolgeName = data.data()["googleName"] as? String
+                             self.nickNameLabel.text = self.data.postNickName
+                             self.posterUID = self.data.posterUID
         
-        self.db.collection("userPost").whereField("postUUID", isEqualTo: self.postUUID ?? self.data.postUUID  ).getDocuments { (data, error) in
-            if let e = error{
-                print("錯誤了啦！！！！！！！")
-                print(e)
-            }
-           
-            guard let data = data else {return}
-            for data in data.documents{
         
-                    
-                 
-//                let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent("\(self.postUUID).jpg" ?? "\(self.data.postUUID).jpg")
-//            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
-           
-                self.SubcategoryLabel.text = data.data()["postCategory"] as? String
-                self.nickNameLabel.text = data.data()["Name"] as? String
-                self.userLocationLabel.text = data.data()["userLocation"] as? String
-//                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
-                 self.discriptionLabel.text = data.data()["postIntroduction"] as? String
-                self.productName.text = data.data()["productName"] as? String
-                self.postGoolgeName = data.data()["googleName"] as? String
-                self.postNickName = data.data()["Name"] as? String
-                self.postGmail = data.data()["gmail"] as? String
-                self.posterUID = data.data()["posterUID"] as? String
-                self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String 
-                 
-                if data.data()["posterUID"] as? String != self.myUID{
-                    print("same gmail")
-                    UIView.animate(withDuration: 0.3) {
-                        self.favoriteButton.alpha = 1
-                        self.sendMessageOutlet.alpha = 1
-                    }
-                }
-                
-                
-            }
-        }
+        
+//        let filter: String! =  self.postUUID ?? self.data.postUUID
+//        print(filter!)
+//
+//        self.db.collection("userPost").whereField("postUUID", isEqualTo: self.postUUID ?? self.data.postUUID  ).getDocuments { (data, error) in
+//            if let e = error{
+//                print("錯誤了啦！！！！！！！")
+//                print(e)
+//            }
+//
+//            guard let data = data else {return}
+//            for data in data.documents{
+//
+//
+//
+////                let filePath2 = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last?.appendingPathComponent("\(self.postUUID).jpg" ?? "\(self.data.postUUID).jpg")
+////            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(self.postUUID ?? self.data.postUUID)")
+//
+//                self.SubcategoryLabel.text = data.data()["postCategory"] as? String
+//                self.nickNameLabel.text = data.data()["Name"] as? String
+//                self.userLocationLabel.text = data.data()["userLocation"] as? String
+////                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
+//                 self.discriptionLabel.text = data.data()["postIntroduction"] as? String
+//                self.productName.text = data.data()["productName"] as? String
+//                self.postGoolgeName = data.data()["googleName"] as? String
+//                self.postNickName = data.data()["Name"] as? String
+//                self.postGmail = data.data()["gmail"] as? String
+//                self.posterUID = data.data()["posterUID"] as? String
+//                self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String
+//
+//
+//
+//                //
+//                //                        self.MaincategoryLabel.text =  data.data()["mainCategory"] as? String
+//
+//
+//            }
+//        }
         
 //
        

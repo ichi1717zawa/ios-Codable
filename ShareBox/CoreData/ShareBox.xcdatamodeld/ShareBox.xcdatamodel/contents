@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Message" representedClassName=".ChatMessageKit" syncable="YES">
+        <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="time" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Post" representedClassName=".PostInfomation" syncable="YES">
         <attribute name="googleName" optional="YES" attributeType="String"/>
         <attribute name="latitude" optional="YES" attributeType="String"/>
@@ -23,6 +28,7 @@
         <attribute name="userLocation" optional="YES" attributeType="String"/>
     </entity>
     <elements>
+        <element name="Message" positionX="-63" positionY="90" width="128" height="88"/>
         <element name="Post" positionX="-63" positionY="27" width="128" height="208"/>
         <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="148"/>
     </elements>

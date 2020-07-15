@@ -197,6 +197,8 @@ class myPostDetailVC: UIViewController  {
     @IBOutlet weak var Mynavagation: UIBarButtonItem!
     
     @IBAction func giveAwayPost(_ sender: Any) {
+        maskView.alpha = 0.55
+               self.activityIndicator.startAnimating()
         let postUUID = self.data.postUUID
                 
                 db.collection("userPost").document(postUUID).delete { (error) in
@@ -212,6 +214,8 @@ class myPostDetailVC: UIViewController  {
                     }
                     self.delegate?.Update(data: self.data)
                     self.navigationController?.popViewController(animated: true)
+                    self.maskView.alpha = 0
+                    self.activityIndicator.stopAnimating()
                 }
     }
     

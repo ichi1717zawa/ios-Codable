@@ -13,4 +13,7 @@ target 'ShareBox' do
   pod 'Firebase/Storage'
   pod 'FBSDKLoginKit'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'MessageKit'
 end
