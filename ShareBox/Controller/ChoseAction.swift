@@ -474,7 +474,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
 
            @available(iOS 13, *)
            func startSignInWithAppleFlow() {
-            
+             
              let nonce = randomNonceString()
              currentNonce = nonce
              let appleIDProvider = ASAuthorizationAppleIDProvider()
