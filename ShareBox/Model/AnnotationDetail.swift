@@ -12,6 +12,7 @@ import CoreLocation
 import CloudKit
 class AnnotationDetail :  NSObject,MKAnnotation{
   
+    var posterUID:String?
     var title:String?
 //    var subtitle: String?
     var coordinate: CLLocationCoordinate2D
@@ -25,11 +26,13 @@ class AnnotationDetail :  NSObject,MKAnnotation{
 //    var postTime:String?
 //    var viewsCount:Int
     
-    init(title:String,coordinate:CLLocationCoordinate2D,postUUID:String,mainCategory:String) {
+    init(title:String,coordinate:CLLocationCoordinate2D,postUUID:String,mainCategory:String,posterUID:String) {
         self.title = title
         self.coordinate = coordinate
         self.postUUID = postUUID
+        self.posterUID = posterUID
         self.mainCategory = mainCategory
+        
 
     }
     

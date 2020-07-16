@@ -829,7 +829,12 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             switch mostConfidentResult.identifier{
                             case "有問題":
                                 complite("有問題")
-                                
+                                let alletAction = UIAlertController(title: "警告", message: "您所選照片可能涉及風險,請選擇其它照片", preferredStyle: .alert)
+                                    let action = UIAlertAction(title: "知道了", style: .default) { (ok) in
+                                        self.imageview.image = UIImage(named: "photo.fill")
+                                }
+                                    alletAction.addAction(action)
+                                self.present(alletAction,animated: true)
                             case "沒問題":
                                 complite("沒問題")
                             default:
@@ -852,6 +857,10 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                      print("error")
          }
     }
+    
+    
 }
 
  
+
+     

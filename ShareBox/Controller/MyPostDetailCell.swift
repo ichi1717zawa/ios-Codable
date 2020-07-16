@@ -190,7 +190,8 @@
                                                       subCategory: data.data()?["postCategory"] as? String ?? "N/A",
                                                       posterUID: data.data()?["posterUID"] as? String ?? "N/A")
                         
-                        self.data.append(postdetail)
+//                        self.data.insert(postdetail)
+                        self.data.insert(postdetail, at: 0)
                         self.tableview.reloadData()
                         
                     }

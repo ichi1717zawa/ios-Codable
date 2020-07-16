@@ -188,7 +188,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
                 ["nickName":alletAction.textFields![0].text ?? "N/A",
                  "phoneNumber":alletAction.textFields![1].text ?? "N/A",
                  "byuserKeyGmail":alletAction.textFields![2].text ?? "N/A",
-                 "Gmail":Auth.auth().currentUser?.email ?? "NoEmail",
+                 "Gmail":Auth.auth().currentUser?.email ?? alletAction.textFields![2].text ?? "N/A",
                  "uid":Auth.auth().currentUser?.uid ?? "N/A"
                 ]
             ) { (error) in  }

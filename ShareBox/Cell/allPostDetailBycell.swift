@@ -42,8 +42,10 @@ class allPostDetailBycell: UIViewController  {
         checkImageExsist.share.checkImage(postUUID: self.postUUID ?? self.data.postUUID, postimage: postimage, maskView: self.maskView  , activityIndicator: self.activityIndicator)
 //        confirmMyPost()
         queryData()
-       
-        if self.data.posterUID  != self.myUID{
+//          print(self.myUID)
+//       print(self.data.posterUID)
+      
+        if self.posterUID ?? self.data.posterUID  != self.myUID{
                          print("same gmail")
                          UIView.animate(withDuration: 0.3) {
                              self.favoriteButton.alpha = 1
@@ -52,14 +54,27 @@ class allPostDetailBycell: UIViewController  {
                      }else{
                                  self.postTitle.text = "我的貼文"
                              }
-                     self.SubcategoryLabel.text = self.data.mainCategory
-                             self.userLocationLabel.text = self.data.userLocation
-                             self.discriptionLabel.text = self.data.subTitle
-                     //        self.discriptionLabel.text = data.
-                             self.productName.text = self.data.productName
-                     //                        self.postGoolgeName = data.data()["googleName"] as? String
-                             self.nickNameLabel.text = self.data.postNickName
-                             self.posterUID = self.data.posterUID
+        
+        self.db.collection("userPost").whereField("postUUID", isEqualTo: self.postUUID ?? self.data.postUUID).getDocuments(source: .cache) { (query, error) in
+            if let error = error {
+                print("\(error)No Data")
+            }
+            guard let query = query else {return}
+            for data in query.documents{
+                self.SubcategoryLabel.text = data.data()["mainCategory"] as? String
+                self.userLocationLabel.text = data.data()["userLocation"] as? String
+                self.discriptionLabel.text = data.data()["postIntroduction"] as? String
+                //        self.discriptionLabel.text = data.
+                self.productName.text = data.data()["productName"] as? String
+                //                        self.postGoolgeName = data.data()["googleName"] as? String
+                self.nickNameLabel.text = data.data()["Name"] as? String
+                self.postNickName = data.data()["Name"] as? String
+                self.posterUID = data.data()["posterUID"] as? String
+            }
+            
+          
+        }
+                    
         
         
         

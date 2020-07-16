@@ -23,6 +23,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var serchMap: UITextField!
     @IBOutlet weak var selectCategoryLabel: UILabel!
     @IBOutlet weak var backToTopBTN: UIButton!
+    let AnnotationData:[AnnotationDetail] = []
     let database = CKContainer.default().publicCloudDatabase
     let db = Firestore.firestore()
     var data: [allPostModel] = []
@@ -48,7 +49,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                                           let postUUID =  postUUID.documentID  as String
 //                                        print(postUUID)
                                        self.favoriteListName.append(postUUID)
-                                       
+                                    
                                       }
                                   }
                               }
@@ -181,6 +182,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         selectCategoryLabel.text = ""
        queryFirestore()
         queryfavoriteCounts()
@@ -274,6 +276,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
                     posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
                         
+                     
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
 //coordinate: annotationCoordinate,
@@ -460,6 +463,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     MapData.mainCategory =  selectCategoryLabel.text
                     MapData.Adress = serchMap.text
                     
+                   
+                     
+                    
                 }
                 
               }
@@ -579,9 +585,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //"女裝婦幼"
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(true)
-            self.navigationController?.isNavigationBarHidden = true
+             self.navigationController?.isNavigationBarHidden = true
         UIView.animate(withDuration: 0.3) {
-            
+//
             self.categoryControllButtenView.center.x = super.view.center.x
             self.searchButton.alpha = 0
         }
