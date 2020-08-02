@@ -254,9 +254,33 @@ class chatTable: UIViewController,UITableViewDelegate,UITableViewDataSource,UITe
             self.db.collection("user").document(self.otherUID).collection("Messages").document( self.myNickName).collection("Message").document(self.currentTime ()).setData(receiveParameter)
         }
         
-        self.textField.text = ""
+
+        
+             self.db.collection("user").document(self.otherUID).getDocument { (data, error) in
+                        if let error = error{
+                            print(error.localizedDescription)
+                            return
+                        }
+//                chatFunctionGroup.shared.updatePersonalUnreadCounts(userUID: self.otherUID)
+//                chatFunctionGroup.shared.updateTabbarItembadge(userUID: self.otherUID)
+                            guard let data = data ,
+                            let fcmToken = data.data()?["fcmToken"] as? String ,
+                            let otherUnreadCount = data.data()?["unread"] as? String   else {return}
+            //             pushRemoteNotificationAciton(badgeValue: Int(otherUnreadCount)! , fcmToken: fcmToken )
+                PushNotificationSender().sendPushNotification(to:fcmToken, title: self.myNickName, body: self.textField.text!, badgeValue: Int(otherUnreadCount)!)
+                          self.textField.text = ""
+                print(otherUnreadCount)
+                    }
+        
+          
+//             func pushRemoteNotificationAciton(badgeValue:Int,fcmToken:String) {
+//
+//         }
+      
+         
     }
-    
+    //fk_U-Se_qUBkg4XAk5GZ5S:APA91bFFdaa3NhNinjvHYpUzNhHNUWnqwg_5WXhueFefXdZ4rGHtVqc90zapOnhTiiMYb9ebRQtUQOA7bkMsDgbU1alwxKSobXCSHfcGi-qZFPYlPm6okzWDwOcivlJsRhsIjMyu3-BT
+   
     
 //    @objc private func handle(keyboardShowNotification notification: Notification) -> CGFloat  {
 //          // 1

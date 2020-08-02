@@ -12,8 +12,7 @@ import GoogleSignIn
 
 class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
    
-    
- 
+     
     
     var db = Firestore.firestore()
     @IBOutlet weak var tableview: UITableView!
@@ -187,13 +186,14 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             if self.ocount == 0{
                 self.navigationController?.tabBarItem.badgeColor = .white
                 self.navigationController?.tabBarItem.badgeValue = ""
+                 self.localNotification(badgeValue: 0)
             }else{
                 self.navigationController?.tabBarItem.badgeColor = UIColor(named: "myOrangeColor")
              self.navigationController?.tabBarItem.badgeValue  = String(self.ocount)
+//                self.localNotification(badgeValue: self.ocount)
+               
             }
- 
         }
-              
     }
     
      
@@ -303,6 +303,20 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             }
         }
   
+    func localNotification(badgeValue:Int){
+            let center = UNUserNotificationCenter.current()
+            let content = UNMutableNotificationContent()
+            content.badge = NSNumber(value: badgeValue)
+//         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            let uuidstring = UUID().uuidString
+            let  request = UNNotificationRequest(identifier: uuidstring, content: content, trigger: nil)
+            center.add(request) { (error) in
+                if let error = error {
+                    print(error)
+                }
+            }
+        }
     
+
 }
 

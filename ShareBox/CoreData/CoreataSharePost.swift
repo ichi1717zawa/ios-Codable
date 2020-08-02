@@ -17,6 +17,7 @@ class CoredataSharePost {
     
     
     let myContextPost = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let myContextPost = PersistenceService.context
     let request = NSFetchRequest<PostInfomation>(entityName: "Post")
     var data : [PostInfomation] = []
     func loadData (){

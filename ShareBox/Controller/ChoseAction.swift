@@ -39,6 +39,7 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
     @IBOutlet weak var logInAuthtecationingLabel: UILabel!
     let db = Firestore.firestore()
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let myContext = PersistenceService.context
     let locationManager = CLLocationManager()
     
   
@@ -346,10 +347,10 @@ class ChoseAction: UIViewController ,GIDSignInDelegate, CLLocationManagerDelegat
             self.maskview.alpha = 0
             self.activeIndicator.stopAnimating()
         ; return  }
-        
          guard let authentication = user.authentication else { return }
          let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,accessToken: authentication.accessToken)
          Auth.auth().signIn(with: credential) { (authResult, error) in
+            
              if let error = error {
                 print("\(error)")
                 return }

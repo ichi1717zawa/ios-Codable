@@ -11,6 +11,7 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 import FirebaseStorage
+//import UserNotificationsUI
 class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating,UITextFieldDelegate,UIGestureRecognizerDelegate {
     let myUID : String! = Auth.auth().currentUser?.uid
     func updateSearchResults(for searchController: UISearchController) {
@@ -182,7 +183,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var refreshControl:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
+        print("登入時的帳號\(Auth.auth().currentUser?.uid)")
         selectCategoryLabel.text = ""
        queryFirestore()
         queryfavoriteCounts()
@@ -239,8 +241,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
   func queryFirestore(){
     db.collection("userPost").order(by: "timeStamp",descending: false).addSnapshotListener { (query, error) in
 ////        db.collection("userPost").order(by: "timeStamp").addSnapshotListener(includeMetadataChanges: true) { (query, error) in
-            
         
+       
 //        self.db.collection("userPost").order(by: "timeStamp").getDocuments(source: .cache) { (query, error) in
             
 //        }
@@ -297,8 +299,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
  
                        
 //                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
-//                        self.tableview.reloadData()
-                         
+//                        self.tableview.reloadData() 
+                                
                         
                     }
                         
@@ -754,6 +756,19 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             
             self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
             self.searchButton.alpha = 1
+        }
+    }
+    @IBAction func deleteUser(_ sender: Any) {
+       let user = Auth.auth().currentUser
+
+        user?.delete { error in
+          if let error = error {
+            // An error happened.
+          } else {
+            // Account deleted.
+            print("帳號已經刪除嘗試google登入 ")
+            GIDSignIn.sharedInstance()?.signIn()
+          }
         }
     }
 }

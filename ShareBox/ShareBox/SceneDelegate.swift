@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import Messages
+import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -16,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @available(iOS 13.0, *)
     func sceneDidEnterBackground(_ scene: UIScene) {
+       
           print("進入背景")
            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "通知收鍵盤"), object: nil)
         
@@ -34,5 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
  
     }
 
+ 
+    
 }
 

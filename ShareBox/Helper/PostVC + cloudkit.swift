@@ -12,6 +12,7 @@ import Firebase
 extension PostVC : UINavigationControllerDelegate,UIImagePickerControllerDelegate{
     
     func saveToCloud( ) {
+        
 //        let image = self.imageview.image?.jpegData(compressionQuality: 0.1)
         let fileName = "123.jpg" 
        let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(fileName)

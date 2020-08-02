@@ -15,6 +15,7 @@
 		FA37F16D24A4921300AAF5B9 /* chatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */; };
 		FA45650224A108730015DEF3 /* lookImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA45650124A108730015DEF3 /* lookImage.swift */; };
 		FA482FF224B759E000525B82 /* checkImageExsist.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA482FF124B759DF00525B82 /* checkImageExsist.swift */; };
+		FA521CFC24CD9D3B00A2F486 /* iMessageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521CFB24CD9D3B00A2F486 /* iMessageTest.swift */; };
 		FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F47248CEE02002C68D4 /* allPostDetail.swift */; };
 		FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4B248CF138002C68D4 /* AllPostVC.swift */; };
 		FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F4D248CF72C002C68D4 /* allPostModel.swift */; };
@@ -56,7 +57,10 @@
 		FA968421248614D8002301A7 /* ChatroomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA968420248614D7002301A7 /* ChatroomList.swift */; };
 		FAAE62D024B9BCEC0037B5DE /* PhoneAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */; };
 		FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAEEA062493742B004F5B97 /* getChatListUnread.swift */; };
+		FAAFBDE524D7323200200583 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAFBDE424D7323200200583 /* PersistenceService.swift */; };
 		FAB45D8C24802589005A183D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB45D8B24802589005A183D /* MapVC.swift */; };
+		FABE49FF24D52E8F000F1D2B /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABE49FE24D52E8F000F1D2B /* PushNotificationSender.swift */; };
+		FABE4A0124D5F4BC000F1D2B /* chatFunctionGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABE4A0024D5F4BC000F1D2B /* chatFunctionGroup.swift */; };
 		FAC560BE247A5E35000E8247 /* ChoseAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560BD247A5E35000E8247 /* ChoseAction.swift */; };
 		FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC560E6247A8FB4000E8247 /* TabbarVC.swift */; };
 		FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */; };
@@ -82,6 +86,7 @@
 		FA37F16C24A4921300AAF5B9 /* chatTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatTableCell.swift; sourceTree = "<group>"; };
 		FA45650124A108730015DEF3 /* lookImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookImage.swift; sourceTree = "<group>"; };
 		FA482FF124B759DF00525B82 /* checkImageExsist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkImageExsist.swift; sourceTree = "<group>"; };
+		FA521CFB24CD9D3B00A2F486 /* iMessageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageTest.swift; sourceTree = "<group>"; };
 		FA521F47248CEE02002C68D4 /* allPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostDetail.swift; sourceTree = "<group>"; };
 		FA521F4B248CF138002C68D4 /* AllPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostVC.swift; sourceTree = "<group>"; };
 		FA521F4D248CF72C002C68D4 /* allPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = allPostModel.swift; sourceTree = "<group>"; };
@@ -126,7 +131,10 @@
 		FA968420248614D7002301A7 /* ChatroomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomList.swift; sourceTree = "<group>"; };
 		FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthentication.swift; sourceTree = "<group>"; };
 		FAAEEA062493742B004F5B97 /* getChatListUnread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getChatListUnread.swift; sourceTree = "<group>"; };
+		FAAFBDE424D7323200200583 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		FAB45D8B24802589005A183D /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		FABE49FE24D52E8F000F1D2B /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		FABE4A0024D5F4BC000F1D2B /* chatFunctionGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatFunctionGroup.swift; sourceTree = "<group>"; };
 		FAC560BD247A5E35000E8247 /* ChoseAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoseAction.swift; sourceTree = "<group>"; };
 		FAC560E6247A8FB4000E8247 /* TabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarVC.swift; sourceTree = "<group>"; };
 		FAD0AF8B248FA650005A9A91 /* ChatListCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCustomCell.swift; sourceTree = "<group>"; };
@@ -176,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				FA95226F24BE46E400191D62 /* ChatViewController.swift */,
+				FA521CFB24CD9D3B00A2F486 /* iMessageTest.swift */,
 				FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */,
 				FAFC405524BE663400A8D0FF /* myview.swift */,
 				FA95226D24BE427900191D62 /* messageVC.swift */,
@@ -204,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				FA90D1DB2496A29800DC4168 /* categoryButtionInit.swift */,
+				FABE49FE24D52E8F000F1D2B /* PushNotificationSender.swift */,
 				FA482FF124B759DF00525B82 /* checkImageExsist.swift */,
 				FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */,
 				FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */,
@@ -212,6 +222,7 @@
 				FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */,
 				FA86E3B5247B5F3300284596 /* GoogleLogin.swift */,
 				FAAEEA062493742B004F5B97 /* getChatListUnread.swift */,
+				FABE4A0024D5F4BC000F1D2B /* chatFunctionGroup.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -266,9 +277,10 @@
 		FA66AD09246E306A00C9F31F /* ShareBox */ = {
 			isa = PBXGroup;
 			children = (
-				FA0C182424BCE6E10029A9B9 /* mydata.mlmodel */,
 				FA66AD0A246E306A00C9F31F /* AppDelegate.swift */,
+				FAAFBDE424D7323200200583 /* PersistenceService.swift */,
 				FA66AD0C246E306A00C9F31F /* SceneDelegate.swift */,
+				FA0C182424BCE6E10029A9B9 /* mydata.mlmodel */,
 				FA66AD16246E306E00C9F31F /* Assets.xcassets */,
 				FA66AD18246E306E00C9F31F /* LaunchScreen.storyboard */,
 				FA66AD1B246E306E00C9F31F /* Info.plist */,
@@ -462,6 +474,7 @@
 				FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */,
 				FA0C182524BCE6E10029A9B9 /* mydata.mlmodel in Sources */,
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
+				FAAFBDE524D7323200200583 /* PersistenceService.swift in Sources */,
 				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,
 				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
 				FA95227024BE46E400191D62 /* ChatViewController.swift in Sources */,
@@ -479,6 +492,7 @@
 				FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */,
 				FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */,
 				FA961CDD2470285A000F5C59 /* userInfo.swift in Sources */,
+				FABE4A0124D5F4BC000F1D2B /* chatFunctionGroup.swift in Sources */,
 				FA19045A247966D5009B9B3C /* Map.swift in Sources */,
 				FA37F16D24A4921300AAF5B9 /* chatTableCell.swift in Sources */,
 				FA8FEA0F24BEF5F400EA8F9C /* ChatMessageKit.swift in Sources */,
@@ -493,6 +507,8 @@
 				FAD8455524AB76BC00243F0B /* categorytableviewcell.swift in Sources */,
 				FA96841F248613C9002301A7 /* ChatList.swift in Sources */,
 				FA19045C247968B5009B9B3C /* DispatchQueue+Once.swift in Sources */,
+				FABE49FF24D52E8F000F1D2B /* PushNotificationSender.swift in Sources */,
+				FA521CFC24CD9D3B00A2F486 /* iMessageTest.swift in Sources */,
 				FAFC405624BE663400A8D0FF /* myview.swift in Sources */,
 				FAAE62D024B9BCEC0037B5DE /* PhoneAuthentication.swift in Sources */,
 				FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */,

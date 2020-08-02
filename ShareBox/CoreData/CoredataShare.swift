@@ -12,11 +12,12 @@ import UIKit
 
 class CoredataShare {
     
-    static let share = CoredataShare()
-    
+   
+  static var  share = CoredataShare()
     
     
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let myContext = PersistenceService.context
 
     let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
     var data : [UserInfomation] = []

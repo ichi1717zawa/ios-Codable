@@ -18,10 +18,10 @@ class CoredataShareMessage {
     
     
     let myContextMessage = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let myContextMessage = PersistenceService.context
     let request = NSFetchRequest<ChatMessageKit>(entityName: "Message")
     var data : [ChatMessageKit] = []
     func loadData ( ){
-
                   let request = NSFetchRequest<ChatMessageKit>(entityName: "Message")
 //                  let sort = NSSortDescriptor(key: "labelName", ascending: false)
 //                  request.sortDescriptors = [sort]
@@ -35,6 +35,7 @@ class CoredataShareMessage {
                           let results = try myContextMessage.fetch(request)
                         
                           self.data = results
+                        print(myContextMessage)
                       }catch{
                           print("error while fetching Note from db \(error)")
                           
@@ -47,7 +48,7 @@ class CoredataShareMessage {
               
               //-----------------------------------------------------
            func saveData(){
-                          try? myContextMessage.save()
+                          try? myContextMessage.save() 
                       }
     
     
