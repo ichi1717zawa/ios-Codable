@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Message" representedClassName=".ChatMessageKit" syncable="YES">
         <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="otherUID" optional="YES" attributeType="String"/>
         <attribute name="time" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
@@ -28,7 +29,7 @@
         <attribute name="userLocation" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Message" positionX="-63" positionY="90" width="128" height="88"/>
+        <element name="Message" positionX="-63" positionY="90" width="128" height="103"/>
         <element name="Post" positionX="-63" positionY="27" width="128" height="208"/>
         <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="148"/>
     </elements>

@@ -564,7 +564,6 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                         <segue destination="mw9-QE-Rdi" kind="relationship" relationship="viewControllers" id="y4B-et-VKd"/>
                         <segue destination="g5U-3c-5yl" kind="relationship" relationship="viewControllers" id="AiP-es-tPH"/>
                         <segue destination="u1k-Xy-FzN" kind="relationship" relationship="viewControllers" id="J2Q-ZJ-w6N"/>
-                        <segue destination="1ub-qn-S2z" kind="relationship" relationship="viewControllers" id="GIy-kX-k62"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jou-7F-rO9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -728,7 +727,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2YR-CK-eRo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1298.5507246376812" y="1645.9821428571429"/>
+            <point key="canvasLocation" x="1216" y="1646"/>
         </scene>
         <!--Myview-->
         <scene sceneID="sSN-f0-sB1">
@@ -753,7 +752,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QMA-3N-gSu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2533.3333333333335" y="1690.8482142857142"/>
+            <point key="canvasLocation" x="2657" y="2085"/>
         </scene>
         <!--地圖-->
         <scene sceneID="3LP-Wq-kKg">
@@ -1022,6 +1021,14 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                             <action selector="deleteUser:" destination="Pyf-wU-kOq" eventType="touchUpInside" id="KMa-le-xkC"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gge-eC-kea">
+                                        <rect key="frame" x="-15" y="89" width="92" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="刪除測試資料"/>
+                                        <connections>
+                                            <action selector="刪除測試資料用:" destination="Pyf-wU-kOq" eventType="touchUpInside" id="qw1-MY-Bxe"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1161,7 +1168,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                         <gestureRecognizers/>
                                         <connections>
                                             <outlet property="Title" destination="6DM-W4-fjr" id="m5M-Eb-L0N"/>
-                                            <outlet property="buildTime" destination="ogk-id-0vZ" id="xyG-OM-CbP"/>
+                                            <outlet property="buildTime" destination="ogk-id-0vZ" id="i45-vC-DKn"/>
                                             <outlet property="favoriteCount" destination="Nca-CT-jUG" id="xJ8-LL-N9c"/>
                                             <outlet property="introduction" destination="ZiB-5M-Bum" id="WBR-i7-OpO"/>
                                             <outlet property="likeButton" destination="tza-Qy-h7i" id="zUi-Cg-gIa"/>
@@ -1198,6 +1205,14 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                     <constraint firstAttribute="height" constant="2" id="JT0-lu-OK2"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpv-dI-ssw">
+                                <rect key="frame" x="176" y="433" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="追加搜尋"/>
+                                <connections>
+                                    <action selector="newBatch:" destination="Pyf-wU-kOq" eventType="touchUpInside" id="lXQ-Sm-Fc0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.92156862750000001" green="0.47843137250000001" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -1330,6 +1345,21 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TsM-A9-5Xk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4148" y="-1205"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="bjC-ka-g34">
+            <objects>
+                <viewController id="VIP-GF-3dI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zR6-xy-86C">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Wzv-d8-BNW"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="53a-UG-AN8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3314" y="-2112"/>
         </scene>
         <!--iMessage Test-->
         <scene sceneID="pEi-8K-t0G">
@@ -1768,11 +1798,11 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                         <gestureRecognizers/>
                                         <connections>
                                             <outlet property="Title" destination="tS8-qC-p6a" id="qLc-ay-uio"/>
-                                            <outlet property="buildTime" destination="bC6-TB-98t" id="c7B-NE-Bpn"/>
                                             <outlet property="favoriteCount" destination="L5N-3c-9kK" id="w0X-Fe-jRD"/>
                                             <outlet property="introduction" destination="8tt-zn-O0N" id="99g-x2-eak"/>
                                             <outlet property="likeButton" destination="B19-3N-WTK" id="SBm-E5-1yq"/>
                                             <outlet property="postImage" destination="RFM-j9-Z02" id="9aN-0c-FBa"/>
+                                            <outlet property="postTime" destination="bC6-TB-98t" id="c7B-NE-Bpn"/>
                                             <outlet property="subTitle" destination="Mpb-e4-ylV" id="E4x-el-G5X"/>
                                             <outlet property="viewsCount" destination="Kpj-vu-Yme" id="lia-WE-CcX"/>
                                             <segue destination="OrE-TX-3Kg" kind="show" identifier="myPostDetail" id="DaX-XR-6cP"/>
@@ -1982,52 +2012,12 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                     <connections>
                         <outlet property="tableview" destination="eui-W4-ZXU" id="l0i-wn-s7t"/>
                         <segue destination="w5Z-3d-MeT" kind="show" identifier="personalMessage" id="dEO-Mi-dQG"/>
+                        <segue destination="1ub-qn-S2z" kind="show" identifier="messageKitSegue" id="ghk-cy-NP0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wue-C1-x7Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1213.5999999999999" y="758.12807881773404"/>
-        </scene>
-        <!--MessageVC-->
-        <scene sceneID="wy3-0w-0AV">
-            <objects>
-                <viewController id="dIL-mQ-aeZ" customClass="messageVC" customModule="ShareBox" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cej-U9-ZTD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bD0-yr-KR1">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="kdG-La-JbR">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kdG-La-JbR" id="ZIi-ku-jtv">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="1ub-qn-S2z" kind="show" id="tVs-Ba-2Oc"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <sections/>
-                                <connections>
-                                    <outlet property="dataSource" destination="dIL-mQ-aeZ" id="WT9-Uf-bky"/>
-                                    <outlet property="delegate" destination="dIL-mQ-aeZ" id="hZ4-nc-TfD"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="mMU-aW-xGw"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="mWR-4l-5tF"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xus-Ya-w6s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3339" y="1033"/>
         </scene>
         <!--Item-->
         <scene sceneID="dDa-qa-qNJ">
@@ -2046,7 +2036,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JEm-yk-rFl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="gDM-b0-Whx"/>
             </objects>
-            <point key="canvasLocation" x="4242.0289855072469" y="1032.5892857142858"/>
+            <point key="canvasLocation" x="2493" y="758"/>
         </scene>
         <!--Post-->
         <scene sceneID="b5d-ac-38S">
@@ -2572,11 +2562,11 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                         <gestureRecognizers/>
                                         <connections>
                                             <outlet property="Title" destination="9Dr-HE-1IH" id="zmw-rd-GKH"/>
-                                            <outlet property="buildTime" destination="uwT-PJ-Kdj" id="qFv-vC-VeW"/>
                                             <outlet property="favoriteCount" destination="J34-OE-4IE" id="xu2-0W-ZKG"/>
                                             <outlet property="introduction" destination="eVR-RG-BeF" id="6QM-xN-hLV"/>
                                             <outlet property="likeButton" destination="Cdu-wB-zHQ" id="oCV-nv-R8I"/>
                                             <outlet property="postImage" destination="2Re-XK-Her" id="jIf-Tq-meA"/>
+                                            <outlet property="postTime" destination="uwT-PJ-Kdj" id="qFv-vC-VeW"/>
                                             <outlet property="subTitle" destination="7We-xx-D11" id="HbN-Xj-KsJ"/>
                                             <outlet property="viewsCount" destination="VQ4-8O-WrU" id="aaE-YR-TUS"/>
                                             <segue destination="TNu-7Q-k4N" kind="show" identifier="favoriteSegue" id="A1s-JQ-KHA"/>
@@ -3280,30 +3270,10 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
             </objects>
             <point key="canvasLocation" x="4413" y="2748"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="Gou-ZQ-WvX">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EFf-BO-Xb0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Uhi-Za-czZ"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cxl-4P-uO6">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="dIL-mQ-aeZ" kind="relationship" relationship="rootViewController" id="AuM-du-YL9"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XWD-oe-ad6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2592.753623188406" y="1032.5892857142858"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AOH-w9-YSf"/>
-        <segue reference="GIy-kX-k62"/>
-        <segue reference="Rve-LJ-wmy"/>
+        <segue reference="gz7-lA-ee2"/>
+        <segue reference="dEO-Mi-dQG"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.70588235294117641" green="0.70980392156862748" blue="0.70980392156862748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>

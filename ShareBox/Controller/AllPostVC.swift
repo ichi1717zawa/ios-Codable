@@ -24,37 +24,72 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @IBOutlet weak var serchMap: UITextField!
     @IBOutlet weak var selectCategoryLabel: UILabel!
     @IBOutlet weak var backToTopBTN: UIButton!
+    @IBOutlet weak var tableviewTopAnchor: NSLayoutConstraint!
+    @IBOutlet weak var categoryControllButtenView: UIStackView!
+    
+    @IBOutlet weak var btn1: UIButton!
+    @IBOutlet weak var btn2: UIButton!
+    @IBOutlet weak var btn3: UIButton!
+    @IBOutlet weak var btn4: UIButton!
+    @IBOutlet weak var btn5: UIButton!
+    @IBOutlet weak var btn6: UIButton!
+    @IBOutlet weak var btn7: UIButton!
+    @IBOutlet weak var btn8: UIButton!
+    @IBOutlet weak var btn9: UIButton!
+    @IBOutlet weak var btn10: UIButton!
+    
     let AnnotationData:[AnnotationDetail] = []
     let database = CKContainer.default().publicCloudDatabase
-    let db = Firestore.firestore()
+    var db = Firestore.firestore()
     var data: [allPostModel] = []
     var tempIndex: IndexPath?
     var tableviewOringinminY :CGFloat!
     var firstIndex : IndexPath!
+    var favoriteListName : [String] = []
+    var lastDocument : QueryDocumentSnapshot?
+    var listener : ListenerRegistration?
+    var AlertMessage:String!
+    var refreshControl:UIRefreshControl!
+    var lastTime : String?
+    var uploadButtonTopAnchor : NSLayoutConstraint!
     
+    var uploadButton : UIButton! = UIButton()
+    
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("登入時的帳號\(Auth.auth().currentUser?.uid)")
+        selectCategoryLabel.text = ""
+        queryFirestore()
+        queryfavoriteCounts()
+         
+        self.view.addSubview(uploadButton)
+         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        //        updateDataBaseCounts(Currenttime: self.currentTime())
+        self.navigationController?.isNavigationBarHidden = true
+        UIView.animate(withDuration: 0.3) {
+            //
+            self.categoryControllButtenView.center.x = super.view.center.x
+            self.searchButton.alpha = 0
+        }
+        initButton()
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    
+     //MARK: -> numberOfRowsInSection
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
-   
- 
-    var favoriteListName : [ String] = []
-    
- 
-    func getfavoriteListName(){
-        self.db.collection("user").document("\(Auth.auth().currentUser?.uid ?? "N/A")").collection("favoriteList").getDocuments(source: .cache) { (data, error) in
-
-                   if let data = data?.documents  {
-
-                                   for postUUID in data{
-//                                       print(postUUID.documentID)
-                                          let postUUID =  postUUID.documentID  as String
-//                                        print(postUUID)
-                                       self.favoriteListName.append(postUUID)
-                                    
-                                      }
-                                  }
-                              }
-    }
+     //MARK: -> cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid ?? "N/A")") { (data) in
             print(data)
@@ -68,20 +103,14 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //            print("qwe")
 //        }
        
-       
-        
 //        if let perpost = self.data.filter({ (perpost) -> Bool in
-//
 //            perpost.postUUID == favoriteListName.first
 //        }).first{
 //            print("get")
 //        }
-        
-        
         allPostcell.Title.text = data.productName
         allPostcell.subTitle.text = data.userShortLocation
         allPostcell.introduction.text = data.subTitle
-        
 //        allPostcell.likeButton.setImage(UIImage(named: "a4"), for: .normal)
 //        allPostcell.likeImage.image = data.likeImage
         let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Caches").appendingPathComponent("\(data.postUUID)")
@@ -91,7 +120,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             let image = UIImage(contentsOfFile: url.path)
 //            let Newimage = UIImage(data: image as! Data)
             allPostcell.postImage.image = image
-            
         }else  {
                 let ref = Storage.storage(url: "gs://noteapp-3d428.appspot.com").reference()
             let imageRef = ref.child("images/\(data.postUUID)")
@@ -120,9 +148,38 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         allPostcell.favoriteCount.text = String(data.favoriteCount)
         return allPostcell
     }
+     //MARK: -> didSelectRowAt
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            self.tableview.deselectRow(at: indexPath, animated: false)
+            let postUUID = self.data[indexPath.row].postUUID
+            
+    //      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+            db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
+            CountViews()
+             
+        }
     
+    //MARK: -> getfavoriteListName
+    func getfavoriteListName(){
+        self.db.collection("user")
+            .document("\(Auth.auth().currentUser?.uid ?? "N/A")")
+            .collection("favoriteList")
+            .getDocuments(source: .cache) { (data, error) in
+            
+            if let data = data?.documents  {
+                
+                for postUUID in data{
+                    //                                       print(postUUID.documentID)
+                    let postUUID =  postUUID.documentID  as String
+                    //                                        print(postUUID)
+                    self.favoriteListName.append(postUUID)
+                    
+                }
+            }
+        }
+    }
 
-
+ //MARK: -> getCloudKitImage
     func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first! .appendingPathComponent("\(uuid)")
                   let predicate: NSPredicate = NSPredicate(format: "content = %@", uuid)
@@ -149,6 +206,48 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                                   }
                       }
               }
+     //MARK: -> getCatcheFaforiteList
+     func getCatcheFaforiteList ( myUID:String,complete:@escaping (String) -> Void ) {
+            self.db.collection("userPost").document("\(myUID)").collection("favoriteCounts").getDocuments(source: .cache) { (data, error) in
+                if let data = data?.documents {
+                    for postUUID in data{
+                        let postUUID =  postUUID.documentID  as String
+                        complete(postUUID)
+                    }
+                }
+            }
+        }
+       //MARK: -> updateCount
+        func updateCount (documentID:Any){
+            self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
+                if error != nil{
+                    return
+                }
+                for _ in data!.documents{
+                    self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
+                  
+                    self.tableview.reloadData()
+                    
+                }
+            }
+        }
+       //MARK: -> updateFavoriteCount
+        func updateFavoriteCount (documentID:Any){
+            
+            self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
+                if  error  != nil {
+                    return
+                }
+                
+                for _ in data!.documents{
+                      self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
+    //                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
+    //                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
+    //                }
+                      self.tableview.reloadData()
+                  }
+              }
+          }
     
 //    func getCloudKitImage(uuid:String , complite:@escaping (UIImage) -> Void)   {
 //                  let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit").appendingPathComponent("\(uuid)")
@@ -178,105 +277,125 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
            textField.resignFirstResponder()
            return true
        }
-    
-  
-    var refreshControl:UIRefreshControl!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-        print("登入時的帳號\(Auth.auth().currentUser?.uid)")
-        selectCategoryLabel.text = ""
-       queryFirestore()
-        queryfavoriteCounts()
-        checkDataExsist()
-    }
-    
-       
      
-    func checkDataExsist(){
-       
+    func getNewstPost(date:Date){
+        db.collection("userPost").whereField("timeStamp", isGreaterThanOrEqualTo: date).getDocuments { (query, error) in
+                                if let error = error{
+                                    print("query Faild\(error)")
+                                }
+                         guard let myquest = query else {return}
+                         if let querylast = myquest.documents.last{
+                             self.lastDocument = querylast
+                         }
+                    guard let documentChange = query else {return}
+                    for change in documentChange.documents{
+                                    //處理每一筆更新
+                                    let documentID = change.documentID
+                                     self.updateCount(documentID: documentID)
+                                    self.updateFavoriteCount(documentID: documentID)
+                                   
+                                   let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
+                                    likeImage: UIImage(named: "pointRed")!,
+                                    buildTime: change.data()["postTime"] as? String ?? "N/A",
+                                    subTitle: change.data()["postIntroduction"] as? String ?? "N/A",
+                                    Title: change.data()["postCategory"] as? String ?? "N/A",
+                                    postGoogleName: change.data()["googleName"] as? String ?? "N/A",
+                                    postNickName: change.data()["Name"]as? String ?? "N/A",
+                                    postUUID: change.data()["postUUID"] as? String ?? "N/A" ,
+                                    postTime: change.data()["postTime"] as? String ?? "N/A",
+                                    viewsCount: change.data()["viewsCount"] as? Int ?? 0,
+                                    productName:change.data()["productName"] as? String ?? "N/A",
+                                    userLocation: change.data()["userLocation"] as? String ?? "N/A",
+                                    userShortLocation:change.data()["userShortLocation"] as? String ?? "N/A",
+                                    favoriteCount: change.data()["favoriteCounts"] as? Int ?? 0,
+                                    mainCategory:change.data()["mainCategory"] as? String ?? "N/A",
+                                    subCategory: change.data()["postCategory"] as? String ?? "N/A",
+                                    posterUID: change.data()["posterUID"] as? String ?? "N/A",
+                                    longPostTime: change.data()["longPostTime"] as? String ?? "N/A")
+                                         self.data.insert(postdetail, at: 0)
+                                        self.getfavoriteListName()
+                                        self.tableview.reloadData()
+                }
+        }
     }
-    
-    func getCatcheFaforiteList ( myUID:String,complete:@escaping (String) -> Void ) {
-        self.db.collection("userPost").document("\(myUID)").collection("favoriteCounts").getDocuments(source: .cache) { (data, error) in
-            if let data = data?.documents {
-                for postUUID in data{
-                    let postUUID =  postUUID.documentID  as String
-                    complete(postUUID)
+    func updateDataBaseCounts(Currenttime:String){
+        //2020:08:08 02:05:25
+        let time = self.lastDocument?.data()["longPostTime"] as? String
+       
+        let myDate = Date()
+        db.collection("userPost").whereField("longPostTime", isGreaterThan: time!).addSnapshotListener { (query, error) in
+            if let error = error{
+                print(error.localizedDescription)
+                return
+            }
+            guard let query = query?.documentChanges else {return}
+            for change in query{
+                if change.type == .added{
+                    print("yes")
+                    self.getNewstPost(date: myDate)
                 }
             }
         }
     }
     
-    func updateCount (documentID:Any){
-        self.db.collection("userPost").document("\(documentID)").collection("views").addSnapshotListener { (data, error) in
-            if error != nil{
-                return
-            }
-            for _ in data!.documents{
-                self.db.collection("userPost").document("\(documentID)").updateData(["viewsCount":data!.count])
-              
-                self.tableview.reloadData()
-                
-            }
-        }
-    }
     
-    func updateFavoriteCount (documentID:Any){
-        self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
-            if  error  != nil {
-                return
-            }
-            
-            for _ in data!.documents{
-                  self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
-//                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
-//                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
-//                }
-                  self.tableview.reloadData()
-              }
-          }
-      }
-   
+ //MARK: -> queryFirestore 獲取資料
   func queryFirestore(){
-    db.collection("userPost").order(by: "timeStamp",descending: false).addSnapshotListener { (query, error) in
-////        db.collection("userPost").order(by: "timeStamp").addSnapshotListener(includeMetadataChanges: true) { (query, error) in
+    
+    let myref =  db.collection("userPost").order(by: "timeStamp",descending: true ).limit(to: 5).getDocuments { (query, error) in
+        if let error = error{  print("query Faild\(error)");  return  }
         
-       
-//        self.db.collection("userPost").order(by: "timeStamp").getDocuments(source: .cache) { (query, error) in
-            
-//        }
-                if let error = error{
-                    print("query Faild\(error)")
-                }
-        
-        
-        
+        guard let myquest = query else {return}
+        if let querylast = myquest.documents.last{
+            self.lastDocument = querylast
+        }
+
                 guard let documentChange = query?.documentChanges else {return}
+                let qwe =   documentChange.map {$0
+        
+                    
+        }
+        
+        
                 for change in documentChange{
-                   
+                  
                     //處理每一筆更新
                     let documentID = change.document.documentID
-                     self.updateCount(documentID: documentID)
+                    self.updateCount(documentID: documentID)
                     self.updateFavoriteCount(documentID: documentID)
+                    
+//                  let e = change.document.data().keys
+//                    e.map{$0 as! String
+//                        if $0 == "postUUID"{
+//                            print("存在")
+//                        }else{
+//                            print("不存在")
+//                        }
+//                    }
+                    
+                    
                     if change.type == .added{
-                   let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-                    likeImage: UIImage(named: "pointRed")!,
-                    buildTime: change.document.data()["postTime"] as? String ?? "N/A",
-                    subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
-                    Title: change.document.data()["postCategory"] as? String ?? "N/A",
-                    postGoogleName: change.document.data()["googleName"] as? String ?? "N/A",
-                    postNickName: change.document.data()["Name"]as? String ?? "N/A",
-                    postUUID: change.document.data()["postUUID"] as? String ?? "N/A" ,
-                    postTime: change.document.data()["postTime"] as? String ?? "N/A",
-                    viewsCount: change.document.data()["viewsCount"] as? Int ?? 0,
-                    productName:change.document.data()["productName"] as? String ?? "N/A",
-                    userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
-                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
-                    favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
-                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
-                    subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
-                    posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
+                        
+                    let postdetail = allPostModel.QueryData(Document: change)
+                        
+//                    let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
+//                    likeImage: UIImage(named: "pointRed")!,
+//                    buildTime: change.document.data()["postTime"] as? String ?? "N/A",
+//                    subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
+//                    Title: change.document.data()["postCategory"] as? String ?? "N/A",
+//                    postGoogleName: change.document.data()["googleName"] as? String ?? "N/A",
+//                    postNickName: change.document.data()["Name"]as? String ?? "N/A",
+//                    postUUID: change.document.data()["postUUID"] as? String ?? "N/A" ,
+//                    postTime: change.document.data()["postTime"] as? String ?? "N/A",
+//                    viewsCount: change.document.data()["viewsCount"] as? Int ?? 0,
+//                    productName:change.document.data()["productName"] as? String ?? "N/A",
+//                    userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
+//                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
+//                    favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
+//                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
+//                    subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
+//                    posterUID: change.document.data()["posterUID"] as? String ?? "N/A",
+//                    longPostTime: change.document.data()["longPostTime"] as? String ?? "N/A")
                         
                      
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
@@ -290,21 +409,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //postUUID: change.document.data()["postUUID"] as? String ?? "N/A")
 // self.mapKitView.addAnnotation(annotation)
                          
-//                        self.data.append(postdetail)
-                        self.data.insert(postdetail, at: 0)
+                        self.data.append(postdetail)
+//                        self.data.insert(postdetail, at: 0)
                         self.getfavoriteListName()
- 
-                            let indexPath = IndexPath(row: 0, section: 0)
-                             self.tableview.insertRows(at: [indexPath], with: .left)
- 
-                       
+//                            let indexPath = IndexPath(row: 0, section: 0)
+//                             self.tableview.insertRows(at: [indexPath], with: .left)
 //                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
-//                        self.tableview.reloadData() 
-                                
-                        
-                    }
-                        
-                    else if change.type == .modified{ //修改
+                        self.tableview.reloadData()
+                      
+                    }else if change.type == .modified{ //修改
                         if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
                         }).first{
@@ -315,22 +428,17 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                                 let indexPath = IndexPath(row: index, section: 0)
                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
 //                            self.tableview.reloadData()
-                           
                             }
                         }
-                        
                     }
                     else if change.type == .removed{ //刪除
                         
                         if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
                         }).first{
-                            
 //                            self.updateFavoriteCount(documentID: perPost.postUUID)
-                            
-                            
-                            //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
-                            //                            note.imageName = change.document.data()["imageName"] as? String
+//                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
+//                            note.imageName = change.document.data()["imageName"] as? String
                             if let index = self.data.firstIndex(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
 //                                self.mapKitView.annotations[indexPath.row]
@@ -344,20 +452,30 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             }
                         }
                     }
-      }
-                
+                   
+                  
+                }
+//        self.tableview.reloadData()
+         
+        self.lastTime =  self.data.first?.longPostTime
+        self.listenerToCheckNewPost()
+        
+          print("longtime\(self.data.first?.longPostTime)")
+             }
+//    self.listener = myref
+//    detachListener(myref: myref)
+//     myref.remove()
+//      self.detachListener(myref: myref)
+      
     }
     
-    //
-    
-    }
-
+ 
+    //MARK: -> queryfavoriteCounts 計算追蹤人數
       func queryfavoriteCounts(){
                 db.collection("userPost").addSnapshotListener { (query, error) in
                     if let error = error{
                         print("query Faild\(error)")
                     }
-                   
                     guard let query = query else {return}
                     for i in query.documents{
                         let doucumentID = i.documentID
@@ -426,32 +544,18 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //                                }
 //                            }
 //                        }
-          }
+                    }
                     
-        }
-        
-        //
+            }
         }
     func CountViews (){
-    
-        
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
-            
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
         }
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableview.deselectRow(at: indexPath, animated: false)
-        let postUUID = self.data[indexPath.row].postUUID
-        
-//      let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
-        db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
-        CountViews()
-         
-    }
+   
     
             override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                  
                   if segue.identifier == "allPostDetailBycell"{
                       let detailVcByCell = segue.destination as! allPostDetailBycell
                     if let indexPath = self.tableview.indexPathForSelectedRow{
@@ -464,12 +568,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                      let  MapData = segue.destination as! MapVC
                     MapData.mainCategory =  selectCategoryLabel.text
                     MapData.Adress = serchMap.text
-                    
-                   
-                     
-                    
                 }
-                
               }
    
     
@@ -480,14 +579,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
          }
      }
     
-    
-    
-    
      
-
-//
-        
-    
 //    @IBAction func swiftSwipeAction(_ sender: UISwipeGestureRecognizer) {
 //        UIView.animate(withDuration: 0.6) {
 //         self.hidenTopItem.alpha = 1
@@ -495,7 +587,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //        self.tableview.topAnchor.constraint(equalTo: self.hidenTopItem.bottomAnchor,constant: 0).isActive = true
 //         print("down")
 //    }
-     @IBOutlet weak var tableviewTopAnchor: NSLayoutConstraint!
+  
     
     @IBAction func swipeUP(_ sender: UISwipeGestureRecognizer) {
         print("UP")
@@ -527,7 +619,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     
 //    @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
-    @IBOutlet weak var bottonLine: UIView!
+  
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
            return true
@@ -560,147 +652,29 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
              alerController.addAction(OKAction)
              present(alerController,animated: true)
           }
-    var AlertMessage:String!
-    
-    @IBOutlet weak var btn1: UIButton!
-    @IBOutlet weak var btn2: UIButton!
-    @IBOutlet weak var btn3: UIButton!
-    @IBOutlet weak var btn4: UIButton!
-    @IBOutlet weak var btn5: UIButton!
-    @IBOutlet weak var btn6: UIButton!
-    @IBOutlet weak var btn7: UIButton!
-    @IBOutlet weak var btn8: UIButton!
-    @IBOutlet weak var btn9: UIButton!
-    @IBOutlet weak var btn10: UIButton!
-    
-  // ["物品種類","書籍文具票券","3c產品","玩具電玩","生活居家與家電","影視音娛樂","飲品食品","保養彩妝","男裝配件","女裝婦幼"]
-    
-//"ALL"
-//"書籍文具票券"
-//"3c產品"
-//"玩具電玩"
-//"生活居家與家電"
-//"影視音娛樂"
-//"飲品食品"
-//"保養彩妝"
-//"男裝配件"
-//"女裝婦幼"
-    override func viewDidAppear(_ animated: Bool) {
-           super.viewDidAppear(true)
-             self.navigationController?.isNavigationBarHidden = true
-        UIView.animate(withDuration: 0.3) {
-//
-            self.categoryControllButtenView.center.x = super.view.center.x
-            self.searchButton.alpha = 0
-        }
-        initButton()
-          
-       }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-         self.navigationController?.isNavigationBarHidden = false
-    }
-    
-
+   
+     
     @IBAction func tap(_ sender: Any) {
        
     }
- 
+    
+    func currentTime () -> String   {
+          let now = Date()
+          let dateformatter = DateFormatter()
+          dateformatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
+          let currentTime = dateformatter.string(from: now)
+          return currentTime
+      }
+     
     func pressCategoryButton(button:UIButton,categoryName:String){
-        
         UIView.animate(withDuration: 0.3) {
             self.initButton()
              self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
-                 self.searchButton.alpha = 1
-            
-           
+              self.searchButton.alpha = 1
             button.setImage(UIImage(named: categoryName), for: .normal)
-               
-            
              }
     }
- 
-    @IBOutlet weak var categoryControllButtenView: UIStackView!
-    @IBAction func btn1(_ sender: Any) {
-
- 
-        selectCategoryLabel.text = "ALL" 
-        pressCategoryButton(button:btn1, categoryName: "ALL黑")
-        
-    }
-    @IBAction func btn2(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "書籍文具票券"
-        pressCategoryButton(button:btn2, categoryName: "書籍文具票券黑")
-    }
-    @IBAction func btn3(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "3c產品"
-        pressCategoryButton(button: btn3, categoryName: "3C黑")
-    }
-    @IBAction func btn4(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "玩具電玩"
-        pressCategoryButton(button: btn4, categoryName: "玩具電玩黑")
-    }
-    @IBAction func btn5(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "生活居家與家電"
-        pressCategoryButton(button: btn5, categoryName: "生活居家與家電黑")
-    }
-    @IBAction func btn6(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "影視音娛樂"
-        pressCategoryButton(button: btn6, categoryName: "影視音娛樂黑")
-    }
-    @IBAction func btn7(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text =  "飲品食品"
-        pressCategoryButton(button: btn7, categoryName: "飲品食品黑")
-    }
-    @IBAction func btn8(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "保養彩妝"
-        pressCategoryButton(button: btn8, categoryName: "保養彩妝黑")
-    }
-    @IBAction func btn9(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "男裝配件"
-        pressCategoryButton(button: btn9, categoryName: "男裝配件黑")
-    }
-    @IBAction func btn10(_ sender: Any) {
-//        initButton()
-        selectCategoryLabel.text = "女裝婦幼"
-        pressCategoryButton(button: btn10, categoryName: "女裝婦幼黑")
-    }
-    
-    func initButton(){
-        
-//        Buttoninit.init(btn1: btn1, btn2: btn2, btn3: btn3, btn4: btn4, btn5: btn5, btn6: btn6, btn7: btn7, btn8: btn8, btn9: btn9, btn10: btn10)
-//        btn1.setImage(UIImage(named: "ALL灰"), for: .normal);btn1.alpha = 1
-//        Buttoninit(btn1: btn1.setImage(UIImage(named: "ALL灰"),
-//            btn2: btn2.setImage(UIImage(named: "ALL灰"),
-//            btn3: btn3.setImage(UIImage(named: "ALL灰"),
-//            btn4: btn4.setImage(UIImage(named: "ALL灰"),
-//            btn5: btn5.setImage(UIImage(named: "ALL灰"),
-//            btn6: btn6.setImage(UIImage(named: "ALL灰"),
-//            btn7: btn7.setImage(UIImage(named: "ALL灰"),
-//            btn8: btn8.setImage(UIImage(named: "ALL灰"),
-//            btn9: btn9.setImage(UIImage(named: "ALL灰"),
-//            btn10: btn10.setImage(UIImage(named: "ALL灰")
-            btn1.setImage(UIImage(named: "ALL彩"), for: .normal)
-            btn2.setImage(UIImage(named: "書籍文具票券彩"), for: .normal)
-            btn3.setImage(UIImage(named: "3c產品彩"), for: .normal)
-            btn4.setImage(UIImage(named: "玩具電玩彩"), for: .normal)
-            btn5.setImage(UIImage(named: "生活居家與家電彩"), for: .normal)
-            btn6.setImage(UIImage(named: "影視音娛樂彩"), for: .normal)
-            btn7.setImage(UIImage(named: "飲品食品彩"), for: .normal)
-            btn8.setImage(UIImage(named: "保養彩妝彩"), for: .normal)
-            btn9.setImage(UIImage(named: "男裝配件彩"), for: .normal)
-            btn10.setImage(UIImage(named: "女裝婦幼彩"), for: .normal)
- 
-    }
-    
+     
     @IBAction func scrollViewToTop(_ sender: UIButton) {
         let indexpath = IndexPath(row: 0, section: 0)
         self.tableview.scrollToRow(at: indexpath, at: .top, animated: true)
@@ -715,6 +689,12 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         backToTopBTN.alpha = 0
+        let offsetY = scrollView.contentOffset.y
+        print("offsetY\(offsetY)")
+        let contetHeight = scrollView.contentSize.height
+        print("ContentsHeight\(contetHeight)")
+        print("scrollviewSizeHeight\(scrollView.frame.size.height)")
+        print(scrollView.contentSize.height - scrollView.frame.size.height * 2)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -747,17 +727,15 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     
-    @IBOutlet weak var searchImage: UIImageView!
-    
     
     
     @IBAction func searchMapAction(_ sender: Any) {
         UIView.animate(withDuration: 0.3) {
-            
             self.categoryControllButtenView.frame.origin.x = super.view.frame.origin.x + 10
             self.searchButton.alpha = 1
         }
     }
+    
     @IBAction func deleteUser(_ sender: Any) {
        let user = Auth.auth().currentUser
 
@@ -771,5 +749,182 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
           }
         }
     }
-}
+    
+    
+    @IBAction func newBatch(_ sender: Any) {
+         listener?.remove()
+        db.collection("userPost").order(by: "timeStamp",descending: true).limit(to: 5).start(afterDocument: self.lastDocument!).getDocuments { (query, error) in
  
+                 if let error = error{ print("query Faild\(error)")  }
+                 guard let myquest = query else {return}
+            
+                 if let querylast = myquest.documents.last{
+                     self.lastDocument = querylast
+                 }
+            
+//             guard let documentChange = query?.documentChanges else {return}
+            guard let documentChange = query?.documentChanges else {return}
+            for change in documentChange{
+             
+                            //處理每一筆更新
+                let documentID = change.document.documentID
+                             self.updateCount(documentID: documentID)
+                            self.updateFavoriteCount(documentID: documentID)
+                if change.type == .added{
+                     let postdetail = allPostModel.QueryData(Document: change)
+//                           let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
+//                            likeImage: UIImage(named: "pointRed")!,
+//                            buildTime: change.data()["postTime"] as? String ?? "N/A",
+//                            subTitle: change.data()["postIntroduction"] as? String ?? "N/A",
+//                            Title: change.data()["postCategory"] as? String ?? "N/A",
+//                            postGoogleName: change.data()["googleName"] as? String ?? "N/A",
+//                            postNickName: change.data()["Name"]as? String ?? "N/A",
+//                            postUUID: change.data()["postUUID"] as? String ?? "N/A" ,
+//                            postTime: change.data()["postTime"] as? String ?? "N/A",
+//                            viewsCount: change.data()["viewsCount"] as? Int ?? 0,
+//                            productName:change.data()["productName"] as? String ?? "N/A",
+//                            userLocation: change.data()["userLocation"] as? String ?? "N/A",
+//                            userShortLocation:change.data()["userShortLocation"] as? String ?? "N/A",
+//                            favoriteCount: change.data()["favoriteCounts"] as? Int ?? 0,
+//                            mainCategory:change.data()["mainCategory"] as? String ?? "N/A",
+//                            subCategory: change.data()["postCategory"] as? String ?? "N/A",
+//                            posterUID: change.data()["posterUID"] as? String ?? "N/A",
+//                            longPostTime: change.data()["longPostTime"] as? String ?? "N/A")
+//                                    self.data.insert(postdetail, at: 0)
+                                self.data.append(postdetail)
+                                self.getfavoriteListName()
+                                self.tableview.reloadData()
+                }
+            }
+        }
+    }
+    
+    func listenerToCheckNewPost(){
+        
+         
+        db.collection("userPost").whereField("longPostTime", isGreaterThan: lastTime!).addSnapshotListener { (query, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let query = query?.documents.first else {return}
+//            let lastTimee = query.data()["longPostTime"] as? String
+//            self.uploadNewPost(lastTime:self.lastTime!)
+
+//            self.clickButtonRefreshData()
+            self.checkUploadButtonExsit()
+            
+        }
+       
+    }
+    
+    
+    @objc func uploadNewPost(){
+        moveRefreshButtonPostion(hiden: true)
+        print(lastTime)
+         db.collection("userPost").whereField("longPostTime", isGreaterThan: lastTime).getDocuments { (query, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let query = query?.documentChanges else {return}
+            for change in query {
+               
+                let documentID = change.document.documentID
+                self.updateCount(documentID: documentID)
+                self.updateFavoriteCount(documentID: documentID)
+                let postdetail = allPostModel.QueryData(Document: change)
+                self.data.insert(postdetail, at: 0)
+               // self.data.append(postdetail)
+                self.getfavoriteListName()
+                //self.tableview.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableview.insertRows(at: [indexPath], with: .left)
+                self.lastTime = self.data.first?.longPostTime
+                                                        
+            }
+        }
+    }
+    
+    
+    func checkUploadButtonExsit(){
+        if self.uploadButton.titleLabel?.text == "更新最新資料" {
+            return
+        }else{
+            self.clickButtonRefreshData()
+        }
+        
+    }
+    
+    func clickButtonRefreshData(){
+       
+        self.uploadButton.translatesAutoresizingMaskIntoConstraints = false
+        self.uploadButton.layer.cornerRadius = 10
+        self.uploadButton.setTitle("更新最新資料", for: .normal)
+        self.uploadButton.setTitleColor(.white, for: .normal)
+        self.uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.uploadButtonTopAnchor = self.uploadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        uploadButtonTopAnchor.isActive = true
+        self.uploadButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.uploadButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        self.uploadButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        self.uploadButton.titleLabel?.baselineAdjustment = .alignCenters
+        self.uploadButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.uploadButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        self.uploadButton.backgroundColor = #colorLiteral(red: 0.5414773226, green: 0.5835128427, blue: 0.7766371369, alpha: 1)
+         
+        addShadow(Button: self.uploadButton).addTarget(self, action: #selector(uploadNewPost), for: .touchUpInside)
+ 
+        
+    }
+    
+    func addShadow(Button:UIButton) -> UIButton{
+        Button.clipsToBounds = false
+        Button.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        Button.layer.shadowOffset = CGSize(width: 10, height: 10)
+        Button.layer.shadowRadius = 4
+        Button.layer.shadowOpacity = 0.5
+        moveRefreshButtonPostion(hiden: false)
+        return Button
+        
+    }
+    
+    @objc func moveRefreshButtonPostion(hiden:Bool){
+        
+        if hiden{
+            
+            UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.uploadButtonTopAnchor.constant = -100
+                self.view.layoutIfNeeded()
+                self.uploadButtonTopAnchor.isActive = false
+                self.uploadButton.setTitle("  ", for: .normal)
+            }, completion: nil)
+            
+        }else{
+            UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.uploadButtonTopAnchor.constant = 100
+                          self.view.layoutIfNeeded()
+              }, completion: nil)
+            
+        }
+        
+    }
+    
+     
+    @IBAction func 刪除測試資料用(_ sender: Any) {
+          db.collection("userPost").whereField("longPostTime",  isGreaterThan: "2020:08:01 12:00:01").getDocuments { (query, error) in
+               if let error = error{  print("query Faild\(error)");  return  }
+               
+            guard let myquest = query?.documents else {return}
+            for i in myquest{
+                print(i.documentID)
+                self.db.collection("userPost").document(i.documentID).delete()
+            }
+            
+            
+            
+        }
+    }
+    
+    //MARK: -> 尾巴
+}
+

@@ -188,7 +188,8 @@
                                                       favoriteCount: data.data()?["favoriteCounts"] as? Int ?? 0,
                                                       mainCategory:data.data()?["mainCategory"] as? String ?? "N/A",
                                                       subCategory: data.data()?["postCategory"] as? String ?? "N/A",
-                                                      posterUID: data.data()?["posterUID"] as? String ?? "N/A")
+                                                      posterUID: data.data()?["posterUID"] as? String ?? "N/A",
+                                                      longPostTime: data.data()?["longPostTime"] as? String ?? "N/A")
                         
 //                        self.data.insert(postdetail)
                         self.data.insert(postdetail, at: 0)

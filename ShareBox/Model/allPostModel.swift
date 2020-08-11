@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Firebase
 class allPostModel : Equatable{
     static func ==(lhs: allPostModel, rhs: allPostModel) -> Bool {
            return lhs === rhs
@@ -30,6 +30,7 @@ class allPostModel : Equatable{
     var mainCategory:String
     var subCategory:String
     var posterUID:String
+    var longPostTime:String
     
     init(categoryImage:UIImage,
          likeImage:UIImage,
@@ -47,7 +48,8 @@ class allPostModel : Equatable{
          favoriteCount:Int,
          mainCategory:String,
          subCategory:String,
-         posterUID:String
+         posterUID:String,
+         longPostTime:String
     )
     
     { 
@@ -68,6 +70,30 @@ class allPostModel : Equatable{
         self.mainCategory = mainCategory
         self.subCategory = subCategory
         self.posterUID = posterUID
-        
+        self.longPostTime = longPostTime
     }
+    
+    
+    static func QueryData ( Document:DocumentChange) -> allPostModel{
+        let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
+                   likeImage: UIImage(named: "pointRed")!,
+                   buildTime: Document.document.data()["postTime"] as? String ?? "N/A",
+                   subTitle: Document.document.data()["postIntroduction"] as? String ?? "N/A",
+                   Title: Document.document.data()["postCategory"] as? String ?? "N/A",
+                   postGoogleName: Document.document.data()["googleName"] as? String ?? "N/A",
+                   postNickName: Document.document.data()["Name"]as? String ?? "N/A",
+                   postUUID: Document.document.data()["postUUID"] as? String ?? "N/A" ,
+                   postTime: Document.document.data()["postTime"] as? String ?? "N/A",
+                   viewsCount: Document.document.data()["viewsCount"] as? Int ?? 0,
+                   productName:Document.document.data()["productName"] as? String ?? "N/A",
+                   userLocation: Document.document.data()["userLocation"] as? String ?? "N/A",
+                   userShortLocation:Document.document.data()["userShortLocation"] as? String ?? "N/A",
+                   favoriteCount: Document.document.data()["favoriteCounts"] as? Int ?? 0,
+                   mainCategory:Document.document.data()["mainCategory"] as? String ?? "N/A",
+                   subCategory: Document.document.data()["postCategory"] as? String ?? "N/A",
+                   posterUID: Document.document.data()["posterUID"] as? String ?? "N/A",
+                   longPostTime: Document.document.data()["longPostTime"] as? String ?? "N/A")
+        return postdetail
+    }
+    
 }

@@ -75,7 +75,8 @@ extension allPostVC {
                         favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
                         mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
                         subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
-                         posterUID: change.document.data()["posterUID"] as? String ?? "N/A")
+                        posterUID: change.document.data()["posterUID"] as? String ?? "N/A",
+                        longPostTime: change.document.data()["longPostTime"] as? String ?? "N/A")
 
     //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
     //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
@@ -137,5 +138,6 @@ extension allPostVC {
 
         //
         }
+    
     
 }

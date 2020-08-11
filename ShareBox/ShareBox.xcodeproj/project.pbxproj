@@ -43,6 +43,7 @@
 		FA86E3B6247B5F3300284596 /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86E3B5247B5F3300284596 /* GoogleLogin.swift */; };
 		FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA874FCF24922EC300E22647 /* FavoriteVC.swift */; };
 		FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */; };
+		FA8DDCB324DF14480071A26A /* allPostVC + category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DDCB224DF14480071A26A /* allPostVC + category.swift */; };
 		FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */; };
 		FA8E36E6248A93EF00A19695 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8E36E5248A93EF00A19695 /* CloudKit.framework */; };
 		FA8FEA0D24BEF59D00EA8F9C /* CoredataShareMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8FEA0C24BEF59D00EA8F9C /* CoredataShareMessage.swift */; };
@@ -117,6 +118,7 @@
 		FA86E3B5247B5F3300284596 /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
 		FA874FCF24922EC300E22647 /* FavoriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteVC.swift; sourceTree = "<group>"; };
 		FA8A5EDC24825AA000ED1770 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
+		FA8DDCB224DF14480071A26A /* allPostVC + category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "allPostVC + category.swift"; sourceTree = "<group>"; };
 		FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostVC + cloudkit.swift"; sourceTree = "<group>"; };
 		FA8E36E5248A93EF00A19695 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FA8FEA0C24BEF59D00EA8F9C /* CoredataShareMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataShareMessage.swift; sourceTree = "<group>"; };
@@ -183,7 +185,6 @@
 		FA0F574C2479A8BC007CA9C6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FA95226F24BE46E400191D62 /* ChatViewController.swift */,
 				FA521CFB24CD9D3B00A2F486 /* iMessageTest.swift */,
 				FAAE62CF24B9BCEC0037B5DE /* PhoneAuthentication.swift */,
 				FAFC405524BE663400A8D0FF /* myview.swift */,
@@ -202,6 +203,7 @@
 				FAC560E6247A8FB4000E8247 /* TabbarVC.swift */,
 				FAEDBAFF247EB49200B6A716 /* PostVC.swift */,
 				FAB45D8B24802589005A183D /* MapVC.swift */,
+				FA95226F24BE46E400191D62 /* ChatViewController.swift */,
 				FA96841C2485E461002301A7 /* ChatTable.swift */,
 				FA96841E248613C9002301A7 /* ChatList.swift */,
 				FA74F47624902DA40081AEA1 /* GetUserData.swift */,
@@ -217,6 +219,7 @@
 				FA482FF124B759DF00525B82 /* checkImageExsist.swift */,
 				FA8E36E3248A915300A19695 /* PostVC + cloudkit.swift */,
 				FA7ABAFB2499C7A70033B8DD /* allPostVC + oderByFunction.swift */,
+				FA8DDCB224DF14480071A26A /* allPostVC + category.swift */,
 				FA6F8C83248568D30051E318 /* currentTime.swift */,
 				FA961CDA246FD2B2000F5C59 /* FIreBaseStore.swift */,
 				FA19045B247968B5009B9B3C /* DispatchQueue+Once.swift */,
@@ -488,6 +491,7 @@
 				FAB45D8C24802589005A183D /* MapVC.swift in Sources */,
 				FAC560E7247A8FB4000E8247 /* TabbarVC.swift in Sources */,
 				FA8A5EDD24825AA000ED1770 /* PostDetailVC.swift in Sources */,
+				FA8DDCB324DF14480071A26A /* allPostVC + category.swift in Sources */,
 				FAEDBAFE247E93A000B6A716 /* CoredataShare.swift in Sources */,
 				FA521F4E248CF72C002C68D4 /* allPostModel.swift in Sources */,
 				FAAEEA072493742B004F5B97 /* getChatListUnread.swift in Sources */,

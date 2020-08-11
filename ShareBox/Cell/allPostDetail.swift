@@ -17,8 +17,8 @@ class allPostDetail: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var favoriteCount: UILabel!
     @IBOutlet weak var introduction: UILabel!
-    
      
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

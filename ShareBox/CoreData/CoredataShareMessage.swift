@@ -17,25 +17,27 @@ class CoredataShareMessage {
     
     
     
-    let myContextMessage = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 //    let myContextMessage = PersistenceService.context
     let request = NSFetchRequest<ChatMessageKit>(entityName: "Message")
     var data : [ChatMessageKit] = []
-    func loadData ( ){
+    
+    func loadData (otherUID:String){
+      
                   let request = NSFetchRequest<ChatMessageKit>(entityName: "Message")
 //                  let sort = NSSortDescriptor(key: "labelName", ascending: false)
 //                  request.sortDescriptors = [sort]
-                 let predicate = NSPredicate(format: "type = %@ " , "send")//contains[cd] %@" Ur/ 精準查詢
+                 let predicate = NSPredicate(format: "otherUID = %@ " , otherUID)//contains[cd] %@" Ur/ 精準查詢
         ////        let predicate = NSPredicate(format: "text contains[cd] %@", "Note")//contains[cd] %@" 模糊查詢1
         ////         let predicate = NSPredicate(format: "text like %@", "*Note*")//contains[cd] %@" 模糊查詢2
         ////        fetchRequest.predicate = predicate
                 request.predicate = predicate
-                  myContextMessage.performAndWait {
+                  moc.performAndWait {
                       do{
-                          let results = try myContextMessage.fetch(request)
+                          let results = try moc.fetch(request)
                         
                           self.data = results
-                        print(myContextMessage)
+                        print(moc)
                       }catch{
                           print("error while fetching Note from db \(error)")
                           
@@ -48,12 +50,12 @@ class CoredataShareMessage {
               
               //-----------------------------------------------------
            func saveData(){
-                          try? myContextMessage.save() 
+                          try? moc.save() 
                       }
     
     
     func myContextCount() -> Int {
-        guard let myContext = try? self.myContextMessage.count(for: request) else {
+        guard let myContext = try? self.moc.count(for: request) else {
             return 0
         }
         return myContext

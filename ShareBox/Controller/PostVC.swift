@@ -330,7 +330,17 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
             }
          
             
-            
+            func LongcurrentTime () -> String   {
+                     
+                    
+                     let now = Date()
+                     let dateformatter = DateFormatter()
+                     dateformatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
+                     let currentTime = dateformatter.string(from: now)
+                     
+                     return currentTime
+                     
+                 }
           
        
             delayQueue.asyncAfter(deadline: DispatchTime.now() + 2) {
@@ -349,6 +359,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
                             "posterUID":self.myUID ?? "N/A" ,
                             "postUUID":  postUUID ,
                             "postTime":currentTime.share.time(),
+                            "longPostTime":LongcurrentTime(),
                             "timeStamp": Timestamp(date: Date()),
                             "viewsCount":0,
                             "productName":self.productName.text ?? "N/A",
@@ -858,7 +869,7 @@ class PostVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UI
          }
     }
     
-    
+   
 }
 
  

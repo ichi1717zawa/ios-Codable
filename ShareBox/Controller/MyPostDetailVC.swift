@@ -223,24 +223,33 @@ class myPostDetailVC: UIViewController  {
         maskView.alpha = 0.55
         self.activityIndicator.startAnimating()
         let postUUID = self.data.postUUID
+        
+         
+            db.collection("userPost").document(postUUID).collection("favoriteCounts").getDocuments { (otherUserId, error) in
+                     if let error = error{
+                            print("deletePost Faild\(error)")
+                            }
+                     guard let userID = otherUserId else {return}
+                     for userID in userID.documents{
+                         self.db.collection("user").document(userID.documentID).collection("favoriteList").document(postUUID).delete()
+                     }
+                     
+                     
+                 }
+          
+                      //刪除共通資料庫
+                     
+                        db.collection("userPost").document(postUUID).delete { (error) in
+                            if let error = error{
+                              print("PO文刪除失敗：\(error)")
+                               }
+                        }
               
-        db.collection("userPost").document(postUUID).collection("favoriteCounts").getDocuments { (otherUserId, error) in
-            if let error = error{
-                   print("deletePost Faild\(error)")
-                   }
-            guard let userID = otherUserId else {return}
-            for userID in userID.documents{
-                self.db.collection("user").document(userID.documentID).collection("favoriteList").document(postUUID).delete()
-            }
-            
-            
-        }
-              db.collection("userPost").document(postUUID).delete { (error) in
-                  if let error = error{
-                      print("PO文刪除失敗：\(error)")
-                  }
-              }
+                
+     
+      
               
+        //刪除自己帳號中貼文資料
               db.collection("user").document(myUID).collection("myPost").document(postUUID).delete { (error) in
                   if let error = error {
                       print("PO文刪除失敗：\(error)")

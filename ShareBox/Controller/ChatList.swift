@@ -50,7 +50,8 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder) 
+        super.init(coder: coder)
+        print("ChatList 初始化成功")
         queryFirestore()
           
         updatePersonalUnreadCounts()
@@ -290,13 +291,20 @@ class ChatList: UIViewController,UITableViewDelegate,UITableViewDataSource  {
             let otherUID =  self.chatData[indexPath.row].otherUID
             self.receiveMessageNickname = receiveMessageNickname
             self.receiveMessageOtherUID =  otherUID
-               performSegue(withIdentifier: "personalMessage", sender: nil)
+//               performSegue(withIdentifier: "personalMessage", sender: nil)
+            performSegue(withIdentifier: "messageKitSegue", sender: nil)
             
         }
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "personalMessage"{
                 let personalMessage = segue.destination as! chatTable
+                personalMessage.otherNickName = self.receiveMessageNickname
+                personalMessage.otherUID = self.receiveMessageOtherUID
+             
+            }
+            if segue.identifier == "messageKitSegue"{
+                let personalMessage = segue.destination as! ChatViewController
                 personalMessage.otherNickName = self.receiveMessageNickname
                 personalMessage.otherUID = self.receiveMessageOtherUID
              
