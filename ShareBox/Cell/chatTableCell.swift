@@ -26,8 +26,7 @@ class chatTableCell: UITableViewCell {
         super.awakeFromNib()
         
         receiveTextview.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-         receiveTextview.layer.cornerRadius = 10
-//
+        receiveTextview.layer.cornerRadius = 10
         sendTextview.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
         sendTextview.layer.cornerRadius = 10
  

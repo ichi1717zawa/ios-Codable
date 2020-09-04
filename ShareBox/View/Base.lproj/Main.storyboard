@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="W8F-PA-EKa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="W8F-PA-EKa">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -1205,14 +1205,6 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                     <constraint firstAttribute="height" constant="2" id="JT0-lu-OK2"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpv-dI-ssw">
-                                <rect key="frame" x="176" y="433" width="62" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="追加搜尋"/>
-                                <connections>
-                                    <action selector="newBatch:" destination="Pyf-wU-kOq" eventType="touchUpInside" id="lXQ-Sm-Fc0"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.92156862750000001" green="0.47843137250000001" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -1798,11 +1790,11 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
                                         <gestureRecognizers/>
                                         <connections>
                                             <outlet property="Title" destination="tS8-qC-p6a" id="qLc-ay-uio"/>
+                                            <outlet property="buildTime" destination="bC6-TB-98t" id="xOl-Mx-1Ye"/>
                                             <outlet property="favoriteCount" destination="L5N-3c-9kK" id="w0X-Fe-jRD"/>
                                             <outlet property="introduction" destination="8tt-zn-O0N" id="99g-x2-eak"/>
                                             <outlet property="likeButton" destination="B19-3N-WTK" id="SBm-E5-1yq"/>
                                             <outlet property="postImage" destination="RFM-j9-Z02" id="9aN-0c-FBa"/>
-                                            <outlet property="postTime" destination="bC6-TB-98t" id="c7B-NE-Bpn"/>
                                             <outlet property="subTitle" destination="Mpb-e4-ylV" id="E4x-el-G5X"/>
                                             <outlet property="viewsCount" destination="Kpj-vu-Yme" id="lia-WE-CcX"/>
                                             <segue destination="OrE-TX-3Kg" kind="show" identifier="myPostDetail" id="DaX-XR-6cP"/>
@@ -3273,7 +3265,7 @@ hJvlnLDnkIPnmoTmlrDnlJ/mtLvjgIIKCkRvbmF0ZSBpdCwgcmV1c2UgaXQsIGxpdmUgaXQhA
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="gz7-lA-ee2"/>
-        <segue reference="dEO-Mi-dQG"/>
+        <segue reference="Rve-LJ-wmy"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.70588235294117641" green="0.70980392156862748" blue="0.70980392156862748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>

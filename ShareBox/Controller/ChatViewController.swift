@@ -60,13 +60,11 @@ class ChatViewController: MessagesViewController,MessagesDataSource,MessagesLayo
         
         //         self.messages.append(Message(sender: self.currentUser, messageId: "1", sentDate: Date(), kind: .text("eqwe")))
 //        self.db.collection("user").document(myUID!).collection("Messages").document(otherNickName).collection("Message").whereField("time", isGreaterThan: CoredataShareMessage.share.data.last?.time ?? "2000:08:03 00:57:49").order(by: "time",descending: false).limit(to: 20) .addSnapshotListener {
-        self.db.collection("user").document(myUID!).collection("Messages").document(otherNickName).collection("Message").getDocuments(source: .cache) { (query, error) in
+        self.db.collection("user").document(myUID!).collection("Messages").document(otherNickName).collection("Message").getDocuments{ (query, error) in
              
 //                   (query, error) in
             
                     if  let error = error {  print("Error:\(error)");  return   }
-            
-                   print(CoredataShareMessage.share.data.last?.time )
                                 guard let documentChange = query?.documentChanges else {return}
                      
                                 for change in documentChange{
@@ -169,11 +167,7 @@ class ChatViewController: MessagesViewController,MessagesDataSource,MessagesLayo
     return messages.count
     
  }
-     
-//
-    
-    
-    
+ 
     let db = Firestore.firestore()
     
     
@@ -242,11 +236,13 @@ class ChatViewController: MessagesViewController,MessagesDataSource,MessagesLayo
         print("offset\(offsetY)")
         print("ContetHeigh\(ContetHeigh)")
            print("framsize\(framsize)")
+        
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         print(indexPath.section)
+        
     }
     
 }

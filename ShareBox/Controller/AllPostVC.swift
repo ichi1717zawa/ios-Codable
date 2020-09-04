@@ -51,19 +51,25 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     var AlertMessage:String!
     var refreshControl:UIRefreshControl!
     var lastTime : String?
-    var uploadButtonTopAnchor : NSLayoutConstraint!
+    var fetchOldButtonTopAnchor : NSLayoutConstraint!
+    var fetchNewButtonTopAnchor : NSLayoutConstraint!
     
-    var uploadButton : UIButton! = UIButton()
-    
-  
+    var fetchNewButton : UIButton! = UIButton()
+    var fetchOldButton : UIButton! = UIButton()
+    var refreshCOntrol:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       refreshControl = UIRefreshControl()
+        
+        self.tableview.tableFooterView?.addSubview(refreshControl)
+        
         print("登入時的帳號\(Auth.auth().currentUser?.uid)")
         selectCategoryLabel.text = ""
         queryFirestore()
         queryfavoriteCounts()
          
-        self.view.addSubview(uploadButton)
+        self.view.addSubview(fetchNewButton)
          
     }
     
@@ -91,6 +97,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     }
      //MARK: -> cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(indexPath.row)
         getCatcheFaforiteList(myUID: "\(Auth.auth().currentUser?.uid ?? "N/A")") { (data) in
             print(data)
         }
@@ -342,7 +349,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
  //MARK: -> queryFirestore 獲取資料
   func queryFirestore(){
     
-    let myref =  db.collection("userPost").order(by: "timeStamp",descending: true ).limit(to: 5).getDocuments { (query, error) in
+    let myref =  db.collection("userPost").order(by: "timeStamp",descending: true ).limit(to: 10).getDocuments { (query, error) in
         if let error = error{  print("query Faild\(error)");  return  }
         
         guard let myquest = query else {return}
@@ -351,11 +358,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
 
                 guard let documentChange = query?.documentChanges else {return}
-                let qwe =   documentChange.map {$0
-        
-                    
-        }
-        
         
                 for change in documentChange{
                   
@@ -364,40 +366,8 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                     self.updateCount(documentID: documentID)
                     self.updateFavoriteCount(documentID: documentID)
                     
-//                  let e = change.document.data().keys
-//                    e.map{$0 as! String
-//                        if $0 == "postUUID"{
-//                            print("存在")
-//                        }else{
-//                            print("不存在")
-//                        }
-//                    }
-                    
-                    
                     if change.type == .added{
-                        
                     let postdetail = allPostModel.QueryData(Document: change)
-                        
-//                    let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-//                    likeImage: UIImage(named: "pointRed")!,
-//                    buildTime: change.document.data()["postTime"] as? String ?? "N/A",
-//                    subTitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
-//                    Title: change.document.data()["postCategory"] as? String ?? "N/A",
-//                    postGoogleName: change.document.data()["googleName"] as? String ?? "N/A",
-//                    postNickName: change.document.data()["Name"]as? String ?? "N/A",
-//                    postUUID: change.document.data()["postUUID"] as? String ?? "N/A" ,
-//                    postTime: change.document.data()["postTime"] as? String ?? "N/A",
-//                    viewsCount: change.document.data()["viewsCount"] as? Int ?? 0,
-//                    productName:change.document.data()["productName"] as? String ?? "N/A",
-//                    userLocation: change.document.data()["userLocation"] as? String ?? "N/A",
-//                    userShortLocation:change.document.data()["userShortLocation"] as? String ?? "N/A",
-//                    favoriteCount: change.document.data()["favoriteCounts"] as? Int ?? 0,
-//                    mainCategory:change.document.data()["mainCategory"] as? String ?? "N/A",
-//                    subCategory: change.document.data()["postCategory"] as? String ?? "N/A",
-//                    posterUID: change.document.data()["posterUID"] as? String ?? "N/A",
-//                    longPostTime: change.document.data()["longPostTime"] as? String ?? "N/A")
-                        
-                     
 //let annotation = AnnotationDetail(title: change.document.data()["postCategory"] as? String ?? "N/A",
 //Subtitle: change.document.data()["postIntroduction"] as? String ?? "N/A",
 //coordinate: annotationCoordinate,
@@ -408,13 +378,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 //googleName: change.document.data()["googleName"] as? String ?? "N/A",
 //postUUID: change.document.data()["postUUID"] as? String ?? "N/A")
 // self.mapKitView.addAnnotation(annotation)
-                         
                         self.data.append(postdetail)
 //                        self.data.insert(postdetail, at: 0)
                         self.getfavoriteListName()
-//                            let indexPath = IndexPath(row: 0, section: 0)
-//                             self.tableview.insertRows(at: [indexPath], with: .left)
-//                        self.tableview.reloadRows(at: [indexPath], with: .automatic)
                         self.tableview.reloadData()
                       
                     }else if change.type == .modified{ //修改
@@ -427,127 +393,57 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                             if let index = self.data.firstIndex(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
-//                            self.tableview.reloadData()
-                            }
-                        }
-                    }
+                            }}}
                     else if change.type == .removed{ //刪除
                         
                         if let perPost = self.data.filter({ (perPost) -> Bool in
                             perPost.postUUID == documentID
                         }).first{
-//                            self.updateFavoriteCount(documentID: perPost.postUUID)
-//                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
-//                            note.imageName = change.document.data()["imageName"] as? String
                             if let index = self.data.firstIndex(of: perPost){
                                 let indexPath = IndexPath(row: index, section: 0)
-//                                self.mapKitView.annotations[indexPath.row]
-//                                self.data[indexPath.row]
-//                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
                                 self.data.remove(at: indexPath.row)
                                 self.tableview.deleteRows(at: [indexPath], with: .fade)
-//                                self.tableview.reloadData()
-                                //
-                                
-                            }
-                        }
-                    }
-                   
-                  
-                }
-//        self.tableview.reloadData()
-         
+                            } } }
+                   }
         self.lastTime =  self.data.first?.longPostTime
         self.listenerToCheckNewPost()
-        
-          print("longtime\(self.data.first?.longPostTime)")
              }
-//    self.listener = myref
-//    detachListener(myref: myref)
-//     myref.remove()
-//      self.detachListener(myref: myref)
-      
     }
     
  
     //MARK: -> queryfavoriteCounts 計算追蹤人數
-      func queryfavoriteCounts(){
-                db.collection("userPost").addSnapshotListener { (query, error) in
-                    if let error = error{
-                        print("query Faild\(error)")
-                    }
-                    guard let query = query else {return}
-                    for i in query.documents{
-                        let doucumentID = i.documentID
-                        self.db.collection("userPost").document(doucumentID).collection("favoriteCounts").addSnapshotListener { (data, error) in
-                            guard let data = data else {return}
-                           
-                            for ii in data.documentChanges{
-                                let documentID = ii.document.documentID
-                                if ii.type == .removed{
-                                    if let perPost = self.data.filter({ (perPost) -> Bool in
-                                                                perPost.postUUID == documentID
-                                                            }).first{
-                                    //                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
-                                                                self.updateFavoriteCount(documentID: perPost.postUUID)
-                                                                //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
-                                                                //                            note.imageName = change.document.data()["imageName"] as? String
-                                        if self.data.firstIndex(of: perPost) != nil{
-//                                                                    let indexPath = IndexPath(row: index, section: 0)
-                                    //                                self.mapKitView.annotations[indexPath.row]
-                                    //                                self.data[indexPath.row]
-                                    //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
-//                                                                    self.data.remove(at: indexPath.row)
-                                                                    self.tableview.reloadData()
-                                                                    //
-                                                                    
-                                                                }
-                                                            }
-                                }
-                                
-                            }
-                    }
-                    
-//                        else if change.type == .modified{ //修改
-//                            if let perPost = self.data.filter({ (perPost) -> Bool in
-//                                perPost.postUUID == documentID
-//                            }).first{
-//                                perPost.viewsCount = change.document.data()["viewsCount"] as! Int
-//                                perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
-//    //                            note.imageName = change.document.data()["imageName"] as? String
-//    //                            if let index = self.data.index(of: perPost){
-//    //                                let indexPath = IndexPath(row: index, section: 0)
-//    //                                self.tableview.reloadRows(at: [indexPath], with: .fade)
-//                                self.tableview.reloadData()
-//    //                            }
-//                            }
-//
-//                        }
-//                        else if change.type == .removed{ //刪除
-//
-//                            if let perPost = self.data.filter({ (perPost) -> Bool in
-//                                perPost.postUUID == documentID
-//                            }).first{
-//    //                            perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
-//                                self.updateFavoriteCount(documentID: perPost.postUUID)
-//                                //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
-//                                //                            note.imageName = change.document.data()["imageName"] as? String
-//                                if let index = self.data.index(of: perPost){
-//                                    let indexPath = IndexPath(row: index, section: 0)
-//    //                                self.mapKitView.annotations[indexPath.row]
-//    //                                self.data[indexPath.row]
-//    //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
-//                                    self.data.remove(at: indexPath.row)
-//                                    self.tableview.reloadData()
-//                                    //
-//
-//                                }
-//                            }
-//                        }
-                    }
-                    
+    func queryfavoriteCounts(){
+        db.collection("userPost").addSnapshotListener { (query, error) in
+            if let error = error{
+                print("query Faild\(error)")
             }
-        }
+            guard let query = query else {return}
+            for i in query.documents{
+                let doucumentID = i.documentID
+                self.db.collection("userPost").document(doucumentID).collection("favoriteCounts").addSnapshotListener { (data, error) in
+                    guard let data = data else {return}
+                    
+                    for ii in data.documentChanges{
+                        let documentID = ii.document.documentID
+                        if ii.type == .removed{
+                            if let perPost = self.data.filter({ (perPost) -> Bool in
+                                perPost.postUUID == documentID
+                            }).first{
+                                //perPost.favoriteCount = change.document.data()["favoriteCounts"] as! Int
+                                self.updateFavoriteCount(documentID: perPost.postUUID)
+                                //perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
+                                //note.imageName = change.document.data()["imageName"] as? String
+                                if self.data.firstIndex(of: perPost) != nil{
+                                //let indexPath = IndexPath(row: index, section: 0)
+                                //self.mapKitView.annotations[indexPath.row]
+                                //self.data[indexPath.row]
+                                //self.tableview.reloadRows(at: [indexPath], with: .fade)
+                                //self.data.remove(at: indexPath.row)
+                                    self.tableview.reloadData()
+                                  
+                                } } } } } } } }
+    
+    
     func CountViews (){
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
@@ -562,7 +458,6 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                         let data = self.data[indexPath.row]
                         detailVcByCell.data = data
                     }
-                   
                   }
                  if segue.identifier == "tappMapByAllpostButton"{
                      let  MapData = segue.destination as! MapVC
@@ -611,15 +506,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
             self.hidenTopItem.alpha = 1
             self.tableviewTopAnchor.constant =  0
             self.tableview.frame.origin.y = self.hidenTopItem.frame.maxY
-             
-             
         }
-        
     }
     
-    
-//    @IBOutlet weak var tableViewTopAncorLine: NSLayoutConstraint!
-  
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
            return true
@@ -684,18 +573,57 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-       
-    }
+ 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         backToTopBTN.alpha = 0
+        
         let offsetY = scrollView.contentOffset.y
-        print("offsetY\(offsetY)")
         let contetHeight = scrollView.contentSize.height
-        print("ContentsHeight\(contetHeight)")
-        print("scrollviewSizeHeight\(scrollView.frame.size.height)")
-        print(scrollView.contentSize.height - scrollView.frame.size.height * 2)
+        let scrollviewSizeHeight = scrollView.frame.size.height
+//        print("offsetY\(offsetY)")
+//        print("ContentsHeight\(contetHeight)")
+//        print("scrollviewSizeHeight\(scrollviewSizeHeight)")
+        if contetHeight > scrollviewSizeHeight &&  offsetY   >= contetHeight - scrollviewSizeHeight {
+             print("符合條件")
+            checkFetchOldDataExist()
+//            nextPageData()
+        }else  if offsetY < contetHeight - scrollviewSizeHeight {
+            if fetchOldButtonTopAnchor != nil {
+//                self.fetchOldButtonTopAnchor.constant = 100
+                 checkFetchOldDataExist()
+                 self.fetchOldButton.alpha = 0
+            }
+        }
     }
+    
+    func checkFetchOldDataExist(){
+      if self.fetchOldButton.titleLabel?.text == "查看更多資料" {
+         self.fetchOldButton.alpha = 1
+          return
+      }else{
+          self.createFetchButton()
+      }
+    }
+    
+    
+    func createFetchButton(){
+                           self.fetchOldButton.alpha = 1
+                           self.fetchOldButton.translatesAutoresizingMaskIntoConstraints = false
+                            view.addSubview(self.fetchOldButton)
+                           self.fetchOldButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+                           self.fetchOldButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+               //           self.fetchDataButton.leadingAnchor.constraint(equalTo: super.view.leadingAnchor,constant: 0).isActive = true
+               //           self.fetchDataButton.trailingAnchor.constraint(equalTo: super.view.trailingAnchor,constant: 0).isActive = true
+                           self.fetchOldButton.layer.cornerRadius = 10
+                           fetchOldButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                           self.fetchOldButtonTopAnchor =  self.fetchOldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
+                          self.fetchOldButtonTopAnchor.isActive = true
+                          self.fetchOldButton.backgroundColor = .red
+                          self.fetchOldButton.setTitle("查看更多資料", for: .normal)
+                           self.fetchOldButton.setTitleColor(.white, for: .normal)
+                           self.fetchOldButton.addTarget(self, action: #selector(nextPageData), for: .touchUpInside)
+           }
+     
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let firstIndex = firstIndex {
@@ -738,10 +666,10 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     
     @IBAction func deleteUser(_ sender: Any) {
        let user = Auth.auth().currentUser
-
         user?.delete { error in
           if let error = error {
-            // An error happened.
+            print("deleteUser：\(error.localizedDescription)")
+            return
           } else {
             // Account deleted.
             print("帳號已經刪除嘗試google登入 ")
@@ -750,58 +678,41 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         }
     }
     
-    
-    @IBAction func newBatch(_ sender: Any) {
-         listener?.remove()
-        db.collection("userPost").order(by: "timeStamp",descending: true).limit(to: 5).start(afterDocument: self.lastDocument!).getDocuments { (query, error) in
- 
-                 if let error = error{ print("query Faild\(error)")  }
-                 guard let myquest = query else {return}
-            
-                 if let querylast = myquest.documents.last{
-                     self.lastDocument = querylast
-                 }
-            
-//             guard let documentChange = query?.documentChanges else {return}
-            guard let documentChange = query?.documentChanges else {return}
-            for change in documentChange{
-             
-                            //處理每一筆更新
-                let documentID = change.document.documentID
-                             self.updateCount(documentID: documentID)
-                            self.updateFavoriteCount(documentID: documentID)
-                if change.type == .added{
-                     let postdetail = allPostModel.QueryData(Document: change)
-//                           let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
-//                            likeImage: UIImage(named: "pointRed")!,
-//                            buildTime: change.data()["postTime"] as? String ?? "N/A",
-//                            subTitle: change.data()["postIntroduction"] as? String ?? "N/A",
-//                            Title: change.data()["postCategory"] as? String ?? "N/A",
-//                            postGoogleName: change.data()["googleName"] as? String ?? "N/A",
-//                            postNickName: change.data()["Name"]as? String ?? "N/A",
-//                            postUUID: change.data()["postUUID"] as? String ?? "N/A" ,
-//                            postTime: change.data()["postTime"] as? String ?? "N/A",
-//                            viewsCount: change.data()["viewsCount"] as? Int ?? 0,
-//                            productName:change.data()["productName"] as? String ?? "N/A",
-//                            userLocation: change.data()["userLocation"] as? String ?? "N/A",
-//                            userShortLocation:change.data()["userShortLocation"] as? String ?? "N/A",
-//                            favoriteCount: change.data()["favoriteCounts"] as? Int ?? 0,
-//                            mainCategory:change.data()["mainCategory"] as? String ?? "N/A",
-//                            subCategory: change.data()["postCategory"] as? String ?? "N/A",
-//                            posterUID: change.data()["posterUID"] as? String ?? "N/A",
-//                            longPostTime: change.data()["longPostTime"] as? String ?? "N/A")
-//                                    self.data.insert(postdetail, at: 0)
-                                self.data.append(postdetail)
-                                self.getfavoriteListName()
-                                self.tableview.reloadData()
-                }
-            }
-        }
+    @objc func nextPageData(){
+        
+           listener?.remove()
+                db.collection("userPost").order(by: "timeStamp",descending: true).limit(to: 5).start(afterDocument: self.lastDocument!).getDocuments { (query, error) in
+                    
+                         if let error = error{ print("query Faild\(error)")  }
+                         guard let myquest = query else {return}
+                         if let querylast = myquest.documents.last{
+                             self.lastDocument = querylast
+                         }
+                    
+        //             guard let documentChange = query?.documentChanges else {return}
+                    guard let documentChange = query?.documentChanges else {return}
+                    for change in documentChange{
+                     
+                                    //處理每一筆更新
+                        let documentID = change.document.documentID
+                                     self.updateCount(documentID: documentID)
+                                    self.updateFavoriteCount(documentID: documentID)
+                        if change.type == .added{
+                             let postdetail = allPostModel.QueryData(Document: change)
+                                        self.data.append(postdetail)
+                                        self.getfavoriteListName()
+                                        self.tableview.reloadData()
+                            
+                        } } }
     }
     
+    
+    
+  
+    
+    
+    
     func listenerToCheckNewPost(){
-        
-         
         db.collection("userPost").whereField("longPostTime", isGreaterThan: lastTime!).addSnapshotListener { (query, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -812,22 +723,21 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
 
 //            self.clickButtonRefreshData()
             self.checkUploadButtonExsit()
-            
         }
-       
     }
+    
     
     
     @objc func uploadNewPost(){
         moveRefreshButtonPostion(hiden: true)
-        print(lastTime)
+        
          db.collection("userPost").whereField("longPostTime", isGreaterThan: lastTime).getDocuments { (query, error) in
             if let error = error {
                 print(error.localizedDescription)
+                return
             }
             guard let query = query?.documentChanges else {return}
             for change in query {
-               
                 let documentID = change.document.documentID
                 self.updateCount(documentID: documentID)
                 self.updateFavoriteCount(documentID: documentID)
@@ -839,40 +749,42 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.tableview.insertRows(at: [indexPath], with: .left)
                 self.lastTime = self.data.first?.longPostTime
-                                                        
-            }
-        }
+                
+                
+            } }
+        
+        
     }
     
     
     func checkUploadButtonExsit(){
-        if self.uploadButton.titleLabel?.text == "更新最新資料" {
+        if self.fetchNewButton.titleLabel?.text == "更新最新資料" {
             return
         }else{
             self.clickButtonRefreshData()
         }
-        
-    }
+      }
+    
     
     func clickButtonRefreshData(){
        
-        self.uploadButton.translatesAutoresizingMaskIntoConstraints = false
-        self.uploadButton.layer.cornerRadius = 10
-        self.uploadButton.setTitle("更新最新資料", for: .normal)
-        self.uploadButton.setTitleColor(.white, for: .normal)
-        self.uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        self.uploadButtonTopAnchor = self.uploadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        uploadButtonTopAnchor.isActive = true
-        self.uploadButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        self.uploadButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.fetchNewButton.translatesAutoresizingMaskIntoConstraints = false
+        self.fetchNewButton.layer.cornerRadius = 10
+        self.fetchNewButton.setTitle("更新最新資料", for: .normal)
+        self.fetchNewButton.setTitleColor(.white, for: .normal)
+        self.fetchNewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.fetchNewButtonTopAnchor = self.fetchNewButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        fetchNewButtonTopAnchor.isActive = true
+        self.fetchNewButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.fetchNewButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        self.uploadButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        self.uploadButton.titleLabel?.baselineAdjustment = .alignCenters
-        self.uploadButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.uploadButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        self.uploadButton.backgroundColor = #colorLiteral(red: 0.5414773226, green: 0.5835128427, blue: 0.7766371369, alpha: 1)
+        self.fetchNewButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        self.fetchNewButton.titleLabel?.baselineAdjustment = .alignCenters
+        self.fetchNewButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.fetchNewButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        self.fetchNewButton.backgroundColor = #colorLiteral(red: 0.5414773226, green: 0.5835128427, blue: 0.7766371369, alpha: 1)
          
-        addShadow(Button: self.uploadButton).addTarget(self, action: #selector(uploadNewPost), for: .touchUpInside)
+        addShadow(Button: self.fetchNewButton).addTarget(self, action: #selector(uploadNewPost), for: .touchUpInside)
  
         
     }
@@ -883,7 +795,7 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
         Button.layer.shadowOffset = CGSize(width: 10, height: 10)
         Button.layer.shadowRadius = 4
         Button.layer.shadowOpacity = 0.5
-        moveRefreshButtonPostion(hiden: false)
+//        moveRefreshButtonPostion(hiden: false)
         return Button
         
     }
@@ -891,17 +803,16 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
     @objc func moveRefreshButtonPostion(hiden:Bool){
         
         if hiden{
-            
             UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.uploadButtonTopAnchor.constant = -100
+                self.fetchNewButtonTopAnchor.constant = -100
                 self.view.layoutIfNeeded()
-                self.uploadButtonTopAnchor.isActive = false
-                self.uploadButton.setTitle("  ", for: .normal)
+                self.fetchNewButtonTopAnchor.isActive = false
+                self.fetchNewButton.setTitle("  ", for: .normal)
             }, completion: nil)
             
         }else{
             UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.uploadButtonTopAnchor.constant = 100
+                self.fetchNewButtonTopAnchor.constant = 100
                           self.view.layoutIfNeeded()
               }, completion: nil)
             
@@ -919,12 +830,9 @@ class allPostVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UIS
                 print(i.documentID)
                 self.db.collection("userPost").document(i.documentID).delete()
             }
-            
-            
-            
-        }
-    }
+              } }
     
     //MARK: -> 尾巴
+
 }
 

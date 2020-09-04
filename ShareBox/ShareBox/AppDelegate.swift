@@ -51,6 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("離開背景")
+        
+        
     }
  
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -70,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
         ApplicationDelegate.shared.application( application, didFinishLaunchingWithOptions: launchOptions )
         print(NSHomeDirectory())
         FirebaseApp.configure()
-        application.registerForRemoteNotifications() 
+        application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
        
@@ -108,10 +110,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert,.sound,.badge])
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-      print("註冊失敗")
+        print("註冊失敗\(error.localizedDescription)")
         
     }
     

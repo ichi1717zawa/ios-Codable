@@ -253,95 +253,23 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                             //                                self.mapKitView.reloadInputViews()
                             //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
                             
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-        }
-        
-        //              }
-        
-        
-        //監聽資料庫若有異動 通知app修改資料
-        //        func queryFirestoreqq(){
-        //            db.collection("userPost").addSnapshotListener { (query, error) in
-        //                if let error = error{
-        //                    print("query Faild\(error)")
-        //                }
-        //
-        //                guard let documentChange = query?.documentChanges else {return}
-        //                for change in documentChange{
-        //                    //處理每一筆更新
-        //                    let noteID = change.document.documentID //這裡的documentID 是noteID
-        //                    if change.type == .added{
-        //
-        //    //                    if let existNote = self.data.filter { (note) -> Bool in
-        //    //                        note.noteID == noteID
-        //    //                    }.first{
-        //    //                        return
-        //    //                    }  無法過濾，因為新增到雲端時 資料庫的狀態是空的無法判斷
-        //                        //新增
-        //                        let PostInformation = PostInfomation(context: CoredataSharePost.share.myContextPost)
-        //                        PostInformation.postCategory = change.document.data()["postCategory"] as? String ?? "玩具"
-        //                        PostInformation.nickname = change.document.data()["nickName"] as? String ?? ""
-        //                        PostInformation.postID = noteID
-        ////                        self.data.insert(note, at: 0)
-        ////                        let indexPath = IndexPath(row: 0, section: 0)
-        ////                        self.tableView.insertRows(at: [indexPath], with: .automatic)
-        //                    }
-        //                }
-        //            }
-        //    }
-        //
-        //                    else if change.type == .modified{ //修改
-        //                        if let note = self.data.filter({ (note) -> Bool in
-        //                             note.noteID == noteID
-        //                            }).first{
-        //                                note.text = change.document.data()["text"] as? String
-        //                                note.imageName = change.document.data()["imageName"] as? String
-        //                            if let index = self.data.index(of: note){
-        //                                let indexPath = IndexPath(row: index, section: 0)
-        //                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-        //                                }
-        //                            }
-        //
-        //                    }
-        //                    else if change.type == .removed{//刪除
-        //                        if let note = self.data.filter({ (note) -> Bool in
-        //                            note.noteID == noteID
-        //                        }).first{
-        //                            if let index = self.data.index(of: note){
-        //                                self.data.remove(at: index)//從data中移除
-        //                                //通知tableView刪除該筆
-        //                                let indexPath = IndexPath(row: index, section: 0)
-        //                                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //
-        //
-        //        }
-        //MARK: -> 尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴尾巴
+                        } } } } }
+    
+      
     }
     
     func queryALLFirestore(){
         db.collection("userPost").addSnapshotListener { (query, error) in
             if let error = error{
-                print("query Faild\(error)")
+                print("Map query Faild\(error)")
+                return
             }
-            
-            
-            
             
             guard let documentChange = query?.documentChanges else {return}
             for change in documentChange{
                 let documentID = change.document.documentID
                 //處理每一筆更新
+                
                 if change.type == .added{
                     
                     let userLocation =  change.document.data()["userLocation"] as? String ?? " "
@@ -349,7 +277,8 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                     geoLocation.geocodeAddressString(userLocation
                     ) { (placemarks, error) in
                         if let error = error{
-                            print(error)
+                            print(error.localizedDescription)
+                            return
                         }
                         
                         guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
@@ -378,7 +307,7 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                         self.mapKitView.addAnnotation(annotation)
                         self.data.append(annotation)
                         
-                        //                                   self.moveRegion(coodinate: cordinate)
+                        //  self.moveRegion(coodinate: cordinate)
                     }
                 }
                 else if change.type == .removed{ //刪除
@@ -393,82 +322,12 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                             //                                self.mapKitView.reloadInputViews()
                             //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
                             
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-        }
-        
-        
-        //              }
-        
-        
-        //監聽資料庫若有異動 通知app修改資料
-        //        func queryFirestoreqq(){
-        //            db.collection("userPost").addSnapshotListener { (query, error) in
-        //                if let error = error{
-        //                    print("query Faild\(error)")
-        //                }
-        //
-        //                guard let documentChange = query?.documentChanges else {return}
-        //                for change in documentChange{
-        //                    //處理每一筆更新
-        //                    let noteID = change.document.documentID //這裡的documentID 是noteID
-        //                    if change.type == .added{
-        //
-        //    //                    if let existNote = self.data.filter { (note) -> Bool in
-        //    //                        note.noteID == noteID
-        //    //                    }.first{
-        //    //                        return
-        //    //                    }  無法過濾，因為新增到雲端時 資料庫的狀態是空的無法判斷
-        //                        //新增
-        //                        let PostInformation = PostInfomation(context: CoredataSharePost.share.myContextPost)
-        //                        PostInformation.postCategory = change.document.data()["postCategory"] as? String ?? "玩具"
-        //                        PostInformation.nickname = change.document.data()["nickName"] as? String ?? ""
-        //                        PostInformation.postID = noteID
-        ////                        self.data.insert(note, at: 0)
-        ////                        let indexPath = IndexPath(row: 0, section: 0)
-        ////                        self.tableView.insertRows(at: [indexPath], with: .automatic)
-        //                    }
-        //                }
-        //            }
-        //    }
-        //
-        //                    else if change.type == .modified{ //修改
-        //                        if let note = self.data.filter({ (note) -> Bool in
-        //                             note.noteID == noteID
-        //                            }).first{
-        //                                note.text = change.document.data()["text"] as? String
-        //                                note.imageName = change.document.data()["imageName"] as? String
-        //                            if let index = self.data.index(of: note){
-        //                                let indexPath = IndexPath(row: index, section: 0)
-        //                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-        //                                }
-        //                            }
-        //
-        //                    }
-        //                    else if change.type == .removed{//刪除
-        //                        if let note = self.data.filter({ (note) -> Bool in
-        //                            note.noteID == noteID
-        //                        }).first{
-        //                            if let index = self.data.index(of: note){
-        //                                self.data.remove(at: index)//從data中移除
-        //                                //通知tableView刪除該筆
-        //                                let indexPath = IndexPath(row: index, section: 0)
-        //                                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //
-        //
-        //        }
+                        }} } } }
+ 
         
     }
+    
+    
     @IBAction func BackToRootView(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }

@@ -14,7 +14,7 @@ class newScrollview: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var myscrollview: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
- mypageCL.numberOfPages = 3
+        mypageCL.numberOfPages = 3
         myscrollview.delegate = self
         mypageCL.currentPageIndicatorTintColor = .orange
         // Do any additional setup after loading the view.

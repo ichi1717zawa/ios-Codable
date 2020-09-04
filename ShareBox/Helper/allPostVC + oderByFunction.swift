@@ -44,6 +44,7 @@ extension allPostVC {
     }
     func queryData(by oderby:String){
         animate()
+        
 //        db.collection("userPost").order(by: oderby).addSnapshotListener { (query, error) in
             db.collection("userPost").order(by: oderby).getDocuments(source: .cache){ (query, error) in
               
