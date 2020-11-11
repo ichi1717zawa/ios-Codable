@@ -9,7 +9,7 @@
 import UIKit
 
 class TabbarVC: UITabBarController {
-
+    
     @IBOutlet weak var userInfo: UIBarButtonItem!
     
     
@@ -17,12 +17,12 @@ class TabbarVC: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         self.view.backgroundColor = .white
         
         
     }
     
- 
+    
 }

@@ -23,6 +23,7 @@
 		FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */; };
 		FA521F56248D2D48002C68D4 /* MyPostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */; };
 		FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA52A8EB24AE0836007D6AA9 /* testFile.swift */; };
+		FA55B25125547DFE005056AD /* fetchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55B25025547DFE005056AD /* fetchData.swift */; };
 		FA61181924A6399D00C1FC10 /* Icon-76@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA61181824A6399C00C1FC10 /* Icon-76@3x.png */; };
 		FA6641BB247E4415003D121C /* AboutMeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6641BA247E4415003D121C /* AboutMeVC.swift */; };
 		FA66AD0B246E306A00C9F31F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66AD0A246E306A00C9F31F /* AppDelegate.swift */; };
@@ -72,6 +73,7 @@
 		FAEDBB00247EB49200B6A716 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBAFF247EB49200B6A716 /* PostVC.swift */; };
 		FAEDBB02247EBD5200B6A716 /* postInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB01247EBD5200B6A716 /* postInfo.swift */; };
 		FAEDBB04247EC4CE00B6A716 /* CoreataSharePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */; };
+		FAF6472C2558760700FBD430 /* myUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF6472B2558760700FBD430 /* myUserInfo.swift */; };
 		FAF8F79A24B4C5B80063B509 /* newScrollview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF8F79924B4C5B80063B509 /* newScrollview.swift */; };
 		FAFC405624BE663400A8D0FF /* myview.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC405524BE663400A8D0FF /* myview.swift */; };
 /* End PBXBuildFile section */
@@ -95,6 +97,7 @@
 		FA521F51248D2742002C68D4 /* MyPostDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostDetailCell.swift; sourceTree = "<group>"; };
 		FA521F55248D2D48002C68D4 /* MyPostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostDetailVC.swift; sourceTree = "<group>"; };
 		FA52A8EB24AE0836007D6AA9 /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
+		FA55B25025547DFE005056AD /* fetchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchData.swift; sourceTree = "<group>"; };
 		FA61181824A6399C00C1FC10 /* Icon-76@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@3x.png"; sourceTree = "<group>"; };
 		FA6641BA247E4415003D121C /* AboutMeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeVC.swift; sourceTree = "<group>"; };
 		FA66AD07246E306A00C9F31F /* ShareBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +150,7 @@
 		FAEDBAFF247EB49200B6A716 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		FAEDBB01247EBD5200B6A716 /* postInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postInfo.swift; sourceTree = "<group>"; };
 		FAEDBB03247EC4CE00B6A716 /* CoreataSharePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreataSharePost.swift; sourceTree = "<group>"; };
+		FAF6472B2558760700FBD430 /* myUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myUserInfo.swift; sourceTree = "<group>"; };
 		FAF8F79924B4C5B80063B509 /* newScrollview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newScrollview.swift; sourceTree = "<group>"; };
 		FAFC405524BE663400A8D0FF /* myview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -230,6 +234,14 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		FA55B24F25547DDC005056AD /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				FA55B25025547DFE005056AD /* fetchData.swift */,
+			);
+			path = Singleton;
+			sourceTree = "<group>";
+		};
 		FA6641BC247E4700003D121C /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +267,7 @@
 		FA66ACFE246E306A00C9F31F = {
 			isa = PBXGroup;
 			children = (
+				FA55B24F25547DDC005056AD /* Singleton */,
 				FAA03346248FE50F00E157A9 /* Prepare Delete */,
 				FA6641BD247E4DE5003D121C /* Cell */,
 				FA6641BC247E4700003D121C /* CoreData */,
@@ -311,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				FA8FEA0E24BEF5F400EA8F9C /* ChatMessageKit.swift */,
+				FAF6472B2558760700FBD430 /* myUserInfo.swift */,
 				FA961CDC2470285A000F5C59 /* userInfo.swift */,
 				FAD8455424AB76BC00243F0B /* categorytableviewcell.swift */,
 				FA521F4D248CF72C002C68D4 /* allPostModel.swift */,
@@ -477,6 +491,7 @@
 				FA521F52248D2742002C68D4 /* MyPostDetailCell.swift in Sources */,
 				FA0C182524BCE6E10029A9B9 /* mydata.mlmodel in Sources */,
 				FA52A8EC24AE0836007D6AA9 /* testFile.swift in Sources */,
+				FAF6472C2558760700FBD430 /* myUserInfo.swift in Sources */,
 				FAAFBDE524D7323200200583 /* PersistenceService.swift in Sources */,
 				FA521F4C248CF138002C68D4 /* AllPostVC.swift in Sources */,
 				FA521F48248CEE02002C68D4 /* allPostDetail.swift in Sources */,
@@ -520,6 +535,7 @@
 				FA96841D2485E461002301A7 /* ChatTable.swift in Sources */,
 				FAD0AF8C248FA650005A9A91 /* ChatListCustomCell.swift in Sources */,
 				FA7ABAFC2499C7A70033B8DD /* allPostVC + oderByFunction.swift in Sources */,
+				FA55B25125547DFE005056AD /* fetchData.swift in Sources */,
 				FA961CDB246FD2B2000F5C59 /* FIreBaseStore.swift in Sources */,
 				FA8E36E4248A915300A19695 /* PostVC + cloudkit.swift in Sources */,
 				FA874FD024922EC300E22647 /* FavoriteVC.swift in Sources */,
@@ -671,8 +687,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = ShareBox/ShareBox.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S2G445Z96K;
 				INFOPLIST_FILE = ShareBox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -681,7 +697,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = myIphone;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -694,8 +710,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = ShareBox/ShareBox.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S2G445Z96K;
 				INFOPLIST_FILE = ShareBox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -704,7 +720,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ShareBox.OrangeSea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = myIphone;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

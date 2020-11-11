@@ -31,41 +31,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
     
     
     
-      var window: UIWindow?
-     let gcmMessageIDKey = "gcm.Message_id"
-  
-  var user : Any?
+    var window: UIWindow?
+    let gcmMessageIDKey = "gcm.Message_id"
     
-  
+    var user : Any?
+    
+    
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         // Perform any operations when the user disconnects from app here.
         // ...
     }
-           
-          
+    
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-         ApplicationDelegate.shared.application( app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation] )
-                return (GIDSignIn.sharedInstance()?.handle(url))!
-            }
+        ApplicationDelegate.shared.application( app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation] )
+        return (GIDSignIn.sharedInstance()?.handle(url))!
+    }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("離開背景")
         
         
     }
- 
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("進入背景")
     }
- 
-
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let userDefaults = UserDefaults.standard
-
+        
         if !userDefaults.bool(forKey: "hasRunBefore") {
-             userDefaults.set(true, forKey: "hasRunBefore")
+            userDefaults.set(true, forKey: "hasRunBefore")
         }
         
         
@@ -75,27 +75,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-       
-
+        
+        
         if #available(iOS 10.0, *) {
-          // For iOS 10 display notification (sent via APNS)
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, _ in })
-            } else {
-          let settings: UIUserNotificationSettings =
-          UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
-            }
-         UNUserNotificationCenter.current().delegate = self
-         return true
-         
+            // For iOS 10 display notification (sent via APNS)
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        UNUserNotificationCenter.current().delegate = self
+        return true
+        
     }
     
     
     
- 
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         if let messageID = userInfo[gcmMessageIDKey]{
@@ -103,9 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
         }
         completionHandler()
     }
-     
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-   
+        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -134,48 +134,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
         }
     }
     
-     
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("fcmToken\(fcmToken)")
         InstanceID.instanceID().instanceID { (result, error) in
-          if let error = error {
-            print("Error fetching remote instance ID: \(error)")
-             
-          } else if let result = result {
-            print("Remote instance ID token: \(result.token)")
-            self.updateFirestorePushTokenIfNeeded(fcmToken: result.token)
-          }
+            if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+                
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                self.updateFirestorePushTokenIfNeeded(fcmToken: result.token)
+            }
         }
         
-       let dataDict:[String: String] = ["token": fcmToken]
+        let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         
     }
     
     //上傳token到firebase
     func updateFirestorePushTokenIfNeeded(fcmToken:String) {
-             guard let uid =  Auth.auth().currentUser?.uid else {return}
-             Firestore.firestore().collection("user").document(uid).setData(["fcmToken":fcmToken],merge: true)
-            
-     }
-
-     
-
+        guard let uid =  Auth.auth().currentUser?.uid else {return}
+        Firestore.firestore().collection("user").document(uid).setData(["fcmToken":fcmToken],merge: true)
+        
+    }
+    
+    
+    
     // MARK: - Core Data stack
-
+    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
-        */
+         */
         let container = NSPersistentContainer(name: "ShareBox")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
+                
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -189,9 +189,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
         })
         return container
     }()
-
+    
     // MARK: - Core Data Saving support
-
+    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -205,7 +205,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Messag
             }
         }
     }
-
+    
 }
 
- 
+

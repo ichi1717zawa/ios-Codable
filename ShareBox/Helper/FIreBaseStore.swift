@@ -16,14 +16,14 @@ class FIRFirestoreService{
     var a = 0
     private init(){}
     static let shared = FIRFirestoreService()
-   
+    
     
     
     func configure (){
         FirebaseApp.configure()
-        }
+    }
     
-  
+    
     
     
     func create(){
@@ -32,49 +32,49 @@ class FIRFirestoreService{
         let user = GIDSignIn.sharedInstance()?.currentUser?.profile.familyName
         let parameters : [String:Any] = ["name":"測試文件","age":a]
         let userReference = Firestore.firestore().collection("users").document("\(user ?? "")")
-//        userReference.addDocument(data: parameters)
+        //        userReference.addDocument(data: parameters)
         userReference.setData(parameters)
-        }
+    }
     
     func mapcreate(locations:[CLLocation]){
         guard let coodinate = locations.last?.coordinate else {
-                      return
-                  }
+            return
+        }
         let user = GIDSignIn.sharedInstance()?.currentUser?.profile.familyName
         let parameters : [String:Any] = ["name":"\(coodinate.latitude)","age":(coodinate.latitude)]
         let userReference = Firestore.firestore().collection("users").document("\(user ?? "")"  )
         //        userReference.addDocument(data: parameters)
-                userReference.setData(parameters)
+        userReference.setData(parameters)
         
     }
-   
-
-   
+    
+    
+    
     func read( transdata: @escaping (Any) -> Void  ){
         let userReference = Firestore.firestore().collection("users").document("測試文件")
-     
+        
         userReference.addSnapshotListener { (snaphost, error) in
             if let error = error{
-                 print("error\(error)")
+                print("error\(error)")
                 return
             }
             guard let snaphost = snaphost else {return}
             print(snaphost.data()!["name"] ?? "")
             transdata(snaphost.data()!["name"] ?? "")
-              
+            
             
         }
         
     }
     
     func update(){
-    
-         
+        
+        
     }
     func delete(){
-     let userReference = Firestore.firestore().collection("users").document("skyocqk@goamcil.ocom")
+        let userReference = Firestore.firestore().collection("users").document("skyocqk@goamcil.ocom")
         userReference.delete()
     }
     
-     
+    
 }

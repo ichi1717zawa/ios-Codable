@@ -12,7 +12,7 @@ import Firebase
 import GoogleSignIn
 import CloudKit
 class PostDetailVC: UIViewController      {
-  
+    
     var db = Firestore.firestore()
     var annotation : MKAnnotation?
     @IBOutlet weak var maskView: UIView!
@@ -29,10 +29,10 @@ class PostDetailVC: UIViewController      {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()
-//        self.postimage.image = UIImage(named: "photo.fill")
+        //        self.postimage.image = UIImage(named: "photo.fill")
         let receiveAnnotation = annotation as! AnnotationDetail
         let filter: String! = receiveAnnotation.postUUID
-         
+        
         let predicate: NSPredicate = NSPredicate(format: "content = %@", filter)
         let query = CKQuery(recordType: "Note", predicate: predicate)
         
@@ -53,72 +53,72 @@ class PostDetailVC: UIViewController      {
                 }
             }
         }
- 
+        
         CoredataShare.share.loadData()
-//        categoryLabel.text = receiveAnnotation.postCategory ?? "qwe"
+        //        categoryLabel.text = receiveAnnotation.postCategory ?? "qwe"
         categoryLabel.text = receiveAnnotation.title
-//        niceNameLabel.text = receiveAnnotation.nickName ?? "qwe"
-//        userLocationLabel.text = receiveAnnotation.userLocation ?? "qwe"
-//        discriptionLabel.text = receiveAnnotation.postIntroduction ?? "eqwe"
+        //        niceNameLabel.text = receiveAnnotation.nickName ?? "qwe"
+        //        userLocationLabel.text = receiveAnnotation.userLocation ?? "qwe"
+        //        discriptionLabel.text = receiveAnnotation.postIntroduction ?? "eqwe"
         self.receiverAnnotationData = receiveAnnotation
     }
-     
-
+    
+    
     
     @IBAction func sendMessage(_ sender: Any) {
-//        var myNickName :String!
-         print("click sendMessageButton")
-
+        //        var myNickName :String!
+        print("click sendMessageButton")
+        
         
         performSegue(withIdentifier: "personalMessageWithMap", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-          if segue.identifier == "personalMessageWithMap"{
-//              let personalMessage = segue.destination as! chatTable
-//            personalMessage.otherGoogleName = self.receiverAnnotationData?.googleName ?? "N/A"
-//            personalMessage.otherNickName = self.receiverAnnotationData?.nickName ?? "N/A"
-          }
-      }
+        if segue.identifier == "personalMessageWithMap"{
+            //              let personalMessage = segue.destination as! chatTable
+            //            personalMessage.otherGoogleName = self.receiverAnnotationData?.googleName ?? "N/A"
+            //            personalMessage.otherNickName = self.receiverAnnotationData?.nickName ?? "N/A"
+        }
+    }
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-                   //位置的更新需要移動才會回傳
-                       guard let coodinate = locations.last?.coordinate else {
-                           return
-                       }
-                       print("coodinate:\(coodinate.latitude),\(coodinate.longitude)") //經緯度
-    //                print(locations)
-                       //只做一次
+        //位置的更新需要移動才會回傳
+        guard let coodinate = locations.last?.coordinate else {
+            return
+        }
+        print("coodinate:\(coodinate.latitude),\(coodinate.longitude)") //經緯度
+        //                print(locations)
+        //只做一次
         //               DispatchQueue.once(token: "addAnnotation") {
         //                   addAnnotation(coodinate)
         //               }
         //               DispatchQueue.once(token: "moveRegion") {
         //                   moveRegion(coodinate: coodinate)
         //               }
-            //        FIRFirestoreService.shared.mapcreate(locations: locations) //呼叫儲存至Database
-
-
-                   }
+        //        FIRFirestoreService.shared.mapcreate(locations: locations) //呼叫儲存至Database
+        
+        
+    }
     func clearCache(){
-          let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit")
-            let fileManager = FileManager.default
-            do {
-                // Get the directory contents urls (including subfolders urls)
-              let directoryContents = try FileManager.default.contentsOfDirectory( at: cacheURL, includingPropertiesForKeys: nil, options: [])
-                for file in directoryContents {
-                    do {
-                        try fileManager.removeItem(at: file)
-                    }
-                    catch let error as NSError {
-                        debugPrint("Ooops! Something went wrong: \(error)")
-                    }
+        let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("CloudKit")
+        let fileManager = FileManager.default
+        do {
+            // Get the directory contents urls (including subfolders urls)
+            let directoryContents = try FileManager.default.contentsOfDirectory( at: cacheURL, includingPropertiesForKeys: nil, options: [])
+            for file in directoryContents {
+                do {
+                    try fileManager.removeItem(at: file)
                 }
-            } catch let error as NSError {
-                print(error.localizedDescription)
+                catch let error as NSError {
+                    debugPrint("Ooops! Something went wrong: \(error)")
+                }
             }
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
- 
+    }
     
-   
+    
+    
 }

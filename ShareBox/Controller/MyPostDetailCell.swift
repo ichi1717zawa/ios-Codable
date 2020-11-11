@@ -46,7 +46,7 @@
         allPostcell.buildTime.text = data.buildTime
         allPostcell.viewsCount.text = String(data.viewsCount)
         allPostcell.favoriteCount.text = String(data.favoriteCount)
-        allPostcell.introduction.text = data.subTitle
+        allPostcell.introduction.text = data.discription
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(data.postUUID)")
         if FileManager.default.fileExists(atPath: url.path){
             //            let deCompressData = try!  NSData(contentsOf: url).decompressed(using: .lzma)
@@ -109,18 +109,26 @@
         
         
         //  guard let UserEmail = GIDSignIn.sharedInstance()?.currentUser.profile.email else {return}
-        db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid ?? "N/A").getDocuments { (data, error) in
-            guard let data = data else {return}
-            for i in data.documents{
-                self.nickname.text = "\(i.data()["nickName"] ?? "N/A")"
-                self.userPhoneNumber.text = "\(i.data()["phoneNumber"] ?? "N/A")"
-                self.googleGamil.text = "\(i.data()["Gmail"] ?? "N/A")"
-                self.userName.text = ""
-                
-            }
+//        db.collection("user").whereField("uid", isEqualTo: Auth.auth().currentUser?.uid ?? "N/A").getDocuments { (data, error) in
+//            guard let data = data else {return}
+//            for i in data.documents{
+//                self.nickname.text = "\(i.data()["nickName"] ?? "N/A")"
+//                self.userPhoneNumber.text = "\(i.data()["phoneNumber"] ?? "N/A")"
+//                self.googleGamil.text = "\(i.data()["Gmail"] ?? "N/A")"
+//                self.userName.text = ""
+//
+//            }
+//        }
+        fetchData.shared.fetchMyinfo { (myuserinfo) in
+            self.nickname.text = myuserinfo.nickname
+            self.userPhoneNumber.text = myuserinfo.userPhoneNumber
+            self.googleGamil.text = myuserinfo.googleGamil
+            self.userName.text = myuserinfo.userName
         }
-        queryFirestore()
-        queryfavoriteCounts()
+        
+//        queryFirestore()
+        fetchMyPost()
+//        queryfavoriteCounts()
     }
     
     
@@ -137,7 +145,6 @@
             }
         }
     }
-    
     func updateFavoriteCount (documentID:Any){
         self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts").addSnapshotListener { (data, error) in
             if error != nil{
@@ -145,16 +152,17 @@
             }
             for _ in data!.documents{
                 self.db.collection("userPost").document("\(documentID)").updateData(["favoriteCounts":data!.count])
-//                if  self.db.collection("userPost").document("\(documentID)").collection("favoriteCounts") == nil {
-//                    self.db.collection("userPost").document("\(documentID)").setData(["favoriteCounts":0])
-//                }
                 self.tableview.reloadData()
             }
         }
     }
     
+    func fetchMyPost(){
+        fetchData.shared.fetchMyPostData(myuid: myUID) { (data) in
+            self.data = data
+        }  
+    }
     func queryFirestore(){
-        //        guard let myGoogleName = self.myGoogleName else {return}
         self.db.collection("userPost").whereField("posterUID", isEqualTo: myUID!).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -175,7 +183,7 @@
                         let postdetail = allPostModel(categoryImage: UIImage(named: "photo.fill")!,
                                                       likeImage: UIImage(named: "pointRed")!,
                                                       buildTime:  data.data()?["postTime"] as? String ?? "N/A",
-                                                      subTitle: data.data()?["postIntroduction"] as? String ?? "N/A",
+                                                      discription: data.data()?["postIntroduction"] as? String ?? "N/A",
                                                       Title: data.data()?["productName"] as? String ?? "N/A",
                                                       postGoogleName: data.data()?["googleName"] as? String ?? "N/A",
                                                       postNickName: data.data()?["Name"]as? String ?? "N/A",
@@ -191,7 +199,7 @@
                                                       posterUID: data.data()?["posterUID"] as? String ?? "N/A",
                                                       longPostTime: data.data()?["longPostTime"] as? String ?? "N/A")
                         
-//                        self.data.insert(postdetail)
+                        //                        self.data.insert(postdetail)
                         self.data.insert(postdetail, at: 0)
                         self.tableview.reloadData()
                         
@@ -240,9 +248,6 @@
             
         }
     }
-    
-    
-    
     func queryfavoriteCounts(){
         db.collection("userPost").addSnapshotListener { (query, error) in
             if let error = error{
@@ -267,7 +272,7 @@
                                 //                                perAnnotation.viewsCount = change.document.data()["viewsCount"] as! Int
                                 //                            note.imageName = change.document.data()["imageName"] as? String
                                 if self.data.firstIndex(of: perPost) != nil{
-//                                    let indexPath = IndexPath(row: index, section: 0)
+                                    //                                    let indexPath = IndexPath(row: index, section: 0)
                                     //                                self.mapKitView.annotations[indexPath.row]
                                     //                                self.data[indexPath.row]
                                     //                                 self.tableview.reloadRows(at: [indexPath], with: .fade)
@@ -288,20 +293,19 @@
     func CountViews (){
         db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").collection("views").addSnapshotListener { (allviewrs, error) in
             if error != nil{
-                           return
-                       }
+                return
+            }
             self.db.collection("userPost").document("D0E8F59E-940A-49C1-92D0-2CF0FCC6FF17").updateData(["viewsCount":allviewrs?.count ?? 0])
             
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         self.tableview.deselectRow(at: indexPath, animated: false)
+        self.tableview.deselectRow(at: indexPath, animated: false)
         let postUUID = self.data[indexPath.row].postUUID
-//        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
+        //        let myGoogleName = GIDSignIn.sharedInstance()!.currentUser!.profile.name!
         db.collection("userPost").document("\(postUUID)").collection("views").document(myUID).setData(["viww": "view"])
         CountViews()
     }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //
         if segue.identifier == "myPostDetail"{
@@ -315,33 +319,26 @@
             
         }
     }
-    
-    
-    
     func favotireCounts (uuid:String){
         db.collection("userPost").document(uuid).collection("favoriteCounts").addSnapshotListener { (favorite, error) in
             if error != nil{
-                           return
-                       }
+                return
+            }
             self.db.collection("userPost").document(uuid).updateData(["favoriteCounts":favorite?.count ?? 0])
         }
     }
-    
-    
-    
-    
     @IBAction func SignOutButton(_ sender: UIButton) {
         
-      
+        
         let fbLoginManager = LoginManager()
         fbLoginManager.logOut()
         
-//        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
-//
-//        }
-//        let listener1 = self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener  { querySnapshot, error in
-//
-//        }
+        //        let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
+        //
+        //        }
+        //        let listener1 = self.db.collection("user").document(myUID).collection("Messages").addSnapshotListener  { querySnapshot, error in
+        //
+        //        }
         
         let listener = db.collection("userPost").addSnapshotListener { querySnapshot, error in
             let query = querySnapshot!
@@ -352,7 +349,7 @@
         }
         let listener1 =  db.collection("user").addSnapshotListener  { querySnapshot, error in
             
-            }
+        }
         
         listener.remove()
         listener1.remove()
@@ -361,8 +358,8 @@
         try? Auth.auth().signOut()
         
         //         try? Auth.auth().signOut()
-//        self.navigationController?.popToRootViewController(animated: true)
-//        self.navigationController?.popViewController(animated: true)
+        //        self.navigationController?.popToRootViewController(animated: true)
+        //        self.navigationController?.popViewController(animated: true)
         self.navigationController?.navigationController?.popToRootViewController(animated: true)
     }
     

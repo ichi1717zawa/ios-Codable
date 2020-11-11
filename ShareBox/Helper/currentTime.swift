@@ -12,12 +12,12 @@ import Foundation
 class currentTime    {
     static var share = currentTime()
     func time() -> String{
-    let now = Date()
-       
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "MM/dd"
-    let currentTime = dateformatter.string(from: now)
-
-    return currentTime
+        let now = Date()
+        
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "MM/dd"
+        let currentTime = dateformatter.string(from: now)
+        
+        return currentTime
     }
 }

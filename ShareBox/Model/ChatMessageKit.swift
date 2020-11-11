@@ -16,13 +16,13 @@ class ChatMessageKit : NSManagedObject {
     
     @NSManaged  var time : String
     @NSManaged  var type : String
-     @NSManaged  var message : String
+    @NSManaged  var message : String
     @NSManaged  var otherUID : String
     override func awakeFromInsert() {
-     
         
         
-            }
+        
+    }
     
     
     

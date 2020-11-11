@@ -15,37 +15,37 @@ import GoogleSignIn
 class GoogleLogin    {
     
     
-  private init(){}
-  static let share = GoogleLogin()
+    private init(){}
+    static let share = GoogleLogin()
     
     
-      
-        
-        
+    
+    
+    
     func SignIn ( whichViewVC:UIViewController   ){
         
-      
-      GIDSignIn.sharedInstance()?.presentingViewController = whichViewVC
-      GIDSignIn.sharedInstance()?.signIn()
-      
-      
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = whichViewVC
+        GIDSignIn.sharedInstance()?.signIn()
+        
+        
         
     }
     
     func SignOut(whichViewVC:UIViewController,SignOutButton:UIButton){
-         
+        
         GIDSignIn.sharedInstance()?.presentingViewController = whichViewVC
         do
         {
-           try Auth.auth().signOut()
+            try Auth.auth().signOut()
             GIDSignIn.sharedInstance()?.signOut()
-        SignOutButton.alpha = 0
+            SignOutButton.alpha = 0
         }catch{
             assertionFailure("\(error)")
         }
-       
+        
     }
     
     
-  
+    
 }

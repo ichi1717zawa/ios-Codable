@@ -34,7 +34,7 @@ class UserInfomation : NSManagedObject {
         self.userLocation = ""
         self.phoneNumber = ""
         
-            }
+    }
     
     
     

@@ -47,17 +47,15 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
         CoredataSharePost.share.loadData()
         
         if mainCategory == "ALL" {
-            queryALLFirestore()
             categoryImageName = "ALL彩"
+            fetchsomeData(fetchALL: true)
         }else{
-            queryFirestore()
+            fetchsomeData(fetchALL: false)
         }
         transAdressAndMoveThere(Adress: Adress)
         //        mapKitView.delegate = self
         mapKitView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: "\(AnnotationDetail.self)")
-        
         //        addAnnotation()
-        
     }
     func transAdressAndMoveThere(Adress:String){
         let geoLocation = CLGeocoder()
@@ -104,6 +102,9 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
             detailVC.postUUID = self.postUUID
             detailVC.posterUID = self.posterUID
             detailVC.annotation = self.annotation
+            
+            let data = fetchData.shared.fetchSingleData(uuid: self.postUUID!)
+            detailVC.data = data
             
         }
         //        if segue.identifier == "postDetail"{
@@ -155,41 +156,139 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
     }
     
     //MARK: -> addAnnotation
-    //    func addAnnotation( ){
-    //        for i in CoredataSharePost.share.data{
-    //
-    //            let userLocation = i.userLocation
-    //            let geoLocation = CLGeocoder()
-    //            geoLocation.geocodeAddressString(userLocation
-    //            ) { (placemarks, error) in
-    //                if let error = error{
-    //                    print("錯誤\(error)")
-    //                    return
-    //                }
-    //
-    //                guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
-    //                var annotationCoordinate  = cordinate
-    //                annotationCoordinate.latitude += 0.0001
-    //                annotationCoordinate.longitude += 0.0001
-    //                let annotation = AnnotationDetail(title: i.postCategory,
-    //                                                  Subtitle: i.postIntroduction,
-    //                                                  coordinate: annotationCoordinate,
-    //                                                  postIntroduction: i.postIntroduction,
-    //                                                  nickName: i.nickname,
-    //                                                  postCategory: i.postCategory,
-    //                                                  userLocation: i.userLocation,
-    //                                                  googleName: i.googleName, postUUID: i.postUUID,
-    //                                                  postTime: i.postTime,
-    //                                                  viewsCount: i.viewsCount  )
-    //                self.mapKitView.addAnnotation(annotation)
-    ////                self.moveRegion(coodinate: cordinate)
-    //            }
-    //        }
-    //
-    //    }
+    func fetchsomeData(fetchALL category:Bool){
+        var data : [allPostModel] = []
+        if category == true {
+            data = fetchData.shared.data
+        }else{
+            data = fetchData.shared.data.filter{$0.mainCategory == mainCategory}
+        }
+        for i in data{
+            let geoLocation = CLGeocoder()
+            geoLocation.geocodeAddressString(i.userLocation) { (placemarks, error) in
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+                var annotationCoordinate  = cordinate
+                annotationCoordinate.latitude += 0.0001
+                annotationCoordinate.longitude += 0.0001
+                
+                let annotation = AnnotationDetail(title: i.productName,
+                                                  coordinate: annotationCoordinate,
+                                                  postUUID: i.postUUID,
+                                                  mainCategory: i.mainCategory,
+                                                  posterUID: i.posterUID
+                )
+                self.mapKitView.delegate = self
+                self.mapKitView.addAnnotation(annotation)
+                self.data.append(annotation)
+            }
+        }
+    }
     
     
-    func queryFirestore(){
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    func addAnnotation( ){
+//            for i in CoredataSharePost.share.data{
+//
+//                let userLocation = i.userLocation
+//                let geoLocation = CLGeocoder()
+//                geoLocation.geocodeAddressString(userLocation
+//                ) { (placemarks, error) in
+//                    if let error = error{
+//                        print("錯誤\(error)")
+//                        return
+//                    }
+//
+//                    guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+//                    var annotationCoordinate  = cordinate
+//                    annotationCoordinate.latitude += 0.0001
+//                    annotationCoordinate.longitude += 0.0001
+//                    let annotation = AnnotationDetail(title: i.postCategory,
+//                                                      Subtitle: i.postIntroduction,
+//                                                      coordinate: annotationCoordinate,
+//                                                      postIntroduction: i.postIntroduction,
+//                                                      nickName: i.nickname,
+//                                                      postCategory: i.postCategory,
+//                                                      userLocation: i.userLocation,
+//                                                      googleName: i.googleName, postUUID: i.postUUID,
+//                                                      postTime: i.postTime,
+//                                                      viewsCount: i.viewsCount  )
+//                    self.mapKitView.addAnnotation(annotation)
+//    //                self.moveRegion(coodinate: cordinate)
+//                }
+//            }
+    
+        } //備註暫時用不到
+    func fetchAllData(){
+        let data = fetchData.shared.data
+        
+        for i in data{
+            let geoLocation = CLGeocoder()
+            geoLocation.geocodeAddressString(i.userLocation) { (placemarks, error) in
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+                var annotationCoordinate  = cordinate
+                annotationCoordinate.latitude += 0.0001
+                annotationCoordinate.longitude += 0.0001
+                
+                let annotation = AnnotationDetail(title: i.productName,
+                                                  coordinate: annotationCoordinate,
+                                                  postUUID: i.postUUID,
+                                                  mainCategory: i.mainCategory,
+                                                  posterUID: i.posterUID
+                )
+                self.mapKitView.delegate = self
+                self.mapKitView.addAnnotation(annotation)
+                self.data.append(annotation)
+            }
+        }
+    } //備註暫時用不到
+    func fetchSpecificCategory(){
+        let specificData = fetchData.shared.data.filter{$0.mainCategory == mainCategory}
+        for i in specificData{
+            let geoLocation = CLGeocoder()
+            geoLocation.geocodeAddressString(i.userLocation) { (placemarks, error) in
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                guard let placemark = placemarks?.first, let cordinate = placemark.location?.coordinate else {return}
+                var annotationCoordinate  = cordinate
+                annotationCoordinate.latitude += 0.0001
+                annotationCoordinate.longitude += 0.0001
+                
+                let annotation = AnnotationDetail(title: i.productName,
+                                                  coordinate: annotationCoordinate,
+                                                  postUUID: i.postUUID,
+                                                  mainCategory: i.mainCategory,
+                                                  posterUID: i.posterUID
+                )
+                self.mapKitView.delegate = self
+                self.mapKitView.addAnnotation(annotation)
+                self.data.append(annotation)
+            }
+        }
+    } //備註暫時用不到
+    func querySpecificCategory(){
         db.collection("userPost").whereField("mainCategory",isEqualTo: mainCategory!).addSnapshotListener { (query, error) in
             if let error = error{
                 print("query Faild\(error)")
@@ -254,12 +353,11 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                             //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
                             
                         } } } } }
-    
-      
-    }
-    
+        
+        
+    } //備註暫時用不到
     func queryALLFirestore(){
-        db.collection("userPost").addSnapshotListener { (query, error) in
+       /* db.collection("userPost").addSnapshotListener { (query, error) in
             if let error = error{
                 print("Map query Faild\(error)")
                 return
@@ -323,9 +421,9 @@ class MapVC: UIViewController,CLLocationManagerDelegate,MKMapViewDelegate {
                             //                           self.tableview.reloadRows(at: [indexPath], with: .fade)
                             
                         }} } } }
- 
+        */
         
-    }
+    } //備註暫時用不到
     
     
     @IBAction func BackToRootView(_ sender: UIBarButtonItem) {

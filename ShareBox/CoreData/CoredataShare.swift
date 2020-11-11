@@ -12,36 +12,36 @@ import UIKit
 
 class CoredataShare {
     
-   
-  static var  share = CoredataShare()
+    
+    static var  share = CoredataShare()
     
     
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//    let myContext = PersistenceService.context
-
+    //    let myContext = PersistenceService.context
+    
     let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
     var data : [UserInfomation] = []
     func loadData (){
-//                  let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
-       //           let sort = NSSortDescriptor(key: "labelName", ascending: false)
-       //           request.sortDescriptors = [sort]
-                  myContext.performAndWait {
-                      do{
-                          let results = try myContext.fetch(request)
-                          self.data = results
-                         
-                      }catch{
-                          print("error while fetching Note from db \(error)")
-                          
-                      }
-                  }
-              }
-    
-              
-              //-----------------------------------------------------
-           func saveData(){
-            try? myContext.save()
+        //                  let request = NSFetchRequest<UserInfomation>(entityName: "UserInfo")
+        //           let sort = NSSortDescriptor(key: "labelName", ascending: false)
+        //           request.sortDescriptors = [sort]
+        myContext.performAndWait {
+            do{
+                let results = try myContext.fetch(request)
+                self.data = results
+                
+            }catch{
+                print("error while fetching Note from db \(error)")
+                
             }
+        }
+    }
+    
+    
+    //-----------------------------------------------------
+    func saveData(){
+        try? myContext.save()
+    }
     
     
     func myContextCount() -> Int {
